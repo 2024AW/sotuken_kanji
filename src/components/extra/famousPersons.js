@@ -5,9 +5,39 @@ export const famousPersons = [
 
   {
     name: "アインシュタイン",
-    image: "/images/famous/アインシュタイン.jpg",
+    image: "/images/famous/アルベルトアインシュタイン.jpg",
     difficulty: "normal",
     aliases: ["アルベルト・アインシュタイン"],
+  },
+  {
+    name: "ガンディー",
+    image: "/images/famous/ガンディー.jpg",
+    difficulty: "normal",
+    aliases: ["ガンジー", "マハトマ・ガンディー", "マハトマ・ガンジー"],
+  },
+  {
+    name: "ジャンヌダルク",
+    image: "/images/famous/ジャンヌ・ダルク.jpg",
+    difficulty: "normal",
+    aliases: ["ジャンヌ・ダルク"],
+  },
+  {
+    name: "ウォルト・ディズニー",
+    image: "/images/famous/ウォルト・ディズニー.jpg",
+    difficulty: "normal",
+    aliases: ["ディズニー"],
+  },
+  {
+    name: "マリー・キュリー",
+    image: "/images/famous/キュリー夫人.jpg",
+    difficulty: "normal",
+    aliases: ["マリ・キュリー", "マリキュリー", "マリーキュリー"],
+  },
+  {
+    name: "ケネディ",
+    image: "/images/famous/ケネディ.jpg",
+    difficulty: "normal",
+    aliases: ["ジョン・F・ケネディ"],
   },
   {
     name: "ニュートン",
@@ -19,11 +49,11 @@ export const famousPersons = [
     name: "リンカン",
     image: "/images/famous/アブラハム・リンカーン.jpg",
     difficulty: "normal",
-    aliases: ["リンカーン","アブラハム・リンカーン","アブラハム・リンカン"],
+    aliases: ["リンカーン", "アブラハム・リンカーン", "アブラハム・リンカン"],
   },
   {
     name: "ダーウィン",
-    image: "/images/famous/チャールズ・ダーウィン.jpg",
+    image: "/images/famous/ダーウィン.jpg",
     difficulty: "normal",
     aliases: ["チャールズ・ダーウィン"],
   },
@@ -59,8 +89,36 @@ export const famousPersons = [
     name: "シェイクスピア",
     image: "/images/famous/シェイクスピア.jpg",
     difficulty: "normal",
+    aliases: ["ウィリアム・シェイクスピア"],
   },
-
+  {
+    name: "ワシントン",
+    image: "/images/famous/ジョージ・ワシントン.jpg",
+    difficulty: "normal",
+    aliases: ["ジョージ・ワシントン", "ジョージワシントン"],
+  },
+  {
+    name: "ロック",
+    image: "/images/famous/ジョン・ロック.jpg",
+    difficulty: "normal",
+    aliases: ["ジョン・ロック"],
+  },
+  {
+    name: "がんじん",
+    image: "/images/famous/鑑真.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "ろじん",
+    image: "/images/famous/魯迅.jpg",
+    difficulty: "normal",
+    aliases: ["ルーシュン"],
+  },
+  {
+    name: "もうたくとう",
+    image: "/images/famous/毛沢東.jpg",
+    difficulty: "normal",
+  },
   /* =========================
      日本の偉人（ひらがな）
      ========================= */
@@ -142,13 +200,79 @@ export const famousPersons = [
     difficulty: "boss",
   },
   {
-    name: "まえだとしひさ",
-    image: "/images/famous/前田利久.jpg",
-    difficulty: "boss",
-  },
-  {
     name: "いわくらともみ",
     image: "/images/famous/岩倉具視.jpg",
     difficulty: "boss",
+  },
+  {
+    name: "むつむねみつ",
+    image: "/images/famous/陸奥宗光.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "のぐちひでよ",
+    image: "/images/famous/野口英世.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "もうりもとなり",
+    image: "/images/famous/毛利元就.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "あけちみつひで",
+    image: "/images/famous/明智光秀.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "もとおりのりなが",
+    image: "/images/famous/本居宣長.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "ほりたつお",
+    image: "/images/famous/堀辰雄.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "ほうじょうまさこ",
+    image: "/images/famous/北条政子.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "ほうじょうときむね",
+    image: "/images/famous/北条時宗.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "ひらつからいちょう",
+    image: "/images/famous/平塚らいてう.jpg",
+    difficulty: "normal",
+    aliases: ["ひらつからいてう"],
+  },
+  {
+    name: "たいらのきよもり",
+    image: "/images/famous/平清盛.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "たけだしんげん",
+    image: "/images/famous/武田信玄.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "ひぐちいちよう",
+    image: "/images/famous/ひぐちいちよう.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "ひみこ",
+    image: "/images/famous/卑弥呼.jpg",
+    difficulty: "normal",
+  },
+  {
+    name: "いたがきたいすけ",
+    image: "/images/famous/板垣退助.jpg",
+    difficulty: "normal",
   },
 ];
