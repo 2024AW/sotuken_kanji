@@ -3,17 +3,21 @@ import TopSlide from "./components/TopSlide";
 import StartMenu from "./components/StartMenu";
 import HowToPlay from "./components/HowToPlay";
 import VolumeSetting from "./components/VolumeSetting";
+import BgmSelect from "./components/BgmSelect"; // ← ★追加
 import CreditPage from "./components/CreditPage";
+import ExtraMenu from "./components/ExtraMenu";
+import ExtraQuiz from "./components/extra/ExtraQuiz";
 import LevelSelect from "./components/LevelSelect";
 import QuestionCount from "./components/QuestionCount";
 import TimeSelect from "./components/TimeSelect";
 import WaitScreen from "./components/WaitScreen";
 import Quiz from "./components/Quiz";
-import BgmSelect from "./components/BgmSelect"; // ← ★追加
 import "./styles.css";
 
 export default function App() {
   const [page, setPage] = useState("top");
+  const [gameMode, setGameMode] = useState("main");
+  // "main" | "extra-famous"
   const [level, setLevel] = useState(null);
   const [questionCount, setQuestionCount] = useState(0);
   const [timeLimit, setTimeLimit] = useState(30);
@@ -37,6 +41,7 @@ export default function App() {
             if (target === "bgm") setPage("bgm"); // ← ★ジュークボックス
             if (target === "volume") setPage("volume"); // ★これを追加
             if (target === "credit") setPage("credit");
+            if (target === "extra") setPage("extraMenu");
           }}
         />
       )}
@@ -70,6 +75,16 @@ export default function App() {
       )}
 
       {page === "credit" && <CreditPage onBack={() => setPage("startMenu")} />}
+
+      {page === "extraMenu" && (
+        <ExtraMenu
+          onSelect={(mode) => {
+            setGameMode(mode); // ★ Extraモードを記録
+            setPage("count"); // ← ★ 正解
+          }}
+          onBack={() => setPage("startMenu")}
+        />
+      )}
 
       {/* レベル選択 */}
       {page === "level" && (
@@ -110,21 +125,32 @@ export default function App() {
           level={level}
           questionCount={questionCount}
           timeLimit={timeLimit}
+          gameMode={gameMode} // ★ これを追加
           onStart={() => setPage("quiz")}
           onBack={() => setPage("time")}
         />
       )}
 
       {/* クイズ */}
-      {page === "quiz" && (
-        <Quiz
-          level={level}
-          questionCount={questionCount}
-          timeLimit={timeLimit}
-          onBack={() => setPage("startMenu")}
-          bgmVolume={bgmVolume}
-        />
-      )}
+      {page === "quiz" &&
+  (gameMode === "extra-famous" ? (
+    <ExtraQuiz
+  questionCount={questionCount}
+  timeLimit={timeLimit}
+  onBack={() => setPage("startMenu")}
+bgmVolume={bgmVolume}   // ← ★これを追加
+/>
+
+  ) : (
+    <Quiz
+      level={level}
+      questionCount={questionCount}
+      timeLimit={timeLimit}
+      onBack={() => setPage("startMenu")}
+      bgmVolume={bgmVolume}
+    />
+  ))}
+
     </div>
   );
 }

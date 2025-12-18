@@ -4,17 +4,17 @@ export default function WaitScreen({
   level,
   questionCount,
   timeLimit,
+  gameMode,
   onStart,
   onBack,
 }) {
-  // 難易度を日本語で表示
-  const levelLabel =
-    {
-      easy: "初級",
-      normal: "中級",
-      hard: "上級",
-      expert: "超級",
-    }[level] || "不明";
+  // Main モード用の難易度ラベル
+  const levelLabel = {
+    easy: "初級",
+    normal: "中級",
+    hard: "上級",
+    expert: "超級",
+  }[level];
 
   return (
     <div style={{ textAlign: "center", padding: "50px" }}>
@@ -36,8 +36,18 @@ export default function WaitScreen({
         }}
       >
         <p>
-          🔹 難易度：<strong>{levelLabel}</strong>
+          🔹{" "}
+          {gameMode === "extra-famous" ? (
+            <>
+              モード：<strong>エクストラ（偉人クイズ）</strong>
+            </>
+          ) : (
+            <>
+              難易度：<strong>{levelLabel}</strong>
+            </>
+          )}
         </p>
+
         <p>
           🔹 出題数：<strong>{questionCount}問</strong>
         </p>
