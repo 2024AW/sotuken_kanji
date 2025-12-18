@@ -36,7 +36,10 @@ export default function App() {
       {page === "startMenu" && (
         <StartMenu
           onSelect={(target) => {
-            if (target === "level") setPage("level");
+            if (target === "level") {
+              setGameMode("main");
+              setPage("level");
+            }
             if (target === "howto") setPage("howto");
             if (target === "bgm") setPage("bgm"); // ← ★ジュークボックス
             if (target === "volume") setPage("volume"); // ★これを追加
@@ -133,24 +136,25 @@ export default function App() {
 
       {/* クイズ */}
       {page === "quiz" &&
-  (gameMode === "extra-famous" ? (
-    <ExtraQuiz
-  questionCount={questionCount}
-  timeLimit={timeLimit}
-  onBack={() => setPage("startMenu")}
-bgmVolume={bgmVolume}   // ← ★これを追加
-/>
-
-  ) : (
-    <Quiz
-      level={level}
-      questionCount={questionCount}
-      timeLimit={timeLimit}
-      onBack={() => setPage("startMenu")}
-      bgmVolume={bgmVolume}
-    />
-  ))}
-
+        (gameMode === "extra-famous" ? (
+          <ExtraQuiz
+            questionCount={questionCount}
+            timeLimit={timeLimit}
+            bgmVolume={bgmVolume}
+            onBack={() => {
+              setGameMode("main"); // ★ ここが重要
+              setPage("startMenu");
+            }}
+          />
+        ) : (
+          <Quiz
+            level={level}
+            questionCount={questionCount}
+            timeLimit={timeLimit}
+            onBack={() => setPage("startMenu")}
+            bgmVolume={bgmVolume}
+          />
+        ))}
     </div>
   );
 }
