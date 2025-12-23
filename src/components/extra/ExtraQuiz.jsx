@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-// ===== 共通UI（Quizと同じ）=====
+// ===== 共通UI =====
 import Timer from "../Timer";
 import Lives from "../Lives";
 import DebugPanel from "../DebugPanel";
@@ -19,9 +19,8 @@ import { famousPersons } from "./famousPersons";
 // ===== スタイル =====
 import "../../styles.css";
 
-
 // =========================================
-// 配列シャッフル関数
+// 配列シャッフル
 // =========================================
 function shuffle(arr) {
   const a = [...arr];
@@ -38,70 +37,47 @@ export default function ExtraQuiz({
   onBack,
   bgmVolume,
 }) {
-
   // =========================================
   // State
   // =========================================
-  const [rankPools, setRankPools] = useState({});
-  const [questionsRemaining, setQuestionsRemaining] = useState({});
-
+  const [allQuestions, setAllQuestions] = useState([]);
   const [current, setCurrent] = useState(null);
-  const [answer, setAnswer] = useState("");
+  const [usedQuestions, setUsedQuestions] = useState([]);
 
-  const [lives, setLives] = useState(3);
+  const [answer, setAnswer] = useState("");
   const [result, setResult] = useState("");
   const [messageType, setMessageType] = useState("");
+
+  const [questionNumber, setQuestionNumber] = useState(1); // 正解数
+  const [lives, setLives] = useState(3);
 
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [skipUsed, setSkipUsed] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [showTimeout, setShowTimeout] = useState(false);
-
-  const [lastAnswer, setLastAnswer] = useState("");
-  const [questionNumber, setQuestionNumber] = useState(1);
-
-  const [warning, setWarning] = useState("");
-
-  const [stage, setStage] = useState(1);
-  const [showLevelIntro, setShowLevelIntro] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [showGameClear, setShowGameClear] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
 
-  const [showGameClear, setShowGameClear] = useState(false);
-
-  const FEEDBACK_DURATION = 1000;
+  const [lastAnswer, setLastAnswer] = useState("");
 
   // =========================================
-  // 🎵 BGM 管理
+  // 🎵 BGM
   // =========================================
-  const normalBGMRef = React.useRef(new Audio("/bgm-normal-1.mp3"));
-
-  const bossBGMRef = React.useRef(new Audio("/bgm-boss.mp3"));
-  const clearBGMRef = React.useRef(new Audio("/bgm-clear.mp3"));
-
+  const normalBGMRef = useRef(new Audio("/bgm-normal-1.mp3"));
   const normalBGM = normalBGMRef.current;
-  const bossBGM = bossBGMRef.current;
-  const clearBGM = clearBGMRef.current;
-
   normalBGM.loop = true;
-  bossBGM.loop = true;
-  clearBGM.loop = false;
 
   useEffect(() => {
-    normalBGM.volume = bgmVolume;
-    bossBGM.volume = bgmVolume;
-    clearBGM.volume = bgmVolume;
+    const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
+    normalBGM.volume = vol;
   }, [bgmVolume]);
 
   // =========================================
-  // ★ ステージ判定（rank 決定）
+  // 初期化
   // =========================================
-  const getLevelStage = () => "EXTRA";
-
-
   useEffect(() => {
     const normal = shuffle(
       famousPersons.filter((q) => q.difficulty !== "boss")
@@ -109,62 +85,40 @@ export default function ExtraQuiz({
     const boss = shuffle(
       famousPersons.filter((q) => q.difficulty === "boss")
     );
-  
+
     const selected = [
       ...normal.slice(0, questionCount - 1),
       boss[0],
     ];
-  
-    setRankPools({ ALL: selected });
-    setQuestionsRemaining({ ALL: selected.slice(1) });
+
+    setAllQuestions(selected);
     setCurrent(selected[0]);
-  
+    setUsedQuestions([]);
+    
+    setCurrent(selected[0]);
+
     setQuestionNumber(1);
+    
+    setUsedQuestions([]); // ← ★ これを追加（超重要）
     setLives(3);
     setSkipUsed(false);
-    setIsGameOver(false);
     setAnswer("");
     setResult("");
-    setWarning("");
     setMessageType("");
-  
-    setStage("EXTRA");
-    setShowLevelIntro(false);
-  
-    setTimeLeft(timeLimit);
+    setIsGameOver(false);
+    setShowGameClear(false);
     setIsChecking(false);
-  
+    setTimeLeft(timeLimit);
+
     normalBGM.currentTime = 0;
     normalBGM.play();
   }, [questionCount, timeLimit]);
-  
-  // =========================================
-  // ★ BGM 切替
-  // =========================================
-  useEffect(() => {
-    if (!current || isGameOver || showGameClear) return;
-
-    if (stage === "BOSS") {
-      normalBGM.pause();
-      bossBGM.play();
-    } else {
-      bossBGM.pause();
-      normalBGM.play();
-    }
-  }, [stage, current, isGameOver, showGameClear]);
 
   // =========================================
-  // ★ タイマー
+  // タイマー
   // =========================================
   useEffect(() => {
-    if (
-      !current ||
-      showTimeout ||
-      showConfirm ||
-      showLevelIntro ||
-      isGameOver ||
-      isChecking
-    )
+    if (!current || showTimeout || showConfirm || isGameOver || isChecking)
       return;
 
     const timer = setInterval(() => {
@@ -179,54 +133,53 @@ export default function ExtraQuiz({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [
-    current,
-    showTimeout,
-    showConfirm,
-    showLevelIntro,
-    isGameOver,
-    isChecking,
-  ]);
+  }, [current, showTimeout, showConfirm, isGameOver, isChecking]);
 
   // =========================================
-  // ★ 次の問題へ（rank 切替）
+  // 次の問題へ
   // =========================================
-  const advanceToNextProblem = (isCorrect = false) => {
-    if (isCorrect && questionNumber === questionCount) {
+  const advanceToNextProblem = () => {
+    // 🎉 正解数が目標に達したらクリア
+    if (questionNumber >= questionCount) {
       setShowGameClear(true);
       return;
     }
   
-    const pool = questionsRemaining.ALL;
-    if (!pool || pool.length === 0) {
-      setCurrent(null);
+    // ★ 「今の問題」＋「正解済み」を除外
+    const excluded = [...usedQuestions, current];
+  
+    const unused = allQuestions.filter(
+      (q) => !excluded.includes(q)
+    );
+  
+    if (unused.length === 0) {
+      setShowGameClear(true);
       return;
     }
   
-    const [next, ...rest] = pool;
-  
+    // ランダムで次の問題を選ぶ
+    const next = unused[Math.floor(Math.random() * unused.length)];
     setCurrent(next);
-    setQuestionsRemaining({ ALL: rest });
-  
-    if (isCorrect) setQuestionNumber((n) => n + 1);
   
     setAnswer("");
-    setWarning("");
     setResult("");
     setMessageType("");
     setTimeLeft(timeLimit);
   };
   
+  
+  
+  
+
   // =========================================
-  // ★ 回答チェック
+  // 回答チェック
   // =========================================
   const checkAnswer = () => {
     if (!current || isChecking) return;
     setIsChecking(true);
-  
+
     const ans = answer.trim();
-  
-    // ローマ字禁止
+
     if (/^[a-zA-Z]+$/.test(ans)) {
       setMessageType("warning");
       setResult("⚠️ ひらがなで入力してね");
@@ -234,26 +187,29 @@ export default function ExtraQuiz({
       setIsChecking(false);
       return;
     }
-  
+
     const normalize = (s) =>
       s.trim().replace(/\s+/g, "").toLowerCase();
-  
+
     const isCorrect =
       normalize(ans) === normalize(current.name) ||
       (current.aliases || []).some(
         (a) => normalize(a) === normalize(ans)
       );
-  
-    if (isCorrect) {
-      setMessageType("success");
-      setResult("✅ 正解！");
-      setTimeout(() => {
-        advanceToNextProblem(true);
-        setIsChecking(false);
-      }, 800);
-      return;
-    }
-  
+
+      if (isCorrect) {
+        setMessageType("success");
+        setResult("✅ 正解！");
+      
+        setTimeout(() => {
+          setQuestionNumber((n) => n + 1); // ← 正解時のみ
+          advanceToNextProblem();
+          setIsChecking(false);
+        }, 800);
+        return;
+      }
+      
+
     setMessageType("error");
     setResult("❌ 間違い！もう一度チャレンジ！");
     setTimeout(() => {
@@ -261,16 +217,12 @@ export default function ExtraQuiz({
       setIsChecking(false);
     }, 800);
   };
-  
-  
-  
-  
+
   // =========================================
-  // ★ 時間切れ
+  // 時間切れ
   // =========================================
   const handleTimeout = () => {
     if (isChecking) return;
-
     setIsChecking(true);
     setLastAnswer(current.name);
     setShowTimeout(true);
@@ -278,53 +230,43 @@ export default function ExtraQuiz({
 
   const handleNextAfterTimeout = () => {
     setShowTimeout(false);
-
+  
     const newLives = lives - 1;
     setLives(newLives);
-
-    // ★ メッセージ表示
-    setMessageType("error");
-    setResult(`❌ 時間切れ！（残り${newLives}機）`);
-
-    // ★ ライフが0 → GAME OVER
+  
     if (newLives <= 0) {
-      setTimeout(() => {
-        setIsGameOver(true);
-      }, 1000); // ← 少し余韻を持たせる
+      setIsGameOver(true);
       return;
     }
-
-    // ★ ここが重要ポイント！
-    // TimeoutScreen が消えてからメッセージを少し見せて、
-    // その後で次の問題へ進む
+  
     setTimeout(() => {
-      advanceToNextProblem(false);
+      advanceToNextProblem(); // ← 正解数は増えない
       setIsChecking(false);
-    }, 1000); // ← 好きな待ち時間（1000ms = 1秒）
+    }, 500);
   };
+  
 
   // =========================================
-  // ★ スキップ
+  // スキップ
   // =========================================
   const skipQuestion = () => {
     if (skipUsed || isChecking) return;
-
-    setIsChecking(true); // 二重押し防止
+  
+    setIsChecking(true);
     setSkipUsed(true);
-
-    // ★ メッセージ表示（青色）
+  
     setMessageType("info");
-    setResult("🔁 スキップしました！");
-
-    // ★ 少し表示してから次の問題へ
+    setResult("🔁 スキップしました");
+  
     setTimeout(() => {
-      advanceToNextProblem(false);
+      advanceToNextProblem(); // ← 正解数は増えない
       setIsChecking(false);
     }, 800);
   };
+  
 
   // =========================================
-  // ★ ギブアップ
+  // ギブアップ
   // =========================================
   const handleGiveUp = () => setShowConfirm(true);
 
@@ -341,32 +283,24 @@ export default function ExtraQuiz({
   };
 
   // =========================================
-  // ★ 背景色
+  // レンダー
   // =========================================
-  const getBackgroundStyle = () => ({
-    background: "linear-gradient(to bottom, #222, #000)",
-  });
-  
-
-  // =========================================
-  // ★ レンダー
-  // =========================================
-
   if (loading) return <LoadingScreen message="終了しています..." />;
   if (showConfirm) return <ConfirmGiveUp onConfirm={confirmGiveUp} />;
   if (showGameClear) return <GameClearScreen onBack={onBack} />;
 
   return (
     <div className="quiz-root" style={{ position: "relative" }}>
-
       <DebugPanel
-        questionNumber={questionNumber}
-        questionCount={questionCount}
-        questionsLength={
-          questionsRemaining.ALL?.length || 0
-        }
-        isChecking={isChecking}
-      />
+  gameMode="extra"
+  questionNumber={questionNumber}
+  questionCount={questionCount}
+  questionsLength={allQuestions.length - usedQuestions.length}
+  usedCount={usedQuestions.length}
+/>
+
+
+
 
       <div className="lives-container">
         <Lives lives={lives} />
@@ -374,17 +308,17 @@ export default function ExtraQuiz({
 
       <QuestionCounter current={questionNumber} total={questionCount} />
 
-      <div className="quiz-mode" style={getBackgroundStyle()}>
+      <div className="quiz-mode">
         <div className="quiz-card">
           <Timer timeLeft={timeLeft} />
 
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-  <img
-    src={current?.image}
-    alt=""
-    style={{ maxHeight: "280px", borderRadius: "8px" }}
-  />
-</div>
+            <img
+              src={current?.image}
+              alt=""
+              style={{ maxHeight: "280px", borderRadius: "8px" }}
+            />
+          </div>
 
           <input
             value={answer}
@@ -392,16 +326,16 @@ export default function ExtraQuiz({
             placeholder="ひらがなで答えてね"
             className="answer-input"
             onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
-            readOnly={showTimeout || isGameOver || isChecking || showLevelIntro}
+            readOnly={showTimeout || isGameOver || isChecking}
           />
 
-          <MessageDisplay message={warning || result} type={messageType} />
+          <MessageDisplay message={result} type={messageType} />
 
           <ActionButtons
             onAnswer={checkAnswer}
             onSwap={skipQuestion}
             onGiveUp={handleGiveUp}
-            disabled={skipUsed || isChecking || showLevelIntro}
+            disabled={skipUsed || isChecking}
           />
         </div>
       </div>

@@ -448,6 +448,7 @@ export default function Quiz({
       )}
 
       <DebugPanel
+        gameMode="main"
         questionNumber={questionNumber}
         questionCount={questionCount}
         questionsLength={
