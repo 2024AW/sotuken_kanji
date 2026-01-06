@@ -148,12 +148,14 @@ export default function App() {
           />
         ) : (
           <Quiz
-            level={level}
-            questionCount={questionCount}
-            timeLimit={timeLimit}
-            onBack={() => setPage("startMenu")}
-            bgmVolume={bgmVolume}
-          />
+  level={level}
+  questionCount={questionCount}
+  timeLimit={timeLimit}
+  onBack={() => setPage("startMenu")}
+  bgmVolume={bgmVolume}
+  bgm={bgm}
+/>
+
         ))}
     </div>
   );

@@ -89,15 +89,29 @@ export default function Quiz({
   const bossBGM = bossBGMRef.current;
   const clearBGM = clearBGMRef.current;
 
+    // ✅ すべてのBGMを止める（戻る/クリア/ゲームオーバー用）
+    const stopAllBgm = () => {
+      normalBGM.pause();
+      normalBGM.currentTime = 0;
+  
+      bossBGM.pause();
+      bossBGM.currentTime = 0;
+  
+      clearBGM.pause();
+      clearBGM.currentTime = 0;
+    };
+  
   normalBGM.loop = true;
   bossBGM.loop = true;
   clearBGM.loop = false;
 
   useEffect(() => {
-    normalBGM.volume = bgmVolume;
-    bossBGM.volume = bgmVolume;
-    clearBGM.volume = bgmVolume;
-  }, [bgmVolume]);
+    const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
+    normalBGM.volume = vol;
+    bossBGM.volume = vol;
+    clearBGM.volume = vol;
+  }, [bgmVolume, normalBGM, bossBGM, clearBGM]);
+  
 
   // =========================================
   // ★ ステージ判定（rank 決定）
@@ -171,6 +185,14 @@ export default function Quiz({
     }
   }, [stage, current, isGameOver, showGameClear]);
 
+    // ✅ Quiz画面から離れたら必ずBGM停止
+    useEffect(() => {
+      return () => {
+        stopAllBgm();
+      };
+  
+    }, []);
+  
   // =========================================
   // ★ タイマー
   // =========================================
@@ -211,10 +233,21 @@ export default function Quiz({
   // =========================================
   const advanceToNextProblem = (isCorrect = false) => {
     // ゲームクリア
-    if (isCorrect && questionNumber === questionCount) {
-      setShowGameClear(true);
-      return;
-    }
+if (isCorrect && questionNumber === questionCount) {
+  // ✅ 通常BGMを止める
+  normalBGM.pause();
+  bossBGM.pause();
+  normalBGM.currentTime = 0;
+  bossBGM.currentTime = 0;
+
+  // ✅ クリアBGMを鳴らす
+  clearBGM.currentTime = 0;
+  clearBGM.play().catch(() => {}); // 自動再生制限対策
+
+  setShowGameClear(true);
+  return;
+}
+
 
     const nextQuestionNum = isCorrect ? questionNumber + 1 : questionNumber;
     const nextStage = getLevelStage(nextQuestionNum);
@@ -359,6 +392,7 @@ export default function Quiz({
     // ★ ライフが0 → GAME OVER
     if (newLives <= 0) {
       setTimeout(() => {
+        stopAllBgm();      // ✅ 追加
         setIsGameOver(true);
       }, 1000); // ← 少し余韻を持たせる
       return;
@@ -400,6 +434,7 @@ export default function Quiz({
 
   const confirmGiveUp = (choice) => {
     if (choice === "yes") {
+      stopAllBgm(); // ✅ 先に止める
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
@@ -408,6 +443,7 @@ export default function Quiz({
     } else {
       setShowConfirm(false);
     }
+    
   };
 
   // =========================================
