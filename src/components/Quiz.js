@@ -84,6 +84,7 @@ export default function Quiz({
   );
   const bossBGMRef = React.useRef(new Audio("/bgm-boss.mp3"));
   const clearBGMRef = React.useRef(new Audio("/bgm-clear.mp3"));
+  const playingRef = React.useRef("none"); // "normal" | "boss" | "none"
 
   const normalBGM = normalBGMRef.current;
   const bossBGM = bossBGMRef.current;
@@ -165,30 +166,37 @@ export default function Quiz({
     setTimeLeft(timeLimit);
     setIsChecking(false);
 
-    normalBGM.currentTime = 0;
-    normalBGM.play().catch(() => {});
+    normalBGM.volume = Number.isFinite(bgmVolume) ? bgmVolume : 0;
+
+    if (normalBGM.paused) {
+      normalBGM.play().catch(() => {});
+    }
+    playingRef.current = "normal";
   }, [level, questionCount, timeLimit]);
 
   // =========================================
   // ★ BGM 切替
   // =========================================
   useEffect(() => {
-    if (!current || isGameOver || showGameClear) return;
+    if (isGameOver || showGameClear) return;
 
-    if (stage === "BOSS") {
-      normalBGM.pause();
-      normalBGM.currentTime = 0;
+    const want = stage === "BOSS" ? "boss" : "normal";
+    if (playingRef.current === want) return; // すでにそのBGMなら何もしない
 
-      bossBGM.currentTime = 0;
+    if (want === "boss") {
+      // normal -> boss
+      if (!normalBGM.paused) normalBGM.pause();
+      bossBGM.currentTime = 0; // 切替時だけ先頭から
       bossBGM.play().catch(() => {});
     } else {
-      bossBGM.pause();
-      bossBGM.currentTime = 0;
-
-      normalBGM.currentTime = 0;
+      // boss -> normal
+      if (!bossBGM.paused) bossBGM.pause();
+      // ★ここが重要：stage1〜3は流し続けたいので currentTime=0 しない
       normalBGM.play().catch(() => {});
     }
-  }, [stage, current, isGameOver, showGameClear]);
+
+    playingRef.current = want;
+  }, [stage, isGameOver, showGameClear, normalBGM, bossBGM]);
 
   // ✅ Quiz画面から離れたら必ずBGM停止（クリア画面は Quiz 自体を返さないのでここは問題なし）
   useEffect(() => {
