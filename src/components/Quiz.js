@@ -89,18 +89,18 @@ export default function Quiz({
   const bossBGM = bossBGMRef.current;
   const clearBGM = clearBGMRef.current;
 
-    // ✅ すべてのBGMを止める（戻る/クリア/ゲームオーバー用）
-    const stopAllBgm = () => {
-      normalBGM.pause();
-      normalBGM.currentTime = 0;
-  
-      bossBGM.pause();
-      bossBGM.currentTime = 0;
-  
-      clearBGM.pause();
-      clearBGM.currentTime = 0;
-    };
-  
+  // ✅ すべてのBGMを止める（戻る/クリア/ゲームオーバー用）
+  const stopAllBgm = () => {
+    normalBGM.pause();
+    normalBGM.currentTime = 0;
+
+    bossBGM.pause();
+    bossBGM.currentTime = 0;
+
+    clearBGM.pause();
+    clearBGM.currentTime = 0;
+  };
+
   normalBGM.loop = true;
   bossBGM.loop = true;
   clearBGM.loop = false;
@@ -111,7 +111,6 @@ export default function Quiz({
     bossBGM.volume = vol;
     clearBGM.volume = vol;
   }, [bgmVolume, normalBGM, bossBGM, clearBGM]);
-  
 
   // =========================================
   // ★ ステージ判定（rank 決定）
@@ -167,7 +166,7 @@ export default function Quiz({
     setIsChecking(false);
 
     normalBGM.currentTime = 0;
-    normalBGM.play();
+    normalBGM.play().catch(() => {});
   }, [level, questionCount, timeLimit]);
 
   // =========================================
@@ -178,21 +177,26 @@ export default function Quiz({
 
     if (stage === "BOSS") {
       normalBGM.pause();
-      bossBGM.play();
+      normalBGM.currentTime = 0;
+
+      bossBGM.currentTime = 0;
+      bossBGM.play().catch(() => {});
     } else {
       bossBGM.pause();
-      normalBGM.play();
+      bossBGM.currentTime = 0;
+
+      normalBGM.currentTime = 0;
+      normalBGM.play().catch(() => {});
     }
   }, [stage, current, isGameOver, showGameClear]);
 
-    // ✅ Quiz画面から離れたら必ずBGM停止
-    useEffect(() => {
-      return () => {
-        stopAllBgm();
-      };
-  
-    }, []);
-  
+  // ✅ Quiz画面から離れたら必ずBGM停止（クリア画面は Quiz 自体を返さないのでここは問題なし）
+  useEffect(() => {
+    return () => {
+      stopAllBgm();
+    };
+  }, []);
+
   // =========================================
   // ★ タイマー
   // =========================================
@@ -233,21 +237,20 @@ export default function Quiz({
   // =========================================
   const advanceToNextProblem = (isCorrect = false) => {
     // ゲームクリア
-if (isCorrect && questionNumber === questionCount) {
-  // ✅ 通常BGMを止める
-  normalBGM.pause();
-  bossBGM.pause();
-  normalBGM.currentTime = 0;
-  bossBGM.currentTime = 0;
+    if (isCorrect && questionNumber === questionCount) {
+      // ✅ 通常BGMを止める
+      normalBGM.pause();
+      bossBGM.pause();
+      normalBGM.currentTime = 0;
+      bossBGM.currentTime = 0;
 
-  // ✅ クリアBGMを鳴らす
-  clearBGM.currentTime = 0;
-  clearBGM.play().catch(() => {}); // 自動再生制限対策
+      // ✅ クリアBGMを鳴らす
+      clearBGM.currentTime = 0;
+      clearBGM.play().catch(() => {}); // 自動再生制限対策
 
-  setShowGameClear(true);
-  return;
-}
-
+      setShowGameClear(true);
+      return;
+    }
 
     const nextQuestionNum = isCorrect ? questionNumber + 1 : questionNumber;
     const nextStage = getLevelStage(nextQuestionNum);
@@ -392,7 +395,7 @@ if (isCorrect && questionNumber === questionCount) {
     // ★ ライフが0 → GAME OVER
     if (newLives <= 0) {
       setTimeout(() => {
-        stopAllBgm();      // ✅ 追加
+        stopAllBgm(); // ✅ 追加
         setIsGameOver(true);
       }, 1000); // ← 少し余韻を持たせる
       return;
@@ -443,7 +446,6 @@ if (isCorrect && questionNumber === questionCount) {
     } else {
       setShowConfirm(false);
     }
-    
   };
 
   // =========================================
@@ -470,7 +472,15 @@ if (isCorrect && questionNumber === questionCount) {
 
   if (loading) return <LoadingScreen message="終了しています..." />;
   if (showConfirm) return <ConfirmGiveUp onConfirm={confirmGiveUp} />;
-  if (showGameClear) return <GameClearScreen onBack={onBack} />;
+  if (showGameClear)
+    return (
+      <GameClearScreen
+        onBack={() => {
+          stopAllBgm(); // ✅ クリア画面から戻る時にBGMを止める
+          onBack();
+        }}
+      />
+    );
 
   return (
     <div className="quiz-root" style={{ position: "relative" }}>
@@ -534,7 +544,14 @@ if (isCorrect && questionNumber === questionCount) {
         />
       )}
 
-      {isGameOver && <GameOverOverlay onBack={onBack} />}
+      {isGameOver && (
+        <GameOverOverlay
+          onBack={() => {
+            stopAllBgm();
+            onBack();
+          }}
+        />
+      )}
     </div>
   );
 }
