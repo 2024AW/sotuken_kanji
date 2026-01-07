@@ -82,23 +82,18 @@ export default function ExtraQuiz({
     const normal = shuffle(
       famousPersons.filter((q) => q.difficulty !== "boss")
     );
-    const boss = shuffle(
-      famousPersons.filter((q) => q.difficulty === "boss")
-    );
+    const boss = shuffle(famousPersons.filter((q) => q.difficulty === "boss"));
 
-    const selected = [
-      ...normal.slice(0, questionCount - 1),
-      boss[0],
-    ];
+    const selected = [...normal.slice(0, questionCount - 1), boss[0]];
 
     setAllQuestions(selected);
     setCurrent(selected[0]);
     setUsedQuestions([]);
-    
+
     setCurrent(selected[0]);
 
     setQuestionNumber(1);
-    
+
     setUsedQuestions([]); // ← ★ これを追加（超重要）
     setLives(3);
     setSkipUsed(false);
@@ -118,7 +113,14 @@ export default function ExtraQuiz({
   // タイマー
   // =========================================
   useEffect(() => {
-    if (!current || showTimeout || showConfirm || isGameOver || isChecking)
+    if (
+      !current ||
+      showTimeout ||
+      showConfirm ||
+      isGameOver ||
+      isChecking ||
+      showCorrectOverlay
+    )
       return;
 
     const timer = setInterval(() => {
@@ -133,7 +135,14 @@ export default function ExtraQuiz({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [current, showTimeout, showConfirm, isGameOver, isChecking]);
+  }, [
+    current,
+    showTimeout,
+    showConfirm,
+    isGameOver,
+    isChecking,
+    showCorrectOverlay,
+  ]);
 
   // =========================================
   // 次の問題へ
@@ -144,32 +153,26 @@ export default function ExtraQuiz({
       setShowGameClear(true);
       return;
     }
-  
+
     // ★ 「今の問題」＋「正解済み」を除外
     const excluded = [...usedQuestions, current];
-  
-    const unused = allQuestions.filter(
-      (q) => !excluded.includes(q)
-    );
-  
+
+    const unused = allQuestions.filter((q) => !excluded.includes(q));
+
     if (unused.length === 0) {
       setShowGameClear(true);
       return;
     }
-  
+
     // ランダムで次の問題を選ぶ
     const next = unused[Math.floor(Math.random() * unused.length)];
     setCurrent(next);
-  
+
     setAnswer("");
     setResult("");
     setMessageType("");
     setTimeLeft(timeLimit);
   };
-  
-  
-  
-  
 
   // =========================================
   // 回答チェック
@@ -188,27 +191,23 @@ export default function ExtraQuiz({
       return;
     }
 
-    const normalize = (s) =>
-      s.trim().replace(/\s+/g, "").toLowerCase();
+    const normalize = (s) => s.trim().replace(/\s+/g, "").toLowerCase();
 
     const isCorrect =
       normalize(ans) === normalize(current.name) ||
-      (current.aliases || []).some(
-        (a) => normalize(a) === normalize(ans)
-      );
+      (current.aliases || []).some((a) => normalize(a) === normalize(ans));
 
-      if (isCorrect) {
-        setMessageType("success");
-        setResult("✅ 正解！");
-      
-        setTimeout(() => {
-          setQuestionNumber((n) => n + 1); // ← 正解時のみ
-          advanceToNextProblem();
-          setIsChecking(false);
-        }, 800);
-        return;
-      }
-      
+    if (isCorrect) {
+      setMessageType("success");
+      setResult("✅ 正解！");
+
+      setTimeout(() => {
+        setQuestionNumber((n) => n + 1); // ← 正解時のみ
+        advanceToNextProblem();
+        setIsChecking(false);
+      }, 800);
+      return;
+    }
 
     setMessageType("error");
     setResult("❌ 間違い！もう一度チャレンジ！");
@@ -230,40 +229,38 @@ export default function ExtraQuiz({
 
   const handleNextAfterTimeout = () => {
     setShowTimeout(false);
-  
+
     const newLives = lives - 1;
     setLives(newLives);
-  
+
     if (newLives <= 0) {
       setIsGameOver(true);
       return;
     }
-  
+
     setTimeout(() => {
       advanceToNextProblem(); // ← 正解数は増えない
       setIsChecking(false);
     }, 500);
   };
-  
 
   // =========================================
   // スキップ
   // =========================================
   const skipQuestion = () => {
     if (skipUsed || isChecking) return;
-  
+
     setIsChecking(true);
     setSkipUsed(true);
-  
+
     setMessageType("info");
     setResult("🔁 スキップしました");
-  
+
     setTimeout(() => {
       advanceToNextProblem(); // ← 正解数は増えない
       setIsChecking(false);
     }, 800);
   };
-  
 
   // =========================================
   // ギブアップ
@@ -292,15 +289,12 @@ export default function ExtraQuiz({
   return (
     <div className="quiz-root" style={{ position: "relative" }}>
       <DebugPanel
-  gameMode="extra"
-  questionNumber={questionNumber}
-  questionCount={questionCount}
-  questionsLength={allQuestions.length - usedQuestions.length}
-  usedCount={usedQuestions.length}
-/>
-
-
-
+        gameMode="extra"
+        questionNumber={questionNumber}
+        questionCount={questionCount}
+        questionsLength={allQuestions.length - usedQuestions.length}
+        usedCount={usedQuestions.length}
+      />
 
       <div className="lives-container">
         <Lives lives={lives} />

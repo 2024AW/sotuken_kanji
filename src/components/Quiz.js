@@ -12,6 +12,7 @@ import ActionButtons from "./ActionButtons";
 import MessageDisplay from "./MessageDisplay";
 import LevelIntroOverlay from "./LevelIntroOverlay";
 import GameOverOverlay from "./GameOverOverlay";
+import CorrectOverlay from "./CorrectOverlay";
 import GameClearScreen from "./GameClearScreen";
 import { questionSets } from "./questions";
 
@@ -71,6 +72,12 @@ export default function Quiz({
   const [isChecking, setIsChecking] = useState(false);
 
   const [showGameClear, setShowGameClear] = useState(false);
+  const [showCorrectOverlay, setShowCorrectOverlay] = useState(false);
+  const [correctInfo, setCorrectInfo] = useState({
+    kanji: "",
+    reading: "",
+    meaning: "",
+  });
 
   const FEEDBACK_DURATION = 1000;
 
@@ -214,10 +221,12 @@ export default function Quiz({
       showTimeout ||
       showConfirm ||
       showLevelIntro ||
+      showCorrectOverlay || // ✅ 追加：正解オーバーレイ中は止める
       isGameOver ||
       isChecking
-    )
+    ) {
       return;
+    }
 
     const timer = setInterval(() => {
       setTimeLeft((t) => {
@@ -236,6 +245,7 @@ export default function Quiz({
     showTimeout,
     showConfirm,
     showLevelIntro,
+    showCorrectOverlay, // ✅ 追加：依存配列にも必須
     isGameOver,
     isChecking,
   ]);
@@ -351,12 +361,17 @@ export default function Quiz({
     // --- 正解 ---
     if (readings.includes(ans)) {
       setMessageType("success");
-      setResult("✅ 正解！");
+      setResult(""); // 下のメッセージ表示は使わないなら空に
 
-      setTimeout(() => {
-        advanceToNextProblem(true);
-        setIsChecking(false);
-      }, 800);
+      // ★ オーバーレイに表示したい情報をセット
+      setCorrectInfo({
+        kanji: current.kanji,
+        reading: current.reading,
+        meaning: current.meaning || "", // meaningが無い問題も安全に
+      });
+      setShowCorrectOverlay(true);
+
+      setIsChecking(false); // overlay中は入力できないので解除してOK
       return;
     }
 
@@ -474,24 +489,43 @@ export default function Quiz({
     }
   };
 
+  // ...省略（上はそのまま）
+
+  const handleNextAfterCorrect = () => {
+    setShowCorrectOverlay(false);
+    advanceToNextProblem(true);
+  };
+
   // =========================================
   // ★ レンダー
   // =========================================
-
   if (loading) return <LoadingScreen message="終了しています..." />;
   if (showConfirm) return <ConfirmGiveUp onConfirm={confirmGiveUp} />;
-  if (showGameClear)
+
+  // ✅ クリア時のreturnは1要素で返す
+  if (showGameClear) {
     return (
       <GameClearScreen
         onBack={() => {
-          stopAllBgm(); // ✅ クリア画面から戻る時にBGMを止める
+          stopAllBgm();
           onBack();
         }}
       />
     );
+  }
 
   return (
     <div className="quiz-root" style={{ position: "relative" }}>
+      {/* ✅ CorrectOverlayは通常画面の上に出す */}
+      {showCorrectOverlay && (
+        <CorrectOverlay
+          kanji={correctInfo.kanji}
+          reading={correctInfo.reading}
+          meaning={correctInfo.meaning}
+          onNext={handleNextAfterCorrect}
+        />
+      )}
+
       {showLevelIntro && (
         <LevelIntroOverlay
           levelText={
@@ -522,7 +556,9 @@ export default function Quiz({
           <Enemy visible={level === "easy"} />
           <Timer timeLeft={timeLeft} />
 
-          <div className="question-text">{current?.kanji}</div>
+          <div className="question-text">
+            {showCorrectOverlay ? "" : current?.kanji}
+          </div>
 
           <input
             value={answer}
@@ -530,7 +566,13 @@ export default function Quiz({
             placeholder="ひらがなで答えてね"
             className="answer-input"
             onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
-            readOnly={showTimeout || isGameOver || isChecking || showLevelIntro}
+            readOnly={
+              showTimeout ||
+              isGameOver ||
+              isChecking ||
+              showLevelIntro ||
+              showCorrectOverlay
+            }
           />
 
           <MessageDisplay message={warning || result} type={messageType} />
@@ -539,7 +581,9 @@ export default function Quiz({
             onAnswer={checkAnswer}
             onSwap={skipQuestion}
             onGiveUp={handleGiveUp}
-            disabled={skipUsed || isChecking || showLevelIntro}
+            disabled={
+              skipUsed || isChecking || showLevelIntro || showCorrectOverlay
+            }
           />
         </div>
       </div>
