@@ -73,6 +73,9 @@ export default function Quiz({
 
   const [showGameClear, setShowGameClear] = useState(false);
   const [showCorrectOverlay, setShowCorrectOverlay] = useState(false);
+  const [correctAdvanceMode, setCorrectAdvanceMode] = useState("correct");
+  // "correct" | "skip"
+
   const [correctInfo, setCorrectInfo] = useState({
     kanji: "",
     reading: "",
@@ -367,8 +370,9 @@ export default function Quiz({
       setCorrectInfo({
         kanji: current.kanji,
         reading: current.reading,
-        meaning: current.meaning || "", // meaningが無い問題も安全に
+        meaning: current.meaning || "",
       });
+      setCorrectAdvanceMode("correct");
       setShowCorrectOverlay(true);
 
       setIsChecking(false); // overlay中は入力できないので解除してOK
@@ -439,18 +443,20 @@ export default function Quiz({
   const skipQuestion = () => {
     if (skipUsed || isChecking) return;
 
-    setIsChecking(true); // 二重押し防止
+    setIsChecking(true);
     setSkipUsed(true);
 
-    // ★ メッセージ表示（青色）
-    setMessageType("info");
-    setResult("🔁 スキップしました！");
+    // スキップでも答え情報をOverlayに渡す
+    setCorrectInfo({
+      kanji: current?.kanji || "",
+      reading: current?.reading || "",
+      meaning: current?.meaning || "",
+    });
 
-    // ★ 少し表示してから次の問題へ
-    setTimeout(() => {
-      advanceToNextProblem(false);
-      setIsChecking(false);
-    }, 800);
+    setCorrectAdvanceMode("skip");
+    setShowCorrectOverlay(true);
+
+    setIsChecking(false);
   };
 
   // =========================================
@@ -493,7 +499,14 @@ export default function Quiz({
 
   const handleNextAfterCorrect = () => {
     setShowCorrectOverlay(false);
-    advanceToNextProblem(true);
+
+    if (correctAdvanceMode === "skip") {
+      // スキップは正解数を進めない
+      advanceToNextProblem(false);
+    } else {
+      // 正解は正解数を進める
+      advanceToNextProblem(true);
+    }
   };
 
   // =========================================
@@ -522,6 +535,7 @@ export default function Quiz({
           kanji={correctInfo.kanji}
           reading={correctInfo.reading}
           meaning={correctInfo.meaning}
+          mode={correctAdvanceMode} // ← 追加
           onNext={handleNextAfterCorrect}
         />
       )}

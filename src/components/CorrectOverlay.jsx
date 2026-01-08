@@ -2,7 +2,15 @@
 import React from "react";
 import "../styles.css";
 
-export default function CorrectOverlay({ kanji, reading, meaning, onNext }) {
+export default function CorrectOverlay({
+  kanji,
+  reading,
+  meaning,
+  mode, // "correct" | "skip"
+  onNext,
+}) {
+  const isSkip = mode === "skip";
+
   return (
     <div
       style={{
@@ -15,37 +23,101 @@ export default function CorrectOverlay({ kanji, reading, meaning, onNext }) {
         justifyContent: "center",
         padding: 16,
       }}
-      onClick={onNext}
     >
       <div
         style={{
           background: "rgba(20,20,20,0.95)",
-          border: "2px solid rgba(255,255,255,0.2)",
+          border: "3px solid #f5c542",
+          boxShadow: "0 0 18px rgba(245,197,66,0.45)",
           borderRadius: 16,
-          padding: 20,
-          width: "min(520px, 92vw)",
-          textAlign: "center",
+          padding: 24,
+          width: "min(640px, 94vw)",
           color: "#fff",
         }}
+        onClick={(e) => e.stopPropagation()} // 念のため
       >
-        <div style={{ fontSize: 14, opacity: 0.9, marginBottom: 8 }}>
-          ✅ 正解！
+        {/* メッセージ */}
+        <div
+          style={{
+            fontSize: 28,
+            fontWeight: "bold",
+            textAlign: "center",
+            marginBottom: 22,
+            letterSpacing: 1,
+            lineHeight: 1.3,
+          }}
+        >
+          {isSkip ? "🔁 スキップしました" : "✅ 正解！"}
         </div>
 
-        <div style={{ fontSize: 44, fontWeight: "bold", marginBottom: 10 }}>
-          {kanji}
+        {/* 内容：左右分割 */}
+        <div
+          style={{
+            display: "flex",
+            gap: 20,
+            alignItems: "stretch",
+            flexWrap: "wrap",
+          }}
+        >
+          {/* 左：漢字＋読み */}
+          <div
+            style={{
+              flex: "1 1 240px",
+              textAlign: "center",
+              borderRight: "1px solid rgba(255,255,255,0.15)",
+              paddingRight: 16,
+            }}
+          >
+            <div style={{ fontSize: 42, fontWeight: "bold", marginBottom: 8 }}>
+              {kanji}
+            </div>
+
+            <div style={{ fontSize: 20 }}>
+              よみ：
+              <strong style={{ marginLeft: 6 }}>{reading || "（なし）"}</strong>
+            </div>
+          </div>
+
+          {/* 右：意味 */}
+          <div
+            style={{
+              flex: "1 1 240px",
+              paddingLeft: 16,
+              fontSize: 18,
+              lineHeight: 1.6,
+            }}
+          >
+            <div style={{ fontSize: 16, opacity: 0.8, marginBottom: 6 }}>
+              意味
+            </div>
+            <div style={{ fontWeight: "bold" }}>{meaning || "（未登録）"}</div>
+          </div>
         </div>
 
-        <div style={{ fontSize: 20, marginBottom: 10 }}>
-          よみ：<strong>{reading || "（なし）"}</strong>
-        </div>
-
-        <div style={{ fontSize: 18, opacity: 0.95 }}>
-          意味：<strong>{meaning || "（未登録）"}</strong>
-        </div>
-
-        <div style={{ fontSize: 12, opacity: 0.7, marginTop: 14 }}>
-          クリックで次へ
+        {/* フッター：次へボタンのみ */}
+        <div
+          style={{
+            marginTop: 24,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <button
+            onClick={onNext}
+            style={{
+              background: "#f5c542",
+              color: "#222",
+              border: "none",
+              borderRadius: 24,
+              padding: "14px 36px",
+              fontSize: 18,
+              fontWeight: "bold",
+              cursor: "pointer",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+            }}
+          >
+            次へ ▶
+          </button>
         </div>
       </div>
     </div>
