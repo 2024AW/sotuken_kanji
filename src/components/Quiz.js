@@ -6,7 +6,6 @@ import Enemy from "./Enemy";
 import DebugPanel from "./DebugPanel";
 import LoadingScreen from "./LoadingScreen";
 import ConfirmGiveUp from "./ConfirmGiveUp";
-import TimeoutScreen from "./TimeoutScreen";
 import QuestionCounter from "./QuestionCounter";
 import ActionButtons from "./ActionButtons";
 import MessageDisplay from "./MessageDisplay";
@@ -58,7 +57,6 @@ export default function Quiz({
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showTimeout, setShowTimeout] = useState(false);
 
   const [lastAnswer, setLastAnswer] = useState("");
   const [questionNumber, setQuestionNumber] = useState(1);
@@ -218,13 +216,13 @@ export default function Quiz({
   // =========================================
   // ★ タイマー
   // =========================================
+  // ★ タイマー
   useEffect(() => {
     if (
       !current ||
-      showTimeout ||
       showConfirm ||
       showLevelIntro ||
-      showCorrectOverlay || // ✅ 追加：正解オーバーレイ中は止める
+      showCorrectOverlay ||
       isGameOver ||
       isChecking
     ) {
@@ -235,7 +233,7 @@ export default function Quiz({
       setTimeLeft((t) => {
         if (t <= 1) {
           clearInterval(timer);
-          handleTimeout();
+          handleTimeUp(); // ← ここ
           return 0;
         }
         return t - 1;
@@ -245,10 +243,9 @@ export default function Quiz({
     return () => clearInterval(timer);
   }, [
     current,
-    showTimeout,
     showConfirm,
     showLevelIntro,
-    showCorrectOverlay, // ✅ 追加：依存配列にも必須
+    showCorrectOverlay,
     isGameOver,
     isChecking,
   ]);
@@ -401,17 +398,20 @@ export default function Quiz({
   // =========================================
   // ★ 時間切れ
   // =========================================
-  const handleTimeout = () => {
-    if (isChecking) return;
+  const handleTimeUp = () => {
+    if (!current) return;
 
-    setIsChecking(true);
-    setLastAnswer(current.reading);
-    setShowTimeout(true);
+    setCorrectInfo({
+      kanji: current.kanji,
+      reading: current.reading,
+      meaning: current.meaning || "",
+    });
+
+    setCorrectAdvanceMode("timeout");
+    setShowCorrectOverlay(true);
   };
 
   const handleNextAfterTimeout = () => {
-    setShowTimeout(false);
-
     const newLives = lives - 1;
     setLives(newLives);
 
@@ -495,18 +495,40 @@ export default function Quiz({
     }
   };
 
-  // ...省略（上はそのまま）
-
   const handleNextAfterCorrect = () => {
     setShowCorrectOverlay(false);
 
-    if (correctAdvanceMode === "skip") {
-      // スキップは正解数を進めない
-      advanceToNextProblem(false);
-    } else {
-      // 正解は正解数を進める
-      advanceToNextProblem(true);
+    // ⏱ TIMEOUT
+    if (correctAdvanceMode === "timeout") {
+      const newLives = lives - 1;
+      setLives(newLives);
+
+      setMessageType("error");
+      setResult(`❌ 時間切れ！（残り${newLives}機）`);
+
+      if (newLives <= 0) {
+        setTimeout(() => {
+          stopAllBgm();
+          setIsGameOver(true);
+        }, 800);
+        return;
+      }
+
+      setTimeout(() => {
+        advanceToNextProblem(false);
+      }, 800);
+
+      return;
     }
+
+    // ⏭ SKIP
+    if (correctAdvanceMode === "skip") {
+      advanceToNextProblem(false);
+      return;
+    }
+
+    // ✅ CORRECT
+    advanceToNextProblem(true);
   };
 
   // =========================================
@@ -581,11 +603,7 @@ export default function Quiz({
             className="answer-input"
             onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
             readOnly={
-              showTimeout ||
-              isGameOver ||
-              isChecking ||
-              showLevelIntro ||
-              showCorrectOverlay
+              isGameOver || isChecking || showLevelIntro || showCorrectOverlay
             }
           />
 
@@ -601,14 +619,6 @@ export default function Quiz({
           />
         </div>
       </div>
-
-      {showTimeout && (
-        <TimeoutScreen
-          correctAnswer={lastAnswer}
-          onNext={handleNextAfterTimeout}
-          lives={lives}
-        />
-      )}
 
       {isGameOver && (
         <GameOverOverlay

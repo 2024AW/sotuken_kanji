@@ -6,10 +6,14 @@ export default function CorrectOverlay({
   kanji,
   reading,
   meaning,
-  mode, // "correct" | "skip"
+  mode, // "correct" | "skip" | "timeout"
   onNext,
 }) {
-  const isSkip = mode === "skip";
+  const getMessage = () => {
+    if (mode === "skip") return "🔁 スキップしました";
+    if (mode === "timeout") return "⏰ 時間切れ！";
+    return "✅ 正解！";
+  };
 
   return (
     <div
@@ -39,7 +43,7 @@ export default function CorrectOverlay({
         {/* メッセージ */}
         <div
           style={{
-            fontSize: 28,
+            fontSize: 32, // ← さらに少し大きく
             fontWeight: "bold",
             textAlign: "center",
             marginBottom: 22,
@@ -47,7 +51,7 @@ export default function CorrectOverlay({
             lineHeight: 1.3,
           }}
         >
-          {isSkip ? "🔁 スキップしました" : "✅ 正解！"}
+          {getMessage()}
         </div>
 
         {/* 内容：左右分割 */}
