@@ -11,6 +11,7 @@ import QuestionCounter from "../QuestionCounter";
 import ActionButtons from "../ActionButtons";
 import MessageDisplay from "../MessageDisplay";
 import GameOverOverlay from "../GameOverOverlay";
+import CorrectOverlay from "../CorrectOverlay";
 import GameClearScreen from "../GameClearScreen";
 
 // ===== Extra専用データ =====
@@ -55,7 +56,15 @@ export default function ExtraQuiz({
   const [skipUsed, setSkipUsed] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showTimeout, setShowTimeout] = useState(false);
+
+  const [showCorrectOverlay, setShowCorrectOverlay] = useState(false);
+  const [correctAdvanceMode, setCorrectAdvanceMode] = useState("correct");
+
+  const [correctInfo, setCorrectInfo] = useState({
+    kanji: "",
+    reading: "",
+    meaning: "",
+  });
   const [loading, setLoading] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [showGameClear, setShowGameClear] = useState(false);
@@ -115,7 +124,6 @@ export default function ExtraQuiz({
   useEffect(() => {
     if (
       !current ||
-      showTimeout ||
       showConfirm ||
       isGameOver ||
       isChecking ||
@@ -135,18 +143,35 @@ export default function ExtraQuiz({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [
-    current,
-    showTimeout,
-    showConfirm,
-    isGameOver,
-    isChecking,
-    showCorrectOverlay,
-  ]);
+  }, [current, showConfirm, isGameOver, isChecking, showCorrectOverlay]);
 
   // =========================================
   // 次の問題へ
   // =========================================
+
+  // =========================================
+  // CorrectOverlay「次へ」処理
+  // =========================================
+  const handleNextAfterCorrect = () => {
+    setShowCorrectOverlay(false);
+
+    // 正解以外（skip / timeout）はライフを減らす
+    if (correctAdvanceMode !== "correct") {
+      const newLives = lives - 1;
+      setLives(newLives);
+
+      if (newLives <= 0) {
+        setIsGameOver(true);
+        return;
+      }
+    }
+
+    setTimeout(() => {
+      advanceToNextProblem();
+      setIsChecking(false);
+    }, 300);
+  };
+
   const advanceToNextProblem = () => {
     // 🎉 正解数が目標に達したらクリア
     if (questionNumber >= questionCount) {
@@ -198,14 +223,16 @@ export default function ExtraQuiz({
       (current.aliases || []).some((a) => normalize(a) === normalize(ans));
 
     if (isCorrect) {
-      setMessageType("success");
-      setResult("✅ 正解！");
+      setQuestionNumber((n) => n + 1);
 
-      setTimeout(() => {
-        setQuestionNumber((n) => n + 1); // ← 正解時のみ
-        advanceToNextProblem();
-        setIsChecking(false);
-      }, 800);
+      setCorrectInfo({
+        kanji: current.name,
+        reading: "",
+        meaning: current.description || "",
+      });
+
+      setCorrectAdvanceMode("correct");
+      setShowCorrectOverlay(true);
       return;
     }
 
@@ -223,25 +250,15 @@ export default function ExtraQuiz({
   const handleTimeout = () => {
     if (isChecking) return;
     setIsChecking(true);
-    setLastAnswer(current.name);
-    setShowTimeout(true);
-  };
 
-  const handleNextAfterTimeout = () => {
-    setShowTimeout(false);
+    setCorrectInfo({
+      kanji: current.name,
+      reading: "",
+      meaning: current.description || "",
+    });
 
-    const newLives = lives - 1;
-    setLives(newLives);
-
-    if (newLives <= 0) {
-      setIsGameOver(true);
-      return;
-    }
-
-    setTimeout(() => {
-      advanceToNextProblem(); // ← 正解数は増えない
-      setIsChecking(false);
-    }, 500);
+    setCorrectAdvanceMode("timeout");
+    setShowCorrectOverlay(true);
   };
 
   // =========================================
@@ -253,13 +270,14 @@ export default function ExtraQuiz({
     setIsChecking(true);
     setSkipUsed(true);
 
-    setMessageType("info");
-    setResult("🔁 スキップしました");
+    setCorrectInfo({
+      kanji: current.name,
+      reading: "",
+      meaning: current.description || "",
+    });
 
-    setTimeout(() => {
-      advanceToNextProblem(); // ← 正解数は増えない
-      setIsChecking(false);
-    }, 800);
+    setCorrectAdvanceMode("skip");
+    setShowCorrectOverlay(true);
   };
 
   // =========================================
@@ -288,6 +306,15 @@ export default function ExtraQuiz({
 
   return (
     <div className="quiz-root" style={{ position: "relative" }}>
+      {showCorrectOverlay && (
+        <CorrectOverlay
+          kanji={correctInfo.kanji}
+          reading={correctInfo.reading}
+          meaning={correctInfo.meaning}
+          mode={correctAdvanceMode}
+          onNext={handleNextAfterCorrect}
+        />
+      )}
       <DebugPanel
         gameMode="extra"
         questionNumber={questionNumber}
@@ -320,7 +347,7 @@ export default function ExtraQuiz({
             placeholder="ひらがなで答えてね"
             className="answer-input"
             onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
-            readOnly={showTimeout || isGameOver || isChecking}
+            readOnly={isGameOver || isChecking}
           />
 
           <MessageDisplay message={result} type={messageType} />
@@ -333,14 +360,6 @@ export default function ExtraQuiz({
           />
         </div>
       </div>
-
-      {showTimeout && (
-        <TimeoutScreen
-          correctAnswer={lastAnswer}
-          onNext={handleNextAfterTimeout}
-          lives={lives}
-        />
-      )}
 
       {isGameOver && <GameOverOverlay onBack={onBack} />}
     </div>
