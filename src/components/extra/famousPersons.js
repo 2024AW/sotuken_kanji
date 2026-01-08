@@ -5,6 +5,7 @@ export const famousPersons = [
 
   {
     name: "アインシュタイン",
+    display: "アインシュタイン",
     image: "/images/famous/アルベルトアインシュタイン.jpg",
     difficulty: "normal",
     aliases: ["アルベルト・アインシュタイン"],
@@ -13,6 +14,7 @@ export const famousPersons = [
   },
   {
     name: "ガンディー",
+    display: "ガンディー",
     image: "/images/famous/ガンディー.jpg",
     difficulty: "normal",
     aliases: ["ガンジー", "マハトマ・ガンディー", "マハトマ・ガンジー"],
@@ -21,6 +23,7 @@ export const famousPersons = [
   },
   {
     name: "ジャンヌダルク",
+    display: "ジャンヌ・ダルク",
     image: "/images/famous/ジャンヌ・ダルク.jpg",
     difficulty: "normal",
     aliases: ["ジャンヌ・ダルク"],
@@ -29,6 +32,7 @@ export const famousPersons = [
   },
   {
     name: "ウォルト・ディズニー",
+    display: "ディズニー",
     image: "/images/famous/ウォルト・ディズニー.jpg",
     difficulty: "normal",
     aliases: ["ディズニー"],
@@ -37,6 +41,7 @@ export const famousPersons = [
   },
   {
     name: "マリー・キュリー",
+    display: "キュリー夫人",
     image: "/images/famous/キュリー夫人.jpg",
     difficulty: "normal",
     aliases: ["マリ・キュリー", "マリキュリー", "マリーキュリー"],
@@ -45,6 +50,7 @@ export const famousPersons = [
   },
   {
     name: "ケネディ",
+    display: "ケネディ",
     image: "/images/famous/ケネディ.jpg",
     difficulty: "normal",
     aliases: ["ジョン・F・ケネディ"],
@@ -53,6 +59,7 @@ export const famousPersons = [
   },
   {
     name: "ニュートン",
+    display: "ニュートン",
     image: "/images/famous/アイザック・ニュートン.jpg",
     difficulty: "normal",
     aliases: ["アイザック・ニュートン"],
@@ -61,6 +68,7 @@ export const famousPersons = [
   },
   {
     name: "リンカン",
+    display: "リンカーン",
     image: "/images/famous/アブラハム・リンカーン.jpg",
     difficulty: "normal",
     aliases: ["リンカーン", "アブラハム・リンカーン", "アブラハム・リンカン"],
@@ -69,6 +77,7 @@ export const famousPersons = [
   },
   {
     name: "ダーウィン",
+    display: "ダーウィン",
     image: "/images/famous/ダーウィン.jpg",
     difficulty: "normal",
     aliases: ["チャールズ・ダーウィン"],
@@ -77,14 +86,17 @@ export const famousPersons = [
   },
   {
     name: "ナポレオン",
+    display: "ナポレオン",
     image: "/images/famous/ナポレオン・ボナパルト.jpg",
     difficulty: "normal",
     aliases: ["ナポレオン・ボナパルト"],
     meaning:
       "フランス革命後に活躍した軍人・政治家。優れた軍事力でヨーロッパ各地を支配し、フランス皇帝となった人物。",
   },
+
   {
     name: "ガリレオ",
+    display: "ガリレオ",
     image: "/images/famous/ガリレオ・ガリレイ.jpg",
     difficulty: "normal",
     aliases: ["ガリレオ・ガリレイ", "ガリレオガリレイ"],
@@ -93,6 +105,7 @@ export const famousPersons = [
   },
   {
     name: "コロンブス",
+    display: "コロンブス",
     image: "/images/famous/コロンブス.jpg",
     difficulty: "normal",
     meaning:
@@ -100,6 +113,7 @@ export const famousPersons = [
   },
   {
     name: "ベートーベン",
+    display: "ベートーヴェン",
     image: "/images/famous/ベートーヴェン.jpg",
     difficulty: "normal",
     aliases: ["ベートーヴェン"],
@@ -108,6 +122,7 @@ export const famousPersons = [
   },
   {
     name: "モーツァルト",
+    display: "モーツァルト",
     image: "/images/famous/モーツァルト.jpg",
     difficulty: "normal",
     meaning:
@@ -115,6 +130,7 @@ export const famousPersons = [
   },
   {
     name: "シェイクスピア",
+    display: "シェイクスピア",
     image: "/images/famous/シェイクスピア.jpg",
     difficulty: "normal",
     aliases: ["ウィリアム・シェイクスピア"],
@@ -123,6 +139,7 @@ export const famousPersons = [
   },
   {
     name: "ワシントン",
+    display: "ワシントン",
     image: "/images/famous/ジョージ・ワシントン.jpg",
     difficulty: "normal",
     aliases: ["ジョージ・ワシントン", "ジョージワシントン"],
@@ -131,6 +148,7 @@ export const famousPersons = [
   },
   {
     name: "ロック",
+    display: "ロック",
     image: "/images/famous/ジョン・ロック.jpg",
     difficulty: "normal",
     aliases: ["ジョン・ロック"],
@@ -139,6 +157,7 @@ export const famousPersons = [
   },
   {
     name: "エリザベス一世",
+    display: "エリザベス一世",
     image: "/images/famous/エリザベス一世.jpg",
     difficulty: "normal",
     aliases: ["エリザベス"],
@@ -147,6 +166,7 @@ export const famousPersons = [
   },
   {
     name: "ダクラス・マッカーサー",
+    display: "マッカーサー",
     image: "/images/famous/ダクラス・マッカーサー.jpg",
     difficulty: "normal",
     aliases: ["ダクラスマッカーサー", "マッカーサー"],
@@ -155,14 +175,17 @@ export const famousPersons = [
   },
   {
     name: "トーマス・エジソン",
+    display: "エジソン",
     image: "/images/famous/トーマス・エジソン.jpg",
     difficulty: "normal",
     aliases: ["トーマスエジソン", "エジソン"],
     meaning:
       "電球や蓄音機などを発明したアメリカの発明家。多くの発明で人々の生活を大きく変えた人物。",
   },
+
   {
     name: "ビスマルク",
+    display: "ビスマルク",
     image: "/images/famous/ビスマルク.jpg",
     difficulty: "normal",
     aliases: ["オットー・フォン・ビスマルク", "オットー・ビスマルク"],
@@ -171,6 +194,7 @@ export const famousPersons = [
   },
   {
     name: "スターリン",
+    display: "スターリン",
     image: "/images/famous/スターリン.jpg",
     difficulty: "normal",
     aliases: ["ヨシフ・スターリン", "ヨシフ・ヴィサリオノヴィチ・スターリン"],
@@ -179,6 +203,7 @@ export const famousPersons = [
   },
   {
     name: "フィンセント・ファン・ゴッホ",
+    display: "ゴッホ",
     image: "/images/famous/フィンセント・ファン・ゴッホ.jpg",
     difficulty: "normal",
     aliases: [
@@ -192,6 +217,7 @@ export const famousPersons = [
   },
   {
     name: "フビライ・ハン",
+    display: "フビライ・ハン",
     image: "/images/famous/フビライ・ハン.jpg",
     difficulty: "normal",
     aliases: ["クビライ・ハン", "フビライハン", "クビライハン"],
@@ -200,6 +226,7 @@ export const famousPersons = [
   },
   {
     name: "フランクリン・ルーズヴェルト",
+    display: "ルーズヴェルト",
     image: "/images/famous/フランクリン・ルーズヴェルト.jpg",
     difficulty: "normal",
     aliases: [
@@ -216,6 +243,7 @@ export const famousPersons = [
   },
   {
     name: "フランシスコ・ザビエル",
+    display: "ザビエル",
     image: "/images/famous/フランシスコ・ザビエル.jpg",
     difficulty: "normal",
     aliases: ["ザビエル", "フランシスコ・ハビエル", "フランシスコザビエル"],
@@ -224,6 +252,7 @@ export const famousPersons = [
   },
   {
     name: "フローレンス・ナイチンゲール",
+    display: "ナイチンゲール",
     image: "/images/famous/フローレンス・ナイチンゲール.jpg",
     difficulty: "normal",
     aliases: ["ナイチンゲール", "フローレンスナイチンゲール"],
@@ -232,6 +261,7 @@ export const famousPersons = [
   },
   {
     name: "ペリー",
+    display: "ペリー",
     image: "/images/famous/ペリー.jpg",
     difficulty: "normal",
     aliases: ["マシュー・ペリー", "マシューペリー"],
@@ -240,6 +270,7 @@ export const famousPersons = [
   },
   {
     name: "ホー・チミン",
+    display: "ホー・チミン",
     image: "/images/famous/ホー・チミン.jpg",
     difficulty: "normal",
     aliases: ["ホーチミン"],
@@ -248,14 +279,17 @@ export const famousPersons = [
   },
   {
     name: "マザー・テレサ",
+    display: "マザー・テレサ",
     image: "/images/famous/マザー・テレサ.jpg",
     difficulty: "normal",
     aliases: ["マザーテレサ"],
     meaning:
       "貧しい人や病人を助ける活動に生涯をささげた修道女。愛と奉仕の精神を世界に広めた人物。",
   },
+
   {
     name: "マゼラン",
+    display: "マゼラン",
     image: "/images/famous/マゼラン.jpg",
     difficulty: "normal",
     aliases: ["フェルディナンド・マゼラン"],
@@ -264,6 +298,7 @@ export const famousPersons = [
   },
   {
     name: "マリー・アントワネット",
+    display: "マリー・アントワネット",
     image: "/images/famous/マリー・アントワネット.jpg",
     difficulty: "normal",
     aliases: ["マリーアントワネット", "マリー"],
@@ -272,6 +307,7 @@ export const famousPersons = [
   },
   {
     name: "マルクス",
+    display: "マルクス",
     image: "/images/famous/マルクス.jpg",
     difficulty: "normal",
     aliases: ["カール・マルクス", "カールマルクス"],
@@ -280,6 +316,7 @@ export const famousPersons = [
   },
   {
     name: "ムッソリーニ",
+    display: "ムッソリーニ",
     image: "/images/famous/ムッソリーニ.jpg",
     difficulty: "normal",
     aliases: ["ベニート・ムッソリーニ"],
@@ -288,6 +325,7 @@ export const famousPersons = [
   },
   {
     name: "モンテスキュー",
+    display: "モンテスキュー",
     image: "/images/famous/モンテスキュー.jpg",
     difficulty: "normal",
     aliases: ["シャルル・ド・モンテスキュー"],
@@ -296,6 +334,7 @@ export const famousPersons = [
   },
   {
     name: "ルイ14世",
+    display: "ルイ14世",
     image: "/images/famous/ルイ14世.jpg",
     difficulty: "normal",
     meaning:
@@ -303,6 +342,7 @@ export const famousPersons = [
   },
   {
     name: "ライト兄弟",
+    display: "ライト兄弟",
     image: "/images/famous/ライト兄弟.jpg",
     difficulty: "normal",
     meaning:
@@ -310,6 +350,7 @@ export const famousPersons = [
   },
   {
     name: "レオナルド・ダ・ヴィンチ",
+    display: "ダ・ヴィンチ",
     image: "/images/famous/レオナルド・ダ・ヴィンチ.jpg",
     difficulty: "normal",
     aliases: ["レオナルドダヴィンチ", "レオナルド・ダ・ビンチ", "ダ・ヴィンチ"],
@@ -318,6 +359,7 @@ export const famousPersons = [
   },
   {
     name: "ルソー",
+    display: "ルソー",
     image: "/images/famous/ルソー.jpg",
     difficulty: "normal",
     aliases: ["ジャン＝ジャック・ルソー", "ジャン・ジャック・ルソー"],
@@ -326,14 +368,17 @@ export const famousPersons = [
   },
   {
     name: "ルター",
+    display: "ルター",
     image: "/images/famous/ルター.jpg",
     difficulty: "normal",
     aliases: ["マルティン・ルター"],
     meaning:
       "宗教改革を行ったドイツの宗教家。教会のあり方を批判し、プロテスタントを広めた人物。",
   },
+
   {
     name: "がんじん",
+    display: "鑑真",
     image: "/images/famous/鑑真.jpg",
     difficulty: "normal",
     meaning:
@@ -341,6 +386,7 @@ export const famousPersons = [
   },
   {
     name: "ろじん",
+    display: "魯迅",
     image: "/images/famous/魯迅.jpg",
     difficulty: "normal",
     aliases: ["ルーシュン", "魯迅"],
@@ -349,6 +395,7 @@ export const famousPersons = [
   },
   {
     name: "もうたくとう",
+    display: "毛沢東",
     image: "/images/famous/毛沢東.jpg",
     difficulty: "normal",
     aliases: ["毛沢東"],
@@ -357,6 +404,7 @@ export const famousPersons = [
   },
   {
     name: "孫文",
+    display: "孫文",
     image: "/images/famous/孫文.jpg",
     difficulty: "normal",
     aliases: ["そんぶん"],
@@ -365,6 +413,7 @@ export const famousPersons = [
   },
   {
     name: "始皇帝",
+    display: "始皇帝",
     image: "/images/famous/始皇帝.jpg",
     difficulty: "normal",
     aliases: ["しこうてい", "秦の始皇帝"],
@@ -373,6 +422,7 @@ export const famousPersons = [
   },
   {
     name: "諸葛亮孔明",
+    display: "諸葛亮（孔明）",
     image: "/images/famous/諸葛亮孔明.jpg",
     difficulty: "normal",
     aliases: [
@@ -389,18 +439,21 @@ export const famousPersons = [
   },
   {
     name: "蔣介石",
+    display: "蔣介石",
     image: "/images/famous/蔣介石.jpg",
     difficulty: "normal",
     aliases: ["しょうかいせき"],
     meaning:
       "中国国民党の指導者。中国統一を目指して戦い、のちに台湾で中華民国政府を率いた人物。",
   },
+
   /* =========================
      日本の偉人（ひらがな）
      ========================= */
 
   {
     name: "おだのぶなが",
+    display: "織田信長",
     image: "/images/famous/織田信長.jpg",
     difficulty: "normal",
     aliases: ["織田信長"],
@@ -409,6 +462,7 @@ export const famousPersons = [
   },
   {
     name: "とよとみひでよし",
+    display: "豊臣秀吉",
     image: "/images/famous/豊臣秀吉.jpg",
     difficulty: "normal",
     aliases: ["はしばひでよし", "豊臣秀吉", "羽柴秀吉"],
@@ -417,6 +471,7 @@ export const famousPersons = [
   },
   {
     name: "とくがわいえやす",
+    display: "徳川家康",
     image: "/images/famous/徳川家康.jpg",
     difficulty: "normal",
     aliases: ["徳川家康"],
@@ -425,6 +480,7 @@ export const famousPersons = [
   },
   {
     name: "さかもとりょうま",
+    display: "坂本龍馬",
     image: "/images/famous/坂本龍馬.jpg",
     difficulty: "normal",
     aliases: ["坂本龍馬"],
@@ -433,6 +489,7 @@ export const famousPersons = [
   },
   {
     name: "さいごうたかもり",
+    display: "西郷隆盛",
     image: "/images/famous/西郷隆盛.jpg",
     difficulty: "normal",
     aliases: ["西郷隆盛"],
@@ -441,6 +498,7 @@ export const famousPersons = [
   },
   {
     name: "おおくぼとしみち",
+    display: "大久保利通",
     image: "/images/famous/大久保利通.jpg",
     difficulty: "normal",
     aliases: ["大久保利通"],
@@ -449,6 +507,7 @@ export const famousPersons = [
   },
   {
     name: "きどたかよし",
+    display: "木戸孝允",
     image: "/images/famous/木戸孝允.jpg",
     difficulty: "boss",
     aliases: ["木戸孝允"],
@@ -457,6 +516,7 @@ export const famousPersons = [
   },
   {
     name: "とくがわよしのぶ",
+    display: "徳川慶喜",
     image: "/images/famous/徳川慶喜.jpg",
     difficulty: "boss",
     aliases: ["徳川慶喜"],
@@ -465,6 +525,7 @@ export const famousPersons = [
   },
   {
     name: "いとうひろぶみ",
+    display: "伊藤博文",
     image: "/images/famous/伊藤博文.jpg",
     difficulty: "normal",
     aliases: ["伊藤博文"],
@@ -473,14 +534,17 @@ export const famousPersons = [
   },
   {
     name: "ふくざわゆきち",
+    display: "福沢諭吉",
     image: "/images/famous/福沢諭吉.jpg",
     difficulty: "normal",
     aliases: ["福沢諭吉"],
     meaning:
       "明治時代の思想家・教育者。西洋の学問を広め、「学問のすすめ」を著し、日本の近代化と個人の自由・独立の考え方に大きな影響を与えた人物。",
   },
+
   {
     name: "なつめそうせき",
+    display: "夏目漱石",
     image: "/images/famous/夏目漱石.jpg",
     difficulty: "normal",
     aliases: ["夏目漱石"],
@@ -489,6 +553,7 @@ export const famousPersons = [
   },
   {
     name: "もりおうがい",
+    display: "森鴎外",
     image: "/images/famous/森鴎外.jpg",
     difficulty: "normal",
     aliases: ["森鷗外"],
@@ -497,6 +562,7 @@ export const famousPersons = [
   },
   {
     name: "よさのあきこ",
+    display: "与謝野晶子",
     image: "/images/famous/与謝野晶子.jpg",
     difficulty: "boss",
     aliases: ["与謝野晶子"],
@@ -505,6 +571,7 @@ export const famousPersons = [
   },
   {
     name: "きたさとしばさぶろう",
+    display: "北里柴三郎",
     image: "/images/famous/北里柴三郎.jpg",
     difficulty: "boss",
     aliases: ["北里柴三郎"],
@@ -513,6 +580,7 @@ export const famousPersons = [
   },
   {
     name: "しぶさわえいいち",
+    display: "渋沢栄一",
     image: "/images/famous/渋沢栄一.jpg",
     difficulty: "boss",
     aliases: ["渋沢栄一"],
@@ -521,6 +589,7 @@ export const famousPersons = [
   },
   {
     name: "いわくらともみ",
+    display: "岩倉具視",
     image: "/images/famous/岩倉具視.jpg",
     difficulty: "boss",
     aliases: ["岩倉具視"],
@@ -529,6 +598,7 @@ export const famousPersons = [
   },
   {
     name: "むつむねみつ",
+    display: "陸奥宗光",
     image: "/images/famous/陸奥宗光.jpg",
     difficulty: "normal",
     aliases: ["陸奥宗光"],
@@ -537,6 +607,7 @@ export const famousPersons = [
   },
   {
     name: "のぐちひでよ",
+    display: "野口英世",
     image: "/images/famous/野口英世.jpg",
     difficulty: "normal",
     aliases: ["野口英世"],
@@ -545,6 +616,7 @@ export const famousPersons = [
   },
   {
     name: "もうりもとなり",
+    display: "毛利元就",
     image: "/images/famous/毛利元就.jpg",
     difficulty: "normal",
     aliases: ["毛利元就"],
@@ -553,14 +625,17 @@ export const famousPersons = [
   },
   {
     name: "あけちみつひで",
+    display: "明智光秀",
     image: "/images/famous/明智光秀.jpg",
     difficulty: "normal",
     aliases: ["明智光秀"],
     meaning:
       "戦国時代の武将。織田信長に仕えたが、本能寺の変で信長を討ったことで知られる人物。",
   },
+
   {
     name: "もとおりのりなが",
+    display: "本居宣長",
     image: "/images/famous/本居宣長.jpg",
     difficulty: "normal",
     aliases: ["本居宣長"],
@@ -569,6 +644,7 @@ export const famousPersons = [
   },
   {
     name: "ほりたつお",
+    display: "堀辰雄",
     image: "/images/famous/堀辰雄.jpg",
     difficulty: "normal",
     aliases: ["堀辰雄"],
@@ -577,6 +653,7 @@ export const famousPersons = [
   },
   {
     name: "ほうじょうまさこ",
+    display: "北条政子",
     image: "/images/famous/北条政子.jpg",
     difficulty: "normal",
     aliases: ["北条政子"],
@@ -585,6 +662,7 @@ export const famousPersons = [
   },
   {
     name: "ほうじょうときむね",
+    display: "北条時宗",
     image: "/images/famous/北条時宗.jpg",
     difficulty: "normal",
     aliases: ["北条時宗"],
@@ -593,6 +671,7 @@ export const famousPersons = [
   },
   {
     name: "ひらつからいちょう",
+    display: "平塚らいてう",
     image: "/images/famous/平塚らいてう.jpg",
     difficulty: "normal",
     aliases: ["ひらつからいてう", "平塚らいてう", "平塚らいちょう"],
@@ -601,6 +680,7 @@ export const famousPersons = [
   },
   {
     name: "たいらのきよもり",
+    display: "平清盛",
     image: "/images/famous/平清盛.jpg",
     difficulty: "normal",
     aliases: ["平清盛"],
@@ -609,6 +689,7 @@ export const famousPersons = [
   },
   {
     name: "たけだしんげん",
+    display: "武田信玄",
     image: "/images/famous/武田信玄.jpg",
     difficulty: "normal",
     aliases: ["武田信玄"],
@@ -617,6 +698,7 @@ export const famousPersons = [
   },
   {
     name: "ひぐちいちよう",
+    display: "樋口一葉",
     image: "/images/famous/樋口一葉.jpg",
     difficulty: "normal",
     aliases: ["樋口一葉"],
@@ -625,6 +707,7 @@ export const famousPersons = [
   },
   {
     name: "ひみこ",
+    display: "卑弥呼",
     image: "/images/famous/卑弥呼.jpg",
     difficulty: "normal",
     aliases: ["卑弥呼"],
@@ -633,14 +716,17 @@ export const famousPersons = [
   },
   {
     name: "いたがきたいすけ",
+    display: "板垣退助",
     image: "/images/famous/板垣退助.jpg",
     difficulty: "normal",
     aliases: ["板垣退助"],
     meaning:
       "明治時代の政治家。自由民権運動を主導し、国会設立や国民の権利拡大に尽力した人物。",
   },
+
   {
     name: "伊達政宗",
+    display: "伊達政宗",
     image: "/images/famous/伊達政宗.jpg",
     difficulty: "normal",
     aliases: ["だてまさむね"],
@@ -649,6 +735,7 @@ export const famousPersons = [
   },
   {
     name: "伊能忠敬",
+    display: "伊能忠敬",
     image: "/images/famous/伊能忠敬.jpg",
     difficulty: "normal",
     aliases: ["いのうただたか"],
@@ -657,6 +744,7 @@ export const famousPersons = [
   },
   {
     name: "歌川広重",
+    display: "歌川広重",
     image: "/images/famous/歌川広重.jpg",
     difficulty: "normal",
     aliases: ["うたがわひろしげ", "安藤広重", "あんどうひろしげ"],
@@ -665,6 +753,7 @@ export const famousPersons = [
   },
   {
     name: "芥川龍之介",
+    display: "芥川龍之介",
     image: "/images/famous/芥川龍之介.jpg",
     difficulty: "normal",
     aliases: ["あくたがわりゅうのすけ"],
@@ -673,6 +762,7 @@ export const famousPersons = [
   },
   {
     name: "梶井基次郎",
+    display: "梶井基次郎",
     image: "/images/famous/梶井基次郎.jpg",
     difficulty: "normal",
     aliases: ["かじいもとじろう"],
@@ -681,6 +771,7 @@ export const famousPersons = [
   },
   {
     name: "吉田松陰",
+    display: "吉田松陰",
     image: "/images/famous/吉田松陰.jpg",
     difficulty: "normal",
     aliases: ["よしだしょういん"],
@@ -689,6 +780,7 @@ export const famousPersons = [
   },
   {
     name: "葛飾北斎",
+    display: "葛飾北斎",
     image: "/images/famous/葛飾北斎.jpg",
     difficulty: "normal",
     aliases: ["かつしかほくさい"],
@@ -697,6 +789,7 @@ export const famousPersons = [
   },
   {
     name: "吉田茂",
+    display: "吉田茂",
     image: "/images/famous/吉田茂.jpg",
     difficulty: "normal",
     aliases: ["よしだしげる"],
@@ -705,6 +798,7 @@ export const famousPersons = [
   },
   {
     name: "宮沢賢治",
+    display: "宮沢賢治",
     image: "/images/famous/宮沢賢治.jpg",
     difficulty: "normal",
     aliases: ["みやざわけんじ"],
@@ -713,14 +807,17 @@ export const famousPersons = [
   },
   {
     name: "近松門左衛門",
+    display: "近松門左衛門",
     image: "/images/famous/近松門左衛門.jpg",
     difficulty: "normal",
     aliases: ["ちかまつもんざえもん"],
     meaning:
       "江戸時代の浄瑠璃・歌舞伎の脚本家。『曽根崎心中』などの作品で、人間の情愛や悲劇を描き、日本の劇文学に大きな影響を与えた人物。",
   },
+
   {
     name: "こんどういさみ",
+    display: "近藤勇",
     image: "/images/famous/近藤勇.jpg",
     difficulty: "normal",
     aliases: ["近藤勇"],
@@ -729,6 +826,7 @@ export const famousPersons = [
   },
   {
     name: "空海",
+    display: "空海",
     image: "/images/famous/空海.jpg",
     difficulty: "normal",
     aliases: ["くうかい"],
@@ -737,6 +835,7 @@ export const famousPersons = [
   },
   {
     name: "原敬",
+    display: "原敬",
     image: "/images/famous/原敬.jpg",
     difficulty: "normal",
     aliases: ["はらたかし"],
@@ -745,6 +844,7 @@ export const famousPersons = [
   },
   {
     name: "源義経",
+    display: "源義経",
     image: "/images/famous/源義経.jpg",
     difficulty: "normal",
     aliases: ["みなもとのよしつね"],
@@ -753,6 +853,7 @@ export const famousPersons = [
   },
   {
     name: "源実朝",
+    display: "源実朝",
     image: "/images/famous/源実朝.jpg",
     difficulty: "boss",
     aliases: ["みなもとのさねとも"],
@@ -761,6 +862,7 @@ export const famousPersons = [
   },
   {
     name: "源頼朝",
+    display: "源頼朝",
     image: "/images/famous/源頼朝.jpg",
     difficulty: "normal",
     aliases: ["みなもとのよりとも"],
@@ -769,6 +871,7 @@ export const famousPersons = [
   },
   {
     name: "後醍醐天皇",
+    display: "後醍醐天皇",
     image: "/images/famous/後醍醐天皇.jpg",
     difficulty: "normal",
     aliases: ["ごだいごてんのう"],
@@ -777,6 +880,7 @@ export const famousPersons = [
   },
   {
     name: "高杉晋作",
+    display: "高杉晋作",
     image: "/images/famous/高杉晋作.jpg",
     difficulty: "normal",
     aliases: ["たかすぎしんさく"],
@@ -785,6 +889,7 @@ export const famousPersons = [
   },
   {
     name: "国木田独歩",
+    display: "国木田独歩",
     image: "/images/famous/国木田独歩.jpg",
     difficulty: "normal",
     aliases: ["くにきだどっぽ"],
@@ -793,14 +898,17 @@ export const famousPersons = [
   },
   {
     name: "手塚治虫",
+    display: "手塚治虫",
     image: "/images/famous/手塚治虫.jpg",
     difficulty: "normal",
     aliases: ["てづかおさむ"],
     meaning:
       "日本の漫画家・アニメーター。『鉄腕アトム』などの作品で日本の漫画・アニメ文化を大きく発展させた人物。",
   },
+
   {
     name: "勝海舟",
+    display: "勝海舟",
     image: "/images/famous/勝海舟.jpg",
     difficulty: "normal",
     aliases: ["かつかいしゅう"],
@@ -809,6 +917,7 @@ export const famousPersons = [
   },
   {
     name: "小村寿太郎",
+    display: "小村寿太郎",
     image: "/images/famous/小村寿太郎.jpg",
     difficulty: "normal",
     aliases: ["こむらじゅたろう"],
@@ -817,6 +926,7 @@ export const famousPersons = [
   },
   {
     name: "小野妹子",
+    display: "小野妹子",
     image: "/images/famous/小野妹子.jpg",
     difficulty: "normal",
     aliases: ["おののいもこ"],
@@ -825,6 +935,7 @@ export const famousPersons = [
   },
   {
     name: "松尾芭蕉",
+    display: "松尾芭蕉",
     image: "/images/famous/松尾芭蕉.jpg",
     difficulty: "normal",
     aliases: ["まつおばしょう"],
@@ -833,6 +944,7 @@ export const famousPersons = [
   },
   {
     name: "上杉謙信",
+    display: "上杉謙信",
     image: "/images/famous/上杉謙信.jpg",
     difficulty: "normal",
     aliases: ["うえすぎけんしん"],
@@ -841,6 +953,7 @@ export const famousPersons = [
   },
   {
     name: "真田幸村",
+    display: "真田幸村",
     image: "/images/famous/真田幸村.jpg",
     difficulty: "normal",
     aliases: ["さなだゆきむら"],
@@ -849,6 +962,7 @@ export const famousPersons = [
   },
   {
     name: "杉原千畝",
+    display: "杉原千畝",
     image: "/images/famous/杉原千畝.jpg",
     difficulty: "normal",
     aliases: ["すぎはらちうね"],
@@ -857,6 +971,7 @@ export const famousPersons = [
   },
   {
     name: "杉田玄白",
+    display: "杉田玄白",
     image: "/images/famous/杉田玄白.jpg",
     difficulty: "normal",
     aliases: ["すぎたげんぱく"],
@@ -865,6 +980,7 @@ export const famousPersons = [
   },
   {
     name: "菅原道真",
+    display: "菅原道真",
     image: "/images/famous/菅原道真.jpg",
     difficulty: "normal",
     aliases: ["すがわらのみちざね"],
@@ -873,14 +989,17 @@ export const famousPersons = [
   },
   {
     name: "正岡子規",
+    display: "正岡子規",
     image: "/images/famous/正岡子規.jpg",
     difficulty: "normal",
     aliases: ["まさおかしき"],
     meaning:
       "明治時代の俳人・歌人。俳句や短歌の革新を進め、近代日本文学や俳句の発展に大きく貢献した人物。",
   },
+
   {
     name: "清少納言",
+    display: "清少納言",
     image: "/images/famous/清少納言.jpg",
     difficulty: "normal",
     aliases: ["せいしょうなごん"],
@@ -889,6 +1008,7 @@ export const famousPersons = [
   },
   {
     name: "聖徳太子",
+    display: "聖徳太子",
     image: "/images/famous/聖徳太子.jpg",
     difficulty: "normal",
     aliases: ["しょうとくたいし"],
@@ -897,6 +1017,7 @@ export const famousPersons = [
   },
   {
     name: "千利休",
+    display: "千利休",
     image: "/images/famous/千利休.jpg",
     difficulty: "normal",
     aliases: ["せんのりきゅう"],
@@ -905,6 +1026,7 @@ export const famousPersons = [
   },
   {
     name: "足利義政",
+    display: "足利義政",
     image: "/images/famous/足利義政.jpg",
     difficulty: "normal",
     aliases: ["あしかがよしまさ"],
@@ -913,6 +1035,7 @@ export const famousPersons = [
   },
   {
     name: "足利義満",
+    display: "足利義満",
     image: "/images/famous/足利義満.jpg",
     difficulty: "normal",
     aliases: ["あしかがよしみつ"],
@@ -921,6 +1044,7 @@ export const famousPersons = [
   },
   {
     name: "足利尊氏",
+    display: "足利尊氏",
     image: "/images/famous/足利尊氏.jpg",
     difficulty: "normal",
     aliases: ["あしかがたかうじ"],
@@ -929,6 +1053,7 @@ export const famousPersons = [
   },
   {
     name: "太宰治",
+    display: "太宰治",
     image: "/images/famous/太宰治.jpg",
     difficulty: "normal",
     aliases: ["だざいおさむ"],
@@ -937,6 +1062,7 @@ export const famousPersons = [
   },
   {
     name: "大塩平八郎",
+    display: "大塩平八郎",
     image: "/images/famous/大塩平八郎.jpg",
     difficulty: "normal",
     aliases: ["おおしおへいはちろう"],
@@ -945,6 +1071,7 @@ export const famousPersons = [
   },
   {
     name: "大隈重信",
+    display: "大隈重信",
     image: "/images/famous/大隈重信.jpg",
     difficulty: "normal",
     aliases: ["おおくましげのぶ"],
@@ -953,14 +1080,17 @@ export const famousPersons = [
   },
   {
     name: "滝廉太郎",
+    display: "滝廉太郎",
     image: "/images/famous/滝廉太郎.jpg",
     difficulty: "normal",
     aliases: ["たきれんたろう"],
     meaning:
       "明治時代の作曲家。『荒城の月』や『おぼろ月夜』などを作曲し、日本の近代音楽の発展に大きく貢献した人物。",
   },
+
   {
     name: "津田梅子",
+    display: "津田梅子",
     image: "/images/famous/津田梅子.jpg",
     difficulty: "normal",
     aliases: ["つだうめこ"],
@@ -969,6 +1099,7 @@ export const famousPersons = [
   },
   {
     name: "中江兆民",
+    display: "中江兆民",
     image: "/images/famous/中江兆民.jpg",
     difficulty: "boss",
     aliases: ["なかえちょうみん"],
@@ -977,6 +1108,7 @@ export const famousPersons = [
   },
   {
     name: "天草四郎時貞",
+    display: "天草四郎時貞",
     image: "/images/famous/天草四郎時貞.jpg",
     difficulty: "normal",
     aliases: ["天草四郎", "あまくさしろうときさだ", "あまくさしろう"],
@@ -985,6 +1117,7 @@ export const famousPersons = [
   },
   {
     name: "田中正造",
+    display: "田中正造",
     image: "/images/famous/田中正造.jpg",
     difficulty: "normal",
     aliases: ["たなかしょうぞう"],
@@ -993,6 +1126,7 @@ export const famousPersons = [
   },
   {
     name: "土方歳三",
+    display: "土方歳三",
     image: "/images/famous/土方歳三.jpg",
     difficulty: "normal",
     aliases: ["ひじかたとしぞう"],
@@ -1001,6 +1135,7 @@ export const famousPersons = [
   },
   {
     name: "東郷平八郎",
+    display: "東郷平八郎",
     image: "/images/famous/東郷平八郎.jpg",
     difficulty: "normal",
     aliases: ["とうごうへいはちろう"],
@@ -1009,6 +1144,7 @@ export const famousPersons = [
   },
   {
     name: "島崎藤村",
+    display: "島崎藤村",
     image: "/images/famous/島崎藤村.jpg",
     difficulty: "boss",
     aliases: ["しまざきとうそん"],
@@ -1017,6 +1153,7 @@ export const famousPersons = [
   },
   {
     name: "湯川秀樹",
+    display: "湯川秀樹",
     image: "/images/famous/湯川秀樹.jpg",
     difficulty: "boss",
     aliases: ["ゆかわひでき"],
@@ -1025,6 +1162,7 @@ export const famousPersons = [
   },
   {
     name: "藤原道長",
+    display: "藤原道長",
     image: "/images/famous/藤原道長.jpg",
     difficulty: "normal",
     aliases: ["ふじわらのみちなが"],
@@ -1033,14 +1171,17 @@ export const famousPersons = [
   },
   {
     name: "徳川家光",
+    display: "徳川家光",
     image: "/images/famous/徳川家光.jpg",
     difficulty: "normal",
     aliases: ["とくがわいえみつ"],
     meaning:
       "江戸幕府の第3代将軍。参勤交代制度を整え、幕府の権力を強化して江戸時代の安定した政治を築いた人物。",
   },
+
   {
     name: "徳川吉宗",
+    display: "徳川吉宗",
     image: "/images/famous/徳川吉宗.jpg",
     difficulty: "normal",
     aliases: ["とくがわよしむね"],
@@ -1049,6 +1190,7 @@ export const famousPersons = [
   },
   {
     name: "徳川綱吉",
+    display: "徳川綱吉",
     image: "/images/famous/徳川綱吉.jpg",
     difficulty: "normal",
     aliases: ["とくがわつなよし"],
