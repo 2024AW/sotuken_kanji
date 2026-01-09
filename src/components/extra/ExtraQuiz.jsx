@@ -6,7 +6,6 @@ import Lives from "../Lives";
 import DebugPanel from "../DebugPanel";
 import LoadingScreen from "../LoadingScreen";
 import ConfirmGiveUp from "../ConfirmGiveUp";
-import TimeoutScreen from "../TimeoutScreen"; // ※もし使っていないなら削除可
 import QuestionCounter from "../QuestionCounter";
 import ActionButtons from "../ActionButtons";
 import MessageDisplay from "../MessageDisplay";
@@ -148,33 +147,42 @@ export default function ExtraQuiz({
   }, [current, showConfirm, isGameOver, isChecking, showCorrectOverlay]);
 
   // =========================================
-  // 次の問題へ
+  // 次の問題へ（★修正箇所）
   // =========================================
   const advanceToNextProblem = () => {
-    // 1. まず、今の問題を「出題済みリスト」に正式に追加して保存します
+    // 1. 出題済みリストの更新
     const newUsedQuestions = [...usedQuestions, current];
     setUsedQuestions(newUsedQuestions);
 
-    // 2. クリア判定 (★修正箇所: >= ではなく > に変更)
-    // questionNumberは正解時に+1されているため、
-    // 「7問設定」の場合、7問正解後の questionNumber は 8 になります。
-    // そのため、8 > 7 となった時点でクリアとするのが正しいです。
-    if (questionNumber > questionCount) {
+    // 2. カウントアップ判定
+    // 「正解」だった場合のみ、次の番号へ進める
+    // スキップや時間切れの場合は、番号を維持（再挑戦扱い）
+    const shouldIncrement = correctAdvanceMode === "correct";
+    const nextQuestionNum = shouldIncrement
+      ? questionNumber + 1
+      : questionNumber;
+
+    // 3. 終了判定
+    // もし次の問題番号が設定数を超えていたらクリア
+    if (nextQuestionNum > questionCount) {
       setShowGameClear(true);
       return;
     }
 
-    // 3. 未出題の問題を抽出
-    // 「全問題」から「今保存した出題済みリスト」に含まれないものを探します
+    // 4. 問題番号を更新
+    if (shouldIncrement) {
+      setQuestionNumber(nextQuestionNum);
+    }
+
+    // 5. 次の問題を抽選
     const unused = allQuestions.filter((q) => !newUsedQuestions.includes(q));
 
     if (unused.length === 0) {
-      // 万が一、問題が尽きた場合もクリア扱いにする
+      // 万が一、問題データが足りなくなった場合もクリア
       setShowGameClear(true);
       return;
     }
 
-    // 4. ランダムで次の問題を選ぶ
     const next = unused[Math.floor(Math.random() * unused.length)];
     setCurrent(next);
 
@@ -217,7 +225,7 @@ export default function ExtraQuiz({
 
     const ans = answer.trim();
 
-    // 簡易的なアルファベットチェック（誤入力防止）
+    // 簡易的なアルファベットチェック
     if (/^[a-zA-Z]+$/.test(ans)) {
       setMessageType("warning");
       setResult("⚠️ ひらがなで入力してね");
@@ -232,12 +240,11 @@ export default function ExtraQuiz({
       (current.aliases || []).some((a) => normalize(a) === normalize(ans));
 
     if (isCorrect) {
-      setQuestionNumber((n) => n + 1); // 正解したら番号を進める
+      // ★ カウントアップは advanceToNextProblem で行います
 
-      // 正解情報をセット
       setCorrectInfo({
-        kanji: "", // Extraでは使わない
-        reading: current.display, // 「読み」の場所に display名 を入れる
+        kanji: "",
+        reading: current.display,
         meaning: current.meaning,
         image: current.image,
       });

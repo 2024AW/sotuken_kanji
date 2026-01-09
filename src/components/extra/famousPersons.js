@@ -165,11 +165,11 @@ export const famousPersons = [
       "16世紀のイギリス女王。国を安定させ、文化と海洋進出を発展させた名君として知られる人物。",
   },
   {
-    name: "ダクラス・マッカーサー",
+    name: "ダグラス・マッカーサー",
     display: "マッカーサー",
-    image: "/images/famous/ダクラス・マッカーサー.jpg",
+    image: "/images/famous/ダグラス・マッカーサー.jpg",
     difficulty: "normal",
-    aliases: ["ダクラスマッカーサー", "マッカーサー"],
+    aliases: ["ダグラスマッカーサー", "マッカーサー"],
     meaning:
       "第二次世界大戦で活躍したアメリカの軍人。戦後は日本の占領政策を指導し、日本の復興と民主化に大きな影響を与えた人物。",
   },
@@ -438,9 +438,9 @@ export const famousPersons = [
       "三国時代の蜀で活躍した政治家・軍師。知略に優れ、国を支えた名軍師として知られる人物。",
   },
   {
-    name: "蔣介石",
-    display: "蔣介石",
-    image: "/images/famous/蔣介石.jpg",
+    name: "蒋介石",
+    display: "蒋介石",
+    image: "/images/famous/蒋介石.jpg",
     difficulty: "normal",
     aliases: ["しょうかいせき"],
     meaning:

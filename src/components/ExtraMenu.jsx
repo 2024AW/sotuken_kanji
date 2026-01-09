@@ -7,7 +7,9 @@ export default function ExtraMenu({ onSelect, onBack }) {
     [
       {
         label: "偉人クイズ",
-        target: "extra-famous", // ★ ここを直す
+        target: "extra-famous",
+        // 実際の画像パスに合わせてください
+        image: "/images/偉人問題.jpg", 
       },
     ],
   ];
@@ -28,13 +30,19 @@ export default function ExtraMenu({ onSelect, onBack }) {
         className="startmenu-background"
       />
 
-      {/* スライド（ボタン） */}
+      {/* ★ 追加: タイトル表示エリア */}
+      <div className="extra-menu-title">
+        エクストラモードを選択してください
+      </div>
+
+      {/* スライド（ボタンエリア） */}
       <div
         className="startmenu-slides"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          gap: "40px", // ボタンが大きくなったので間隔も少し広げました
           pointerEvents: "auto",
         }}
       >
@@ -42,22 +50,15 @@ export default function ExtraMenu({ onSelect, onBack }) {
           <button
             key={index}
             onClick={() => handleClick(item.target)}
-            style={{
-              fontSize: "28px",
-              padding: "20px 40px",
-              borderRadius: "12px",
-              border: "none",
-              cursor: "pointer",
-              backgroundColor: "#fff",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
-            }}
+            className="extra-menu-btn"
+            aria-label={item.label}
           >
-            {item.label}
+            <img src={item.image} alt={item.label} />
           </button>
         ))}
       </div>
 
-      {/* 戻る */}
+      {/* 戻るボタン */}
       <button
         onClick={onBack}
         style={{
@@ -65,6 +66,13 @@ export default function ExtraMenu({ onSelect, onBack }) {
           bottom: 40,
           left: 40,
           zIndex: 10,
+          padding: "10px 20px",
+          fontSize: "18px",
+          cursor: "pointer",
+          borderRadius: "8px",
+          border: "none",
+          background: "rgba(255,255,255,0.8)",
+          fontWeight: "bold",
         }}
       >
         戻る

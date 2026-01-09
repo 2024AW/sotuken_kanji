@@ -874,3 +874,62 @@
 .howto-list li:nth-child(6) {
   animation-delay: 1.9s;
 }
+
+/* タイトル（StartMenuと同じスタイルを適用） */
+.extra-menu-title {
+  position: absolute;
+  top: 12%; /* 位置調整 */
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem; /* 少し大きくしました */
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+  pointer-events: none;
+  font-family: "Zen Kurenaido", sans-serif;
+  animation: chalk-write 2.5s ease-out forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* チョーク書きアニメーション */
+@keyframes chalk-write {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+/* 画像ボタンの基本スタイル */
+.extra-menu-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* ★画像を大きく設定 (300px → 500px) */
+.extra-menu-btn img {
+  width: 500px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+.extra-menu-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.extra-menu-btn:active {
+  transform: scale(0.95);
+}
