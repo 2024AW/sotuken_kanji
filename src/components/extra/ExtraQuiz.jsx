@@ -64,6 +64,7 @@ export default function ExtraQuiz({
     kanji: "",
     reading: "",
     meaning: "",
+    image: null, // ★追加初期値
   });
   const [loading, setLoading] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -217,7 +218,6 @@ export default function ExtraQuiz({
     }
 
     const normalize = (s) => s.trim().replace(/\s+/g, "").toLowerCase();
-
     const isCorrect =
       normalize(ans) === normalize(current.name) ||
       (current.aliases || []).some((a) => normalize(a) === normalize(ans));
@@ -225,10 +225,12 @@ export default function ExtraQuiz({
     if (isCorrect) {
       setQuestionNumber((n) => n + 1);
 
+      // ★ 修正箇所：Extra用のデータをセット
       setCorrectInfo({
-        kanji: current.name,
-        reading: "",
-        meaning: current.description || "",
+        kanji: "", // Extraでは使わないが念のため空文字
+        reading: current.display, // 「読み」の場所に display名 を入れる
+        meaning: current.meaning, // データ構造に合わせて meaning を使用
+        image: current.image, // 画像パスを渡す
       });
 
       setCorrectAdvanceMode("correct");
@@ -251,10 +253,12 @@ export default function ExtraQuiz({
     if (isChecking) return;
     setIsChecking(true);
 
+    // ★ 修正箇所
     setCorrectInfo({
-      kanji: current.name,
-      reading: "",
-      meaning: current.description || "",
+      kanji: "",
+      reading: current.display,
+      meaning: current.meaning,
+      image: current.image,
     });
 
     setCorrectAdvanceMode("timeout");
@@ -270,10 +274,12 @@ export default function ExtraQuiz({
     setIsChecking(true);
     setSkipUsed(true);
 
+    // ★ 修正箇所
     setCorrectInfo({
-      kanji: current.name,
-      reading: "",
-      meaning: current.description || "",
+      kanji: "",
+      reading: current.display,
+      meaning: current.meaning,
+      image: current.image,
     });
 
     setCorrectAdvanceMode("skip");
@@ -311,10 +317,12 @@ export default function ExtraQuiz({
           kanji={correctInfo.kanji}
           reading={correctInfo.reading}
           meaning={correctInfo.meaning}
+          image={correctInfo.image} // ★追加: 画像を渡す
           mode={correctAdvanceMode}
           onNext={handleNextAfterCorrect}
         />
       )}
+
       <DebugPanel
         gameMode="extra"
         questionNumber={questionNumber}
