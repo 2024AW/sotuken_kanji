@@ -6,7 +6,7 @@ import Lives from "../Lives";
 import DebugPanel from "../DebugPanel";
 import LoadingScreen from "../LoadingScreen";
 import ConfirmGiveUp from "../ConfirmGiveUp";
-import TimeoutScreen from "../TimeoutScreen";
+import TimeoutScreen from "../TimeoutScreen"; // ※もし使っていないなら削除可
 import QuestionCounter from "../QuestionCounter";
 import ActionButtons from "../ActionButtons";
 import MessageDisplay from "../MessageDisplay";
@@ -49,7 +49,7 @@ export default function ExtraQuiz({
   const [result, setResult] = useState("");
   const [messageType, setMessageType] = useState("");
 
-  const [questionNumber, setQuestionNumber] = useState(1); // 正解数
+  const [questionNumber, setQuestionNumber] = useState(1); // 現在の問題数（1からスタート）
   const [lives, setLives] = useState(3);
 
   const [timeLeft, setTimeLeft] = useState(timeLimit);
@@ -64,14 +64,12 @@ export default function ExtraQuiz({
     kanji: "",
     reading: "",
     meaning: "",
-    image: null, // ★追加初期値
+    image: null,
   });
   const [loading, setLoading] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [showGameClear, setShowGameClear] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
-
-  const [lastAnswer, setLastAnswer] = useState("");
 
   // =========================================
   // 🎵 BGM
@@ -89,22 +87,20 @@ export default function ExtraQuiz({
   // 初期化
   // =========================================
   useEffect(() => {
+    // 難易度別に分けてシャッフル
     const normal = shuffle(
       famousPersons.filter((q) => q.difficulty !== "boss")
     );
     const boss = shuffle(famousPersons.filter((q) => q.difficulty === "boss"));
 
+    // 通常問題 + ボス問題を結合して出題リストを作成
     const selected = [...normal.slice(0, questionCount - 1), boss[0]];
 
     setAllQuestions(selected);
     setCurrent(selected[0]);
-    setUsedQuestions([]);
-
-    setCurrent(selected[0]);
+    setUsedQuestions([]); // 出題済みリストをリセット
 
     setQuestionNumber(1);
-
-    setUsedQuestions([]); // ← ★ これを追加（超重要）
     setLives(3);
     setSkipUsed(false);
     setAnswer("");
@@ -115,8 +111,13 @@ export default function ExtraQuiz({
     setIsChecking(false);
     setTimeLeft(timeLimit);
 
+    // BGM再生
     normalBGM.currentTime = 0;
-    normalBGM.play();
+    normalBGM.play().catch((e) => console.log("Audio play failed:", e));
+
+    return () => {
+      normalBGM.pause();
+    };
   }, [questionCount, timeLimit]);
 
   // =========================================
@@ -149,6 +150,40 @@ export default function ExtraQuiz({
   // =========================================
   // 次の問題へ
   // =========================================
+  const advanceToNextProblem = () => {
+    // 1. まず、今の問題を「出題済みリスト」に正式に追加して保存します
+    const newUsedQuestions = [...usedQuestions, current];
+    setUsedQuestions(newUsedQuestions);
+
+    // 2. クリア判定 (★修正箇所: >= ではなく > に変更)
+    // questionNumberは正解時に+1されているため、
+    // 「7問設定」の場合、7問正解後の questionNumber は 8 になります。
+    // そのため、8 > 7 となった時点でクリアとするのが正しいです。
+    if (questionNumber > questionCount) {
+      setShowGameClear(true);
+      return;
+    }
+
+    // 3. 未出題の問題を抽出
+    // 「全問題」から「今保存した出題済みリスト」に含まれないものを探します
+    const unused = allQuestions.filter((q) => !newUsedQuestions.includes(q));
+
+    if (unused.length === 0) {
+      // 万が一、問題が尽きた場合もクリア扱いにする
+      setShowGameClear(true);
+      return;
+    }
+
+    // 4. ランダムで次の問題を選ぶ
+    const next = unused[Math.floor(Math.random() * unused.length)];
+    setCurrent(next);
+
+    // 状態のリセット
+    setAnswer("");
+    setResult("");
+    setMessageType("");
+    setTimeLeft(timeLimit);
+  };
 
   // =========================================
   // CorrectOverlay「次へ」処理
@@ -173,33 +208,6 @@ export default function ExtraQuiz({
     }, 300);
   };
 
-  const advanceToNextProblem = () => {
-    // 🎉 正解数が目標に達したらクリア
-    if (questionNumber >= questionCount) {
-      setShowGameClear(true);
-      return;
-    }
-
-    // ★ 「今の問題」＋「正解済み」を除外
-    const excluded = [...usedQuestions, current];
-
-    const unused = allQuestions.filter((q) => !excluded.includes(q));
-
-    if (unused.length === 0) {
-      setShowGameClear(true);
-      return;
-    }
-
-    // ランダムで次の問題を選ぶ
-    const next = unused[Math.floor(Math.random() * unused.length)];
-    setCurrent(next);
-
-    setAnswer("");
-    setResult("");
-    setMessageType("");
-    setTimeLeft(timeLimit);
-  };
-
   // =========================================
   // 回答チェック
   // =========================================
@@ -209,6 +217,7 @@ export default function ExtraQuiz({
 
     const ans = answer.trim();
 
+    // 簡易的なアルファベットチェック（誤入力防止）
     if (/^[a-zA-Z]+$/.test(ans)) {
       setMessageType("warning");
       setResult("⚠️ ひらがなで入力してね");
@@ -223,14 +232,14 @@ export default function ExtraQuiz({
       (current.aliases || []).some((a) => normalize(a) === normalize(ans));
 
     if (isCorrect) {
-      setQuestionNumber((n) => n + 1);
+      setQuestionNumber((n) => n + 1); // 正解したら番号を進める
 
-      // ★ 修正箇所：Extra用のデータをセット
+      // 正解情報をセット
       setCorrectInfo({
-        kanji: "", // Extraでは使わないが念のため空文字
+        kanji: "", // Extraでは使わない
         reading: current.display, // 「読み」の場所に display名 を入れる
-        meaning: current.meaning, // データ構造に合わせて meaning を使用
-        image: current.image, // 画像パスを渡す
+        meaning: current.meaning,
+        image: current.image,
       });
 
       setCorrectAdvanceMode("correct");
@@ -238,6 +247,7 @@ export default function ExtraQuiz({
       return;
     }
 
+    // 不正解の場合
     setMessageType("error");
     setResult("❌ 間違い！もう一度チャレンジ！");
     setTimeout(() => {
@@ -253,7 +263,6 @@ export default function ExtraQuiz({
     if (isChecking) return;
     setIsChecking(true);
 
-    // ★ 修正箇所
     setCorrectInfo({
       kanji: "",
       reading: current.display,
@@ -274,7 +283,6 @@ export default function ExtraQuiz({
     setIsChecking(true);
     setSkipUsed(true);
 
-    // ★ 修正箇所
     setCorrectInfo({
       kanji: "",
       reading: current.display,
@@ -317,7 +325,7 @@ export default function ExtraQuiz({
           kanji={correctInfo.kanji}
           reading={correctInfo.reading}
           meaning={correctInfo.meaning}
-          image={correctInfo.image} // ★追加: 画像を渡す
+          image={correctInfo.image}
           mode={correctAdvanceMode}
           onNext={handleNextAfterCorrect}
         />
@@ -327,7 +335,7 @@ export default function ExtraQuiz({
         gameMode="extra"
         questionNumber={questionNumber}
         questionCount={questionCount}
-        questionsLength={allQuestions.length - usedQuestions.length}
+        questionsLength={allQuestions.length}
         usedCount={usedQuestions.length}
       />
 
@@ -342,11 +350,13 @@ export default function ExtraQuiz({
           <Timer timeLeft={timeLeft} />
 
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <img
-              src={current?.image}
-              alt=""
-              style={{ maxHeight: "280px", borderRadius: "8px" }}
-            />
+            {current?.image && (
+              <img
+                src={current.image}
+                alt=""
+                style={{ maxHeight: "280px", borderRadius: "8px" }}
+              />
+            )}
           </div>
 
           <input
@@ -356,6 +366,7 @@ export default function ExtraQuiz({
             className="answer-input"
             onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
             readOnly={isGameOver || isChecking}
+            autoFocus
           />
 
           <MessageDisplay message={result} type={messageType} />
