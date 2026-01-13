@@ -79,7 +79,7 @@ export const famousPersons = [
     name: "ダーウィン",
     display: "ダーウィン",
     image: "/images/famous/ダーウィン.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["チャールズ・ダーウィン"],
     meaning:
       "進化論を唱えたイギリスの自然科学者。生き物は環境に適応しながら進化することを示し、生物の考え方を大きく変えた人物。",
@@ -110,6 +110,14 @@ export const famousPersons = [
     difficulty: "normal",
     meaning:
       "新航路を求めて航海し、アメリカ大陸に到達した探検家。ヨーロッパと新大陸を結び、歴史を大きく変えた人物。",
+  },
+  {
+    name: "ピタゴラス",
+    display: "ピタゴラス",
+    image: "/images/famous/ピタゴラス.jpg",
+    difficulty: "boss",
+    meaning:
+      "「ピタゴラスの定理（三平方の定理）」で知られる古代ギリシャの数学者・哲学者。万物の根源は数であると説いた。",
   },
   {
     name: "ベートーベン",
@@ -272,7 +280,7 @@ export const famousPersons = [
     name: "ホー・チミン",
     display: "ホー・チミン",
     image: "/images/famous/ホー・チミン.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ホーチミン"],
     meaning:
       "ベトナム独立を指導した革命家・政治家。フランスなどの支配からの独立を目指し、ベトナム民主共和国を建国した人物。",
@@ -385,10 +393,18 @@ export const famousPersons = [
       "唐の僧。苦難の航海を経て日本に渡り、正しい仏教の戒律を伝え、日本仏教の発展に大きく貢献した人物。",
   },
   {
+    name: "行基",
+    display: "行基",
+    image: "/images/famous/行基.jpg",
+    difficulty: "boss",
+    meaning:
+      "奈良時代の僧。民衆への布教とともに、橋や堤防の建設などの社会事業を行った。東大寺の大仏建立にも貢献し、菩薩と呼ばれた。",
+  },
+  {
     name: "ろじん",
     display: "魯迅",
     image: "/images/famous/魯迅.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ルーシュン", "魯迅"],
     meaning:
       "中国近代文学を代表する作家・思想家。社会の矛盾を鋭く描いた作品で、人々の意識改革を促した人物。",
@@ -424,7 +440,7 @@ export const famousPersons = [
     name: "諸葛亮孔明",
     display: "諸葛亮（孔明）",
     image: "/images/famous/諸葛亮孔明.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: [
       "しょかつりょうこうめい",
       "こうめい",
@@ -441,7 +457,7 @@ export const famousPersons = [
     name: "蒋介石",
     display: "蒋介石",
     image: "/images/famous/蒋介石.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["しょうかいせき"],
     meaning:
       "中国国民党の指導者。中国統一を目指して戦い、のちに台湾で中華民国政府を率いた人物。",
@@ -509,7 +525,7 @@ export const famousPersons = [
     name: "きどたかよし",
     display: "木戸孝允",
     image: "/images/famous/木戸孝允.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["木戸孝允"],
     meaning:
       "明治維新の中心人物の一人。長州藩出身で、倒幕運動や新政府の政治改革に尽力し、近代化に大きく貢献した人物。",
@@ -564,7 +580,7 @@ export const famousPersons = [
     name: "よさのあきこ",
     display: "与謝野晶子",
     image: "/images/famous/与謝野晶子.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["与謝野晶子"],
     meaning:
       "明治・大正時代の女性歌人。情熱的で自由な歌風で知られ、『みだれ髪』などを通して日本の近代短歌に大きな影響を与えた人物。",
@@ -573,7 +589,7 @@ export const famousPersons = [
     name: "きたさとしばさぶろう",
     display: "北里柴三郎",
     image: "/images/famous/北里柴三郎.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["北里柴三郎"],
     meaning:
       "日本の細菌学者。破傷風やペストの研究で功績を残し、伝染病の予防や公衆衛生の発展に貢献した人物。",
@@ -582,7 +598,7 @@ export const famousPersons = [
     name: "しぶさわえいいち",
     display: "渋沢栄一",
     image: "/images/famous/渋沢栄一.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["渋沢栄一"],
     meaning:
       "日本の実業家・経済人。多くの企業や銀行の設立に関わり、「日本資本主義の父」と呼ばれ、日本の近代経済の発展に大きく貢献した人物。",
@@ -591,7 +607,7 @@ export const famousPersons = [
     name: "いわくらともみ",
     display: "岩倉具視",
     image: "/images/famous/岩倉具視.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["岩倉具視"],
     meaning:
       "明治維新期の政治家。欧米への使節団を率いて日本の近代化を学び、国内改革や新政府の政治体制の整備に貢献した人物。",
@@ -764,7 +780,7 @@ export const famousPersons = [
     name: "梶井基次郎",
     display: "梶井基次郎",
     image: "/images/famous/梶井基次郎.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["かじいもとじろう"],
     meaning:
       "大正・昭和時代の小説家。『檸檬』などの作品で、感覚的で独特な表現を用い、人間の心の繊細さを描いた人物。",
@@ -891,7 +907,7 @@ export const famousPersons = [
     name: "国木田独歩",
     display: "国木田独歩",
     image: "/images/famous/国木田独歩.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["くにきだどっぽ"],
     meaning:
       "明治時代の小説家・詩人。『武蔵野』などの作品で自然や庶民の生活を描き、近代日本文学の発展に貢献した人物。",
@@ -955,7 +971,7 @@ export const famousPersons = [
     name: "真田幸村",
     display: "真田幸村",
     image: "/images/famous/真田幸村.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["さなだゆきむら"],
     meaning:
       "戦国時代の武将。大阪の陣で活躍し、少数の兵で徳川軍に奮戦した勇敢な人物。",

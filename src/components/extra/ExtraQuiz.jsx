@@ -12,6 +12,7 @@ import MessageDisplay from "../MessageDisplay";
 import GameOverOverlay from "../GameOverOverlay";
 import CorrectOverlay from "../CorrectOverlay";
 import GameClearScreen from "../GameClearScreen";
+import LevelIntroOverlay from "../LevelIntroOverlay"; // ★ 追加
 
 // ===== Extra専用データ =====
 import { famousPersons } from "./famousPersons";
@@ -48,7 +49,7 @@ export default function ExtraQuiz({
   const [result, setResult] = useState("");
   const [messageType, setMessageType] = useState("");
 
-  const [questionNumber, setQuestionNumber] = useState(1); // 現在の問題数（1からスタート）
+  const [questionNumber, setQuestionNumber] = useState(1); // 現在の問題数
   const [lives, setLives] = useState(3);
 
   const [timeLeft, setTimeLeft] = useState(timeLimit);
@@ -58,6 +59,9 @@ export default function ExtraQuiz({
 
   const [showCorrectOverlay, setShowCorrectOverlay] = useState(false);
   const [correctAdvanceMode, setCorrectAdvanceMode] = useState("correct");
+
+  // ★ BOSS演出用State
+  const [showBossIntro, setShowBossIntro] = useState(false);
 
   const [correctInfo, setCorrectInfo] = useState({
     kanji: "",
@@ -93,11 +97,12 @@ export default function ExtraQuiz({
     const boss = shuffle(famousPersons.filter((q) => q.difficulty === "boss"));
 
     // 通常問題 + ボス問題を結合して出題リストを作成
+    // 例: 7問設定なら、通常6問 + ボス1問
     const selected = [...normal.slice(0, questionCount - 1), boss[0]];
 
     setAllQuestions(selected);
     setCurrent(selected[0]);
-    setUsedQuestions([]); // 出題済みリストをリセット
+    setUsedQuestions([]);
 
     setQuestionNumber(1);
     setLives(3);
@@ -108,6 +113,7 @@ export default function ExtraQuiz({
     setIsGameOver(false);
     setShowGameClear(false);
     setIsChecking(false);
+    setShowBossIntro(false); // ★
     setTimeLeft(timeLimit);
 
     // BGM再生
@@ -128,7 +134,8 @@ export default function ExtraQuiz({
       showConfirm ||
       isGameOver ||
       isChecking ||
-      showCorrectOverlay
+      showCorrectOverlay ||
+      showBossIntro // ★ BOSS演出中はタイマー停止
     )
       return;
 
@@ -144,26 +151,29 @@ export default function ExtraQuiz({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [current, showConfirm, isGameOver, isChecking, showCorrectOverlay]);
+  }, [
+    current,
+    showConfirm,
+    isGameOver,
+    isChecking,
+    showCorrectOverlay,
+    showBossIntro,
+  ]);
 
   // =========================================
-  // 次の問題へ（★修正箇所）
+  // 次の問題へ
   // =========================================
   const advanceToNextProblem = () => {
-    // 1. 出題済みリストの更新
-    const newUsedQuestions = [...usedQuestions, current];
-    setUsedQuestions(newUsedQuestions);
+    // 1. まず「今回の問題」を出題済みに加える
+    let nextUsedQuestions = [...usedQuestions, current];
 
     // 2. カウントアップ判定
-    // 「正解」だった場合のみ、次の番号へ進める
-    // スキップや時間切れの場合は、番号を維持（再挑戦扱い）
     const shouldIncrement = correctAdvanceMode === "correct";
     const nextQuestionNum = shouldIncrement
       ? questionNumber + 1
       : questionNumber;
 
     // 3. 終了判定
-    // もし次の問題番号が設定数を超えていたらクリア
     if (nextQuestionNum > questionCount) {
       setShowGameClear(true);
       return;
@@ -175,22 +185,54 @@ export default function ExtraQuiz({
     }
 
     // 5. 次の問題を抽選
-    const unused = allQuestions.filter((q) => !newUsedQuestions.includes(q));
+    let unused = allQuestions.filter((q) => !nextUsedQuestions.includes(q));
 
+    // 在庫切れ対策（スキップ時などのため）
     if (unused.length === 0) {
-      // 万が一、問題データが足りなくなった場合もクリア
-      setShowGameClear(true);
-      return;
+      // 最後の問題（ボス）だけは残すようにしないと、ボスが消えてしまう可能性があるので注意
+      // ここでは簡易的にリセット
+      nextUsedQuestions = [current];
+      unused = allQuestions.filter((q) => q !== current);
     }
 
-    const next = unused[Math.floor(Math.random() * unused.length)];
+    setUsedQuestions(nextUsedQuestions);
+
+    // ★ 次の問題を決める（順番通りにするか、ランダムにするか）
+    // allQuestionsは既に [通常, 通常, ..., ボス] の順で作られているので、
+    // 未出題リスト(unused)の中にボス(配列の最後)が含まれているか確認
+
+    // 基本はランダムだが、最後の1問（nextQuestionNum === questionCount）のときは
+    // 強制的にボス（allQuestionsの最後）を選ばせる
+    let next;
+
+    if (nextQuestionNum === questionCount) {
+      // 最終問題なら、allQuestionsの最後（ボス）を指定
+      next = allQuestions[allQuestions.length - 1];
+    } else {
+      // それ以外はランダム（ボス以外から選ぶ）
+      const nonBossUnused = unused.filter((q) => q.difficulty !== "boss");
+      if (nonBossUnused.length > 0) {
+        next = nonBossUnused[Math.floor(Math.random() * nonBossUnused.length)];
+      } else {
+        // 万が一ボスしか残ってないならボス
+        next = unused[Math.floor(Math.random() * unused.length)];
+      }
+    }
+
     setCurrent(next);
+
+    // ★ ボス演出判定
+    // 次の問題がBOSS難易度なら演出を表示
+    if (next.difficulty === "boss") {
+      setShowBossIntro(true);
+    }
 
     // 状態のリセット
     setAnswer("");
     setResult("");
     setMessageType("");
     setTimeLeft(timeLimit);
+    setSkipUsed(false);
   };
 
   // =========================================
@@ -225,7 +267,6 @@ export default function ExtraQuiz({
 
     const ans = answer.trim();
 
-    // 簡易的なアルファベットチェック
     if (/^[a-zA-Z]+$/.test(ans)) {
       setMessageType("warning");
       setResult("⚠️ ひらがなで入力してね");
@@ -240,8 +281,6 @@ export default function ExtraQuiz({
       (current.aliases || []).some((a) => normalize(a) === normalize(ans));
 
     if (isCorrect) {
-      // ★ カウントアップは advanceToNextProblem で行います
-
       setCorrectInfo({
         kanji: "",
         reading: current.display,
@@ -254,7 +293,6 @@ export default function ExtraQuiz({
       return;
     }
 
-    // 不正解の場合
     setMessageType("error");
     setResult("❌ 間違い！もう一度チャレンジ！");
     setTimeout(() => {
@@ -327,6 +365,14 @@ export default function ExtraQuiz({
 
   return (
     <div className="quiz-root" style={{ position: "relative" }}>
+      {/* ★ BOSS演出オーバーレイ */}
+      {showBossIntro && (
+        <LevelIntroOverlay
+          levelText="⚔️ BOSS STAGE ⚔️"
+          onFinish={() => setShowBossIntro(false)}
+        />
+      )}
+
       {showCorrectOverlay && (
         <CorrectOverlay
           kanji={correctInfo.kanji}
@@ -372,7 +418,7 @@ export default function ExtraQuiz({
             placeholder="ひらがなで答えてね"
             className="answer-input"
             onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
-            readOnly={isGameOver || isChecking}
+            readOnly={isGameOver || isChecking || showBossIntro} // ボス演出中も入力不可に
             autoFocus
           />
 
@@ -382,7 +428,7 @@ export default function ExtraQuiz({
             onAnswer={checkAnswer}
             onSwap={skipQuestion}
             onGiveUp={handleGiveUp}
-            disabled={skipUsed || isChecking}
+            disabled={skipUsed || isChecking || showBossIntro}
           />
         </div>
       </div>
