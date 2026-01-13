@@ -933,3 +933,24 @@
 .extra-menu-btn:active {
   transform: scale(0.95);
 }
+/* src/styles.css の末尾に追加 */
+
+/* スマホ表示時の調整 */
+@media (max-width: 768px) {
+  .startmenu-menu-items {
+    /* 1列にする */
+    flex-direction: row;
+  }
+
+  .startmenu-item-box {
+    /* ボックスの幅を広げて、中央に配置しやすくする */
+    width: 200px; /* 画像サイズに合わせて調整してください */
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .startmenu-item-box img {
+    width: 100%;
+    height: auto;
+  }
+}

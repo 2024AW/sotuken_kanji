@@ -1,114 +1,117 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "../styles.css";
 
-export default function QuestionCount({ onSelect, onBack }) {
-  const counts = [
-    { num: 7, img: "/images/7course.png" },
-    { num: 10, img: "/images/10course.png" },
-    { num: 16, img: "/images/16course.png" },
+export default function StartMenu({ onSelect }) {
+  // 1. データは「ページごと」に分けず、フラットな1つの配列にします
+  const allItems = [
+    { img: "/images/エクストラ.png", target: "extra" },
+    { img: "/images/メイン.png", target: "level" },
+    { img: "/images/遊び方説明.png", target: "howto" },
+    { img: "/images/ジュークボックス.png", target: "bgm" },
+    { img: "/images/音量調整.png", target: "volume" },
+    { img: "/images/クレジット・規定.png", target: "credit" },
   ];
 
+  // 2. スマホ（縦向き/画面幅が狭い）かどうかを判定するState
+  // 768px以下をスマホ扱いとします
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // 画面サイズが変わったら判定を更新する
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 3. 表示するアイテム数を決定（スマホなら1つ、PCなら3つ）
+  const itemsPerPage = isMobile ? 1 : 3;
+
+  // 全体のページ数を計算
+  const maxPages = Math.ceil(allItems.length / itemsPerPage);
+
+  // 現在のページ番号
+  const [pageIndex, setPageIndex] = useState(0);
+
+  // スマホ⇔PC切り替え時にページ番号がおかしくならないようリセット
+  useEffect(() => {
+    setPageIndex(0);
+  }, [itemsPerPage]);
+
+  const handlePrev = () => {
+    setPageIndex((prev) => (prev - 1 + maxPages) % maxPages);
+  };
+
+  const handleNext = () => {
+    setPageIndex((prev) => (prev + 1) % maxPages);
+  };
+
+  // 4. 現在表示すべきアイテムだけを切り出す
+  const startIndex = pageIndex * itemsPerPage;
+  const currentItems = allItems.slice(startIndex, startIndex + itemsPerPage);
+
   return (
-    <div
-      style={{
-        position: "relative", // ★ 固定配置のため追加
-        width: "100vw",
-        height: "100dvh",
-        overflowY: "auto",
-        backgroundImage: `url("/images/kokuban14.png")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+    <div className="startmenu-slider">
+      {/* 黒板固定 */}
+      <img
+        src="/images/kokuban12.png"
+        className="startmenu-background"
+        alt="黒板"
+      />
 
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "20px 0",
-      }}
-    >
       {/* タイトル */}
-      <h2
-        style={{
-          color: "white",
-          textShadow: "0 0 6px rgba(0,0,0,0.8)",
-          marginBottom: "15px",
-          fontSize: "24px",
-        }}
-      >
-        出題数を選んでください
-      </h2>
+      <div className="startmenu-title">遊びたいモードを選んでください</div>
 
-      {/* 画像ボタン群 */}
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "900px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "15px",
-          padding: "0 10px",
-        }}
-      >
-        {counts.map((item) => (
-          <img
-            key={item.num}
-            src={item.img}
-            alt={`${item.num}問`}
-            onClick={() => onSelect(item.num)}
+      {/* スライドエリア */}
+      <div className="startmenu-slides">
+        <div className="startmenu-slide active">
+          <div
+            className="startmenu-menu-items"
             style={{
-              width: "80%",
-              maxWidth: "600px",
-              cursor: "pointer",
-              transition: "transform 0.25s, filter 0.25s",
+              display: "flex",
+              justifyContent: "center", // アイテムを中央寄せ
+              alignItems: "center",
+              width: "100%",
+              gap: isMobile ? "0" : "20px", // スマホの時は隙間なし
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.12)";
-              e.currentTarget.style.filter =
-                "brightness(1.25) drop-shadow(0 0 12px rgba(255, 255, 180, 0.9))";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.filter = "brightness(1)";
-            }}
-          />
-        ))}
+          >
+            {currentItems.map((item, index) => (
+              <div
+                key={`${pageIndex}-${index}`}
+                className="startmenu-item-box"
+                onClick={() => item.target && onSelect(item.target)}
+                style={{
+                  cursor: "pointer",
+                  pointerEvents: "auto",
+                  // スマホの時は少し大きく表示するなど調整可能
+                  transform: isMobile ? "scale(1.1)" : "none",
+                  transition: "transform 0.3s ease",
+                }}
+              >
+                <img src={item.img} alt={item.target} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* 左下に固定の戻るボタン */}
+      {/* ナビゲーションボタン */}
       <button
-        onClick={onBack}
-        style={{
-          position: "fixed", // ★★ 左下固定
-          left: "20px",
-          bottom: "20px",
-
-          padding: "10px 24px",
-          fontSize: "18px",
-          borderRadius: "6px",
-          cursor: "pointer",
-          background: "rgba(255, 255, 255, 0.85)",
-          border: "1px solid #ddd",
-          zIndex: 20,
-        }}
+        className="startmenu-prev"
+        onClick={handlePrev}
+        style={{ cursor: "pointer", zIndex: 10 }}
       >
-        ← 戻る
+        &lt;
       </button>
-
-      {/* 横向き専用レスポンシブ */}
-      <style>
-        {`
-          @media (orientation: landscape) {
-            img {
-              width: 55% !important;
-              max-width: 480px !important;
-            }
-            h2 {
-              margin-bottom: 10px !important;
-              font-size: 20px !important;
-            }
-          }
-        `}
-      </style>
+      <button
+        className="startmenu-next"
+        onClick={handleNext}
+        style={{ cursor: "pointer", zIndex: 10 }}
+      >
+        &gt;
+      </button>
     </div>
   );
 }
