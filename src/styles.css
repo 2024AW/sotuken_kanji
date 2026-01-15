@@ -335,45 +335,63 @@
   pointer-events: none;
 }
 
-/* メニューアイテム配置 */
+/* ---------- StartMenu 画像配置の修正 ---------- */
+
+/* 画像群のコンテナ */
 .startmenu-menu-items {
   position: absolute;
-  bottom: 120px;
-  width: 100%;
+  /* ★ここを変更: 数値を大きくすると下に移動し、タイトルとの余白が広がります */
+  top: 50%; /* 42% → 50% に変更（お好みで 55% などに微調整してください） */
+
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 90%;
   display: flex;
   justify-content: center;
-  gap: 25px;
+  align-items: center;
+  gap: 4%;
   z-index: 4;
-  pointer-events: auto; /* 画像へのクリックを有効化 */
+  pointer-events: auto;
 }
 
-/* 画像ボタンボックス */
+/* 画像を囲むボックス */
 .startmenu-item-box {
+  width: 30%;
+  max-width: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  transition: transform 0.2s, filter 0.2s;
   cursor: pointer;
+
+  /* アニメーション設定 */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    filter 0.3s ease;
+  position: relative; /* z-indexを効かせるために必要 */
 }
+
+/* 画像本体 */
 .startmenu-menu-items img {
-  width: 300px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   cursor: pointer;
   pointer-events: auto;
-  opacity: 0.9; /* 通常時は少しだけ薄くしておくと発光感が際立ちます */
+  opacity: 0.9;
+  transition: opacity 0.3s ease; /* img単体ではopacityだけ変化させる */
+}
 
-  /* ★この行を追加してください！これが滑らかさの正体です */
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    filter 0.3s ease, opacity 0.3s ease;
-}
+/* ★修正2: 拡大率をアップ (1.07 -> 1.2) */
 .startmenu-item-box:hover {
-  transform: scale(1.07);
-  filter: brightness(1.15);
+  transform: scale(
+    1.2
+  ); /* 1.2倍に拡大（ここを大きくすればさらに巨大になります） */
+  filter: brightness(1.2); /* 明るさも少しアップ */
+  z-index: 100; /* ★重要: 拡大時に隣の画像より手前に表示する */
 }
+
 .startmenu-menu-items img:hover {
-  /* 画像単体へのhover補強 */
-  transform: scale(1.12) translateY(-8px);
-  filter: brightness(1.15);
   opacity: 1;
 }
 
@@ -815,4 +833,46 @@
   50% {
     transform: translateY(-5px);
   }
+}
+
+/* =========================================
+   🏫 共通：黒板コンテナ (Unified Board)
+   TopSlide以外のすべてのメニュー画面で使用
+========================================= */
+
+/* 画面全体の中央に黒板を配置する枠 */
+.unified-board {
+  position: relative;
+  width: 100%;
+  max-width: 1250px; /* StartMenuと同じ幅 */
+  height: 730px; /* StartMenuと同じ高さ */
+  margin: 2vh auto; /* 上下の余白を確保して中央寄せ */
+  overflow: hidden; /* はみ出し防止 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 黒板の背景画像 */
+.unified-board-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* 枠に合わせて引き伸ばす（またはcover） */
+  z-index: 1;
+}
+
+/* 黒板の上に載るコンテンツの入れ物 */
+.unified-board-content {
+  position: relative;
+  z-index: 5; /* 背景より手前に表示 */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff; /* 文字は基本白 */
 }
