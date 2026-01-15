@@ -45,9 +45,9 @@ export default function CreditPage({ onBack }) {
         {/* コンテンツボックス (黒板風の半透明背景) */}
         <div
           style={{
-            width: "80%",
-            height: "60%", // 高さを固定して安定させる
-            background: "rgba(0, 0, 0, 0.3)", // 黒板に馴染む薄い黒
+            width: "60%",
+            height: "60%",
+            background: "rgba(0, 0, 0, 0.3)",
             padding: "30px",
             borderRadius: "15px",
             border: "2px solid rgba(255,255,255,0.2)",
@@ -57,7 +57,7 @@ export default function CreditPage({ onBack }) {
             alignItems: "center",
             color: "#fff",
             textAlign: "center",
-            overflowY: "auto", // 内容が多い場合はスクロール
+            overflowY: "auto",
           }}
         >
           {/* クレジットページ */}
@@ -94,7 +94,7 @@ export default function CreditPage({ onBack }) {
             ))}
         </div>
 
-        {/* --- ボタンエリア (黒板の下部に配置) --- */}
+        {/* --- ボタンエリア --- */}
         <div
           style={{
             position: "absolute",
@@ -105,28 +105,25 @@ export default function CreditPage({ onBack }) {
             gap: "30px",
           }}
         >
-          {/* 戻るボタン (StartMenuへ) */}
-          {pageIndex === 0 && (
-            <button onClick={onBack} style={btnStyle}>
+          {/* 左側のボタン：黄色 (StartMenuへ戻る or 前へ) */}
+          {pageIndex === 0 ? (
+            <button onClick={onBack} style={yellowBtnStyle}>
               ← メニューに戻る
             </button>
-          )}
-
-          {/* 前へボタン */}
-          {pageIndex > 0 && (
+          ) : (
             <button
               onClick={() => setPageIndex(pageIndex - 1)}
-              style={btnStyle}
+              style={yellowBtnStyle}
             >
               ← 前へ
             </button>
           )}
 
-          {/* 次へボタン */}
+          {/* 右側のボタン：青色 (次へ) */}
           {pageIndex < rulesPages.length && (
             <button
               onClick={() => setPageIndex(pageIndex + 1)}
-              style={btnStyle}
+              style={blueBtnStyle}
             >
               次へ →
             </button>
@@ -137,14 +134,29 @@ export default function CreditPage({ onBack }) {
   );
 }
 
-// ボタンの統一スタイル
-const btnStyle = {
-  padding: "10px 24px",
-  fontSize: "18px",
-  background: "rgba(255, 255, 255, 0.2)",
-  color: "#fff",
-  border: "1px solid rgba(255, 255, 255, 0.4)",
+// ★修正: 共通のフォント設定 (Zen Kurenaido, Bold, Black Text)
+const commonBtnStyle = {
+  padding: "12px 28px", // 少し大きくして見やすく
+  fontSize: "22px", // 手書きフォントなので少し大きめが見やすい
+  fontFamily: '"Zen Kurenaido", sans-serif', // 指定のフォント
+  fontWeight: "bold",
+  color: "black", // 文字色は黒
   borderRadius: "8px",
   cursor: "pointer",
-  transition: "0.2s",
+  transition: "transform 0.2s",
+  textShadow: "none", // 黒文字なので影はなし（または薄い白）の方が見やすい
+};
+
+// ★修正: 左の黄色ボタン
+const yellowBtnStyle = {
+  ...commonBtnStyle,
+  background: "#ffcc66", // 明るい黄色
+  border: "3px solid #d6a84f",
+};
+
+// ★修正: 右の青ボタン
+const blueBtnStyle = {
+  ...commonBtnStyle,
+  background: "#66ccff", // 明るい水色
+  border: "3px solid #3ba4d4",
 };

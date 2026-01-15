@@ -444,84 +444,119 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* =========================================
-   📖 HowToPlay (遊び方)
-========================================= */
-.howto-root {
-  position: relative;
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-/* howto-bg は共通設定(.page-bg)で定義済み */
+/* src/styles.css */
 
-.howto-content {
-  position: relative;
-  margin-top: 8%;
-  margin-left: 6%;
-  width: 70%;
-  color: white;
-  z-index: 2;
-  font-family: "Yusei Magic", sans-serif;
+/* =========================================
+   HowToPlay (統一黒板レイアウト用)
+========================================= */
+
+/* スクロールエリア */
+.howto-scroll-area {
+  width: 100%;
+  height: 65%;
+  overflow-y: auto;
+
+  /* 左余白大(120px)、右余白小(20px) */
+  padding: 0 20px 0 120px;
+
   text-align: left;
+  box-sizing: border-box;
+
+  /* スクロールバー設定 (Firefox) */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
 }
-.howto-title {
-  font-size: 38px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  color: #ffeb3b;
-  text-align: center;
-  animation-delay: 0.1s;
+
+/* スクロールバー設定 (Chrome/Safari) */
+.howto-scroll-area::-webkit-scrollbar {
+  width: 8px;
 }
+.howto-scroll-area::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+.howto-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* 本文フォント */
+.howto-text-content {
+  font-family: "Yusei Magic", sans-serif;
+  color: white; /* 必要に応じて指定 */
+}
+
+/* 見出し (点線付き) */
 .howto-heading {
-  font-size: 26px;
+  font-size: 24px;
   color: #ffeb3b;
   margin-top: 20px;
   margin-bottom: 10px;
-}
-.howto-text {
-  font-size: 20px;
-  margin-left: 10px;
-  margin-bottom: 20px;
-}
-.howto-list {
-  font-size: 20px;
-  margin-left: 20px;
-  padding-left: 0;
-  list-style-position: inside;
-  line-height: 1.8em;
+
+  /* 点線を太く */
+  border-bottom: 3px dashed rgba(255, 255, 255, 0.4);
+  padding-bottom: 5px;
+
+  /* 幅を70%に制限 */
+  width: 70%;
 }
 
-/* HowTo ボタン */
-.howto-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 40px;
-  margin-bottom: 60px;
-  z-index: 5;
-}
-.howto-start-btn,
-.howto-switch-btn {
-  padding: 14px 28px;
-  border-radius: 12px;
+/* 本文テキスト */
+.howto-text {
   font-size: 20px;
-  cursor: pointer;
-  transition: 0.2s;
+  line-height: 1.6;
+  margin-bottom: 15px;
 }
-.howto-start-btn {
+
+/* リスト */
+.howto-list {
+  font-size: 19px;
+  line-height: 1.8;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+/* ボタンエリア (コンテンツ直下に配置) */
+.howto-button-area {
+  margin-top: 20px; /* テキストとの余白 */
+  display: flex;
+  gap: 20px;
+  z-index: 10;
+}
+
+/* =========================================
+   共通ボタンデザイン (CreditPage, BgmSelect等でも使用可)
+========================================= */
+.common-btn {
+  padding: 12px 28px;
+  font-size: 22px;
+  font-family: "Zen Kurenaido", sans-serif;
+  font-weight: bold;
+  color: black;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  text-shadow: none;
+}
+.common-btn:hover {
+  transform: scale(1.05); /* ホバー時に少し拡大 */
+}
+
+/* 黄色ボタン */
+.btn-yellow {
   background: #ffcc66;
   border: 3px solid #d6a84f;
 }
-.howto-switch-btn {
+
+/* 青色ボタン */
+.btn-blue {
   background: #66ccff;
   border: 3px solid #3ba4d4;
 }
-.howto-start-btn:hover,
-.howto-switch-btn:hover {
-  opacity: 0.85;
-  transform: translateY(-3px);
+
+/* ピンクボタン */
+.btn-pink {
+  background: #ff99cc;
+  border: 3px solid #d65c99;
 }
 
 /* =========================================

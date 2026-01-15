@@ -10,10 +10,9 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
   ];
 
   const [selectedBgm, setSelectedBgm] = useState(currentBgm);
-  const [showOverlay, setShowOverlay] = useState(false); // ←★追加
+  const [showOverlay, setShowOverlay] = useState(false);
   const audioRef = useRef(null);
 
-  // BgmSelect が閉じる時に確実に停止
   React.useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -23,7 +22,6 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
     };
   }, []);
 
-  // 試し聴き
   const playPreview = (file) => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -40,176 +38,200 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
     }
   };
 
-  // ★ 保存処理（オーバーレイ表示 → 自動解除 → onSave）
   const handleSave = () => {
     stopPreview();
-
     setShowOverlay(true);
-
-    // 保存だけ行う（ページ遷移しない）
     onSave(selectedBgm);
-
     setTimeout(() => {
       setShowOverlay(false);
     }, 1800);
   };
 
+  const handleBack = () => {
+    stopPreview();
+    onBack();
+  };
+
   return (
-    <div
-      style={{
-        width: "100vw",
-        minHeight: "100vh",
-        backgroundImage: `url("/images/kokuban330.png")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        padding: "40px",
-        color: "white",
-        position: "relative",
-      }}
-    >
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
-        🎵 BGM を選択してください
-      </h1>
+    <div className="unified-board">
+      <img
+        src="/images/kokuban330.png"
+        alt="background"
+        className="unified-board-bg"
+      />
 
-      <div
-        style={{
-          width: "70%",
-          margin: "0 auto",
-          background: "rgba(0,0,0,0.4)",
-          padding: "20px",
-          borderRadius: "15px",
-        }}
-      >
-        {bgmList.map((bgm) => (
-          <div
-            key={bgm.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "15px",
-              borderBottom: "1px solid #888",
-            }}
-          >
-            {/* 左：ラジオボタン */}
-            <label style={{ fontSize: "20px" }}>
-              <input
-                type="radio"
-                name="bgm"
-                value={bgm.id}
-                checked={selectedBgm === bgm.id}
-                onChange={() => setSelectedBgm(bgm.id)}
-                style={{ marginRight: "10px" }}
-              />
-              {bgm.label}
-            </label>
-
-            {/* 右：試し聴きボタン */}
-            <div>
-              <button
-                style={{
-                  padding: "8px 20px",
-                  marginRight: "10px",
-                  borderRadius: "8px",
-                  border: "2px solid #fff",
-                  cursor: "pointer",
-                }}
-                onClick={() => playPreview(bgm.file)}
-              >
-                ▶ 再生
-              </button>
-
-              <button
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "8px",
-                  border: "2px solid #fff",
-                  cursor: "pointer",
-                }}
-                onClick={stopPreview}
-              >
-                ■ 停止
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* ボタン */}
-      <div
-        style={{
-          marginTop: "40px",
-          display: "flex",
-          justifyContent: "center",
-          gap: "30px",
-        }}
-      >
-        <button
-          style={{
-            padding: "12px 30px",
-            fontSize: "20px",
-            background: "#66ccff",
-            borderRadius: "12px",
-            border: "3px solid #3ba4d4",
-            cursor: "pointer",
-          }}
-          onClick={handleSave} // ★変更
+      <div className="unified-board-content">
+        <h2
+          className="board-title"
+          style={{ marginTop: "-10px", marginBottom: "20px" }}
         >
-          ✔ 保存する
-        </button>
+          🎵 BGM を選択してください
+        </h2>
 
-        <button
-          style={{
-            padding: "12px 30px",
-            fontSize: "20px",
-            background: "#ffcc66",
-            borderRadius: "12px",
-            border: "3px solid #d6a84f",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            stopPreview();
-            onBack();
-          }}
-        >
-          ← 戻る
-        </button>
-      </div>
-
-      {/* ★★★ 保存オーバーレイ ★★★ */}
-      {showOverlay && (
+        {/* BGMリストコンテナ */}
         <div
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background: "rgba(0,0,0,0.6)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "32px",
-            color: "white",
-            animation: "fadeOut 1.8s forwards",
+            width: "70%",
+            maxHeight: "60%",
+            overflowY: "auto",
+            background: "rgba(0,0,0,0.3)",
+            padding: "20px",
+            borderRadius: "15px",
+            border: "2px solid rgba(255,255,255,0.2)",
+            scrollbarWidth: "thin",
+            scrollbarColor: "rgba(255,255,255,0.5) transparent",
           }}
         >
-          🎧 BGM「
-          {bgmList.find((b) => b.id === selectedBgm)?.label.replace("♪ ", "")}
-          」を設定しました！
-        </div>
-      )}
+          {bgmList.map((bgm, index) => (
+            <div
+              key={bgm.id}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "15px",
+                borderBottom:
+                  index === bgmList.length - 1
+                    ? "none"
+                    : "1px dashed rgba(255,255,255,0.3)",
+                color: "#fff",
+              }}
+            >
+              <label
+                style={{
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  fontFamily: '"Zen Kurenaido", sans-serif',
+                }}
+              >
+                <input
+                  type="radio"
+                  name="bgm"
+                  value={bgm.id}
+                  checked={selectedBgm === bgm.id}
+                  onChange={() => setSelectedBgm(bgm.id)}
+                  style={{ transform: "scale(1.5)", marginRight: "15px" }}
+                />
+                {bgm.label}
+              </label>
 
-      {/* CSSアニメーション */}
+              <div style={{ display: "flex", gap: "10px" }}>
+                <button
+                  onClick={() => playPreview(bgm.file)}
+                  style={miniBtnStyle}
+                >
+                  ▶ 再生
+                </button>
+                <button onClick={stopPreview} style={miniBtnStyle}>
+                  ■ 停止
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ボタンエリア */}
+        <div
+          style={{
+            // ★修正: position: absolute を削除し、マージンで調整
+            marginTop: "30px", // コンテンツボックスとの余白
+            display: "flex",
+            justifyContent: "center",
+            gap: "30px",
+            width: "100%",
+          }}
+        >
+          {/* 戻る（黄色） */}
+          <button onClick={handleBack} style={yellowBtnStyle}>
+            ← 戻る
+          </button>
+
+          {/* 保存（ピンク色） */}
+          <button onClick={handleSave} style={pinkBtnStyle}>
+            ✔ 保存する
+          </button>
+        </div>
+
+        {/* 保存オーバーレイ */}
+        {showOverlay && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "rgba(0,0,0,0.7)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "32px",
+              color: "white",
+              fontFamily: '"Zen Kurenaido", sans-serif',
+              fontWeight: "bold",
+              animation: "fadeOut 1.8s forwards",
+              zIndex: 100,
+              padding: "20px",
+              textAlign: "center",
+            }}
+          >
+            <p>🎧 BGMを設定しました！</p>
+            <p
+              style={{ fontSize: "24px", marginTop: "10px", color: "#ffd700" }}
+            >
+              「{bgmList.find((b) => b.id === selectedBgm)?.label}」
+            </p>
+          </div>
+        )}
+      </div>
+
       <style>
         {`
-        @keyframes fadeOut {
-          0% { opacity: 1; }
-          80% { opacity: 1; }
-          100% { opacity: 0; }
-        }
-      `}
+          @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+          }
+        `}
       </style>
     </div>
   );
 }
+
+// ★スタイル定義
+const commonBtnStyle = {
+  padding: "12px 28px",
+  fontSize: "22px",
+  fontFamily: '"Zen Kurenaido", sans-serif',
+  fontWeight: "bold",
+  color: "black",
+  borderRadius: "8px",
+  cursor: "pointer",
+  transition: "transform 0.2s",
+  textShadow: "none",
+};
+
+const yellowBtnStyle = {
+  ...commonBtnStyle,
+  background: "#ffcc66",
+  border: "3px solid #d6a84f",
+};
+
+const pinkBtnStyle = {
+  ...commonBtnStyle,
+  background: "#ff99cc",
+  border: "3px solid #d65c99",
+};
+
+const miniBtnStyle = {
+  padding: "5px 12px",
+  fontSize: "14px",
+  borderRadius: "6px",
+  border: "1px solid #fff",
+  background: "rgba(255,255,255,0.2)",
+  color: "white",
+  cursor: "pointer",
+};
