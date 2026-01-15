@@ -79,7 +79,7 @@ export const famousPersons = [
     name: "ダーウィン",
     display: "ダーウィン",
     image: "/images/famous/ダーウィン.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["チャールズ・ダーウィン"],
     meaning:
       "進化論を唱えたイギリスの自然科学者。生き物は環境に適応しながら進化することを示し、生物の考え方を大きく変えた人物。",
@@ -228,7 +228,7 @@ export const famousPersons = [
     name: "フランクリン・ルーズヴェルト",
     display: "ルーズヴェルト",
     image: "/images/famous/フランクリン・ルーズヴェルト.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: [
       "ルーズヴェルト",
       "フランクリンルーズヴェルト",
@@ -345,6 +345,7 @@ export const famousPersons = [
     display: "ライト兄弟",
     image: "/images/famous/ライト兄弟.jpg",
     difficulty: "normal",
+    aliases: ["ライトきょうだい"],
     meaning:
       "世界で初めて動力飛行に成功したアメリカの兄弟。飛行機の発明によって、人類の空を飛ぶ時代を切り開いた人物。",
   },
@@ -375,7 +376,14 @@ export const famousPersons = [
     meaning:
       "宗教改革を行ったドイツの宗教家。教会のあり方を批判し、プロテスタントを広めた人物。",
   },
-
+  {
+    name: "ピタゴラス",
+    display: "ピタゴラス",
+    image: "/images/famous/ピタゴラス.jpg",
+    difficulty: "boss",
+    meaning:
+      "「ピタゴラスの定理（三平方の定理）」で知られる古代ギリシャの数学者・哲学者。万物の根源は数であると説いた。",
+  },
   {
     name: "がんじん",
     display: "鑑真",
@@ -383,6 +391,14 @@ export const famousPersons = [
     difficulty: "normal",
     meaning:
       "唐の僧。苦難の航海を経て日本に渡り、正しい仏教の戒律を伝え、日本仏教の発展に大きく貢献した人物。",
+  },
+  {
+    name: "行基",
+    display: "行基",
+    image: "/images/famous/行基.jpg",
+    difficulty: "boss",
+    meaning:
+      "奈良時代の僧。民衆への布教とともに、橋や堤防の建設などの社会事業を行った。東大寺の大仏建立にも貢献し、菩薩と呼ばれた。",
   },
   {
     name: "ろじん",
@@ -438,9 +454,9 @@ export const famousPersons = [
       "三国時代の蜀で活躍した政治家・軍師。知略に優れ、国を支えた名軍師として知られる人物。",
   },
   {
-    name: "蔣介石",
-    display: "蔣介石",
-    image: "/images/famous/蔣介石.jpg",
+    name: "蒋介石",
+    display: "蒋介石",
+    image: "/images/famous/蒋介石.jpg",
     difficulty: "normal",
     aliases: ["しょうかいせき"],
     meaning:
@@ -509,7 +525,7 @@ export const famousPersons = [
     name: "きどたかよし",
     display: "木戸孝允",
     image: "/images/famous/木戸孝允.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["木戸孝允"],
     meaning:
       "明治維新の中心人物の一人。長州藩出身で、倒幕運動や新政府の政治改革に尽力し、近代化に大きく貢献した人物。",
@@ -518,7 +534,7 @@ export const famousPersons = [
     name: "とくがわよしのぶ",
     display: "徳川慶喜",
     image: "/images/famous/徳川慶喜.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["徳川慶喜"],
     meaning:
       "江戸幕府最後の将軍。大政奉還を行い、平和的に政権を明治新政府に引き渡した人物。",
@@ -564,7 +580,7 @@ export const famousPersons = [
     name: "よさのあきこ",
     display: "与謝野晶子",
     image: "/images/famous/与謝野晶子.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["与謝野晶子"],
     meaning:
       "明治・大正時代の女性歌人。情熱的で自由な歌風で知られ、『みだれ髪』などを通して日本の近代短歌に大きな影響を与えた人物。",
@@ -573,7 +589,7 @@ export const famousPersons = [
     name: "きたさとしばさぶろう",
     display: "北里柴三郎",
     image: "/images/famous/北里柴三郎.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["北里柴三郎"],
     meaning:
       "日本の細菌学者。破傷風やペストの研究で功績を残し、伝染病の予防や公衆衛生の発展に貢献した人物。",
@@ -582,7 +598,7 @@ export const famousPersons = [
     name: "しぶさわえいいち",
     display: "渋沢栄一",
     image: "/images/famous/渋沢栄一.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["渋沢栄一"],
     meaning:
       "日本の実業家・経済人。多くの企業や銀行の設立に関わり、「日本資本主義の父」と呼ばれ、日本の近代経済の発展に大きく貢献した人物。",
@@ -691,7 +707,7 @@ export const famousPersons = [
     name: "たけだしんげん",
     display: "武田信玄",
     image: "/images/famous/武田信玄.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["武田信玄"],
     meaning:
       "戦国時代の武将。甲斐の国を治め、優れた戦略と軍事力で信濃や周辺地域に勢力を広げた人物。「風林火山」の旗印で知られる名将。",
@@ -764,7 +780,7 @@ export const famousPersons = [
     name: "梶井基次郎",
     display: "梶井基次郎",
     image: "/images/famous/梶井基次郎.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["かじいもとじろう"],
     meaning:
       "大正・昭和時代の小説家。『檸檬』などの作品で、感覚的で独特な表現を用い、人間の心の繊細さを描いた人物。",
@@ -828,7 +844,7 @@ export const famousPersons = [
     name: "空海",
     display: "空海",
     image: "/images/famous/空海.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["くうかい"],
     meaning:
       "平安時代の僧・学者・詩人。真言宗を開き、密教を日本に広め、書道や教育、文化の発展にも大きく貢献した人物。",

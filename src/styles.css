@@ -1,51 +1,41 @@
-/* ==============================
-   🌐 全体スタイル
-============================== */
-
+/* =========================================
+   🌐 全体設定 (Base & Layout)
+========================================= */
 .App {
   font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
   text-align: center;
-  color: #000000;
+  color: #000;
   min-height: 100vh;
   margin: 0;
   padding: 0;
 }
-/* ===== 全ページ共通：黒板背景の統一ルール ===== */
-.page {
+
+/* 共通：全画面フレックスコンテナ */
+.page,
+.quiz-mode,
+.level-intro-screen {
   min-height: 100dvh;
   width: 100%;
   display: flex;
-  justify-content: center; /* 中央に背景枠を置く */
+  justify-content: center;
+  align-items: center; /* quiz-modeなども含めて中央揃え */
 }
 
-.page-inner {
-  position: relative;
-  width: min(1250px, 100vw); /* PCで幅を統一 */
-  height: min(730px, 100dvh); /* StartMenu基準で統一 */
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-/* 背景画像（黒板）の統一 */
-.page-bg {
+/* 共通：背景画像（黒板など）の絶対配置設定 */
+.page-bg,
+.startmenu-background,
+.howto-bg,
+.background {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* これで統一 */
-  z-index: 0;
+  object-fit: cover;
+  z-index: 0; /* 基準の階層 */
 }
 
-/* ❤️ ハート（Lives）を右上に固定表示 */
-.lives-container {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 36px;
-  z-index: 1000;
-}
-
-/* === 背景Canvas === */
+/* 背景用Canvas */
 .background-canvas {
   position: fixed;
   top: 0;
@@ -55,25 +45,28 @@
   height: 100vh;
   display: block;
   background: linear-gradient(to bottom, #0d3d5c 0%, #0a2d4d 50%, #052033 100%);
+}
+
+/* コンテンツ枠（PC幅制限） */
+.page-inner {
+  position: relative;
+  width: min(1250px, 100vw);
+  height: min(730px, 100dvh);
+  margin: 0 auto;
   overflow: hidden;
 }
 
-/* ==============================
- 🧠 クイズ画面デザイン
-============================== */
+/* =========================================
+   🧠 クイズ画面 (Quiz Mode)
+========================================= */
 .quiz-mode {
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
   color: #fdfdfd;
-  text-align: center;
   background: transparent;
 }
 
-/* カード削除（背景なし） */
+/* カードスタイル（リセット） */
 .quiz-card {
   background: none;
   border: none;
@@ -82,19 +75,19 @@
   padding: 0;
 }
 
-/* 🈶 問題の漢字 — 中央寄りに位置調整 */
+/* 問題テキスト */
 .question-text {
   font-size: 88px;
   font-weight: bold;
   margin: 100px 0 40px;
-  color: #ffffff;
+  color: #fff;
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 3px 3px 8px rgba(0, 0, 0, 0.9);
   letter-spacing: 10px;
   position: relative;
   top: -40px;
 }
 
-/* 📝 入力欄 */
+/* 入力欄 */
 .answer-input {
   font-size: 28px;
   padding: 14px 26px;
@@ -108,16 +101,16 @@
   outline: none;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
 }
-
 .answer-input::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* 🧩 ボタン */
+/* ボタン共通 */
 .button-group {
   margin-top: 30px;
 }
 
+/* メインボタン */
 .main-btn {
   font-size: 22px;
   padding: 12px 30px;
@@ -132,15 +125,14 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-shadow: 1px 1px 2px black;
 }
-
 .main-btn:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px gold;
 }
 
+/* サブ・ギブアップボタン */
 .sub-btn,
-.giveup-btn,
-.side-btn {
+.giveup-btn {
   font-size: 16px;
   padding: 8px 18px;
   margin: 8px;
@@ -148,23 +140,21 @@
   cursor: pointer;
   transition: opacity 0.3s, transform 0.2s, box-shadow 0.2s;
 }
-
 .sub-btn {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
-
 .sub-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
-
 .giveup-btn {
   background: rgba(200, 200, 200, 0.2);
   color: #ddd;
 }
 
+/* サイドボタン（戻る・交代など） */
 .side-btn {
   position: fixed;
   bottom: 40px;
@@ -179,20 +169,17 @@
   text-shadow: 1px 1px 2px black;
   z-index: 100;
 }
-
+.side-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .giveup-side {
   left: 20px;
   background: linear-gradient(90deg, #5c1e1e, #8b2e2e);
 }
-
 .swap-side {
   right: 20px;
   background: linear-gradient(90deg, #3c2f1b, #6b4f2f);
-}
-
-.side-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .center-answer-btn {
@@ -201,31 +188,14 @@
   margin-top: 20px;
 }
 
-/* ==============================
- 💀 Game Over 表示
-============================== */
-.result-message {
-  font-size: 42px;
-  font-weight: bold;
-  margin-top: 50px;
-  color: #ff5555;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
-    2px 2px 10px rgba(0, 0, 0, 0.9);
-  animation: pulse 1.2s infinite alternate;
+/* HUD (Lives, Question Count) */
+.lives-container {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 36px;
+  z-index: 1000;
 }
-
-@keyframes pulse {
-  0% {
-    text-shadow: 0 0 6px rgba(255, 100, 100, 0.8);
-  }
-  100% {
-    text-shadow: 0 0 20px rgba(255, 0, 0, 1);
-  }
-}
-
-/* ==============================
- 🧮 問題番号表示
-============================== */
 .question-count {
   position: absolute;
   top: 20px;
@@ -236,9 +206,10 @@
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
 }
 
-/* ==============================
- 🕓 待機画面
-============================== */
+/* =========================================
+   📺 各種スクリーン (Wait, Level, Result)
+========================================= */
+/* 待機画面 */
 .wait-screen {
   background: rgba(0, 0, 0, 0.6);
   padding: 40px 60px;
@@ -246,105 +217,298 @@
   border: 2px solid #ffd700;
   animation: fadeIn 0.5s ease;
 }
-
 .wait-screen h2 {
   font-size: 36px;
   color: #fff;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
   margin-bottom: 10px;
 }
-
 .wait-screen p {
   font-size: 18px;
   color: #ddd;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* === ローマ字警告メッセージ === */
-.warning-text {
-  color: #ffcc00;
-  font-size: 18px;
-  margin-top: 10px;
-  text-shadow: 0 0 6px rgba(255, 255, 0, 0.6);
-  animation: shake 0.4s ease;
-}
-
-@keyframes shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-4px);
-  }
-  50% {
-    transform: translateX(4px);
-  }
-  75% {
-    transform: translateX(-4px);
-  }
-}
-
-/* === メッセージ表示 === */
-.message-default,
-.message-warning,
-.message-success,
-.message-error,
-.message-info,
-.message-near {
+/* レベル表示 */
+.level-intro-screen {
+  background: black;
+  color: #ffd700;
   text-align: center;
-  margin-top: 10px;
-  text-shadow: 0 0 6px black;
+  animation: fadeIn 0.5s ease-in;
+}
+.level-intro-box {
+  border: 4px solid #ffd700;
+  padding: 40px 60px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px #ffd700;
+  background: rgba(0, 0, 0, 0.85);
+}
+.level-intro-box h2 {
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 0 0 10px #ffd700;
 }
 
-.message-default {
-  color: white;
-  font-size: 20px;
-}
-
-.message-warning {
-  color: #ffcc00;
-  font-size: 22px;
-}
-
-.message-success {
-  color: #5affbd;
-  font-size: 22px;
+/* Result Message */
+.result-message {
+  font-size: 42px;
   font-weight: bold;
-  text-shadow: 1px 1px 2px black;
-}
-
-.message-error {
+  margin-top: 50px;
   color: #ff5555;
-  font-size: 22px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
+    2px 2px 10px rgba(0, 0, 0, 0.9);
+  animation: pulse 1.2s infinite alternate;
 }
 
-.message-info {
-  color: #66ccff;
-  font-size: 22px;
-}
-
-/* おしいメッセージだけ黄色で正解と同じ大きさ */
-.message-near {
-  color: #ffe75c;
-  font-size: 24px;
+/* ステージラベル */
+.stage-label {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 26px;
   font-weight: bold;
-  text-shadow: 1px 1px 2px black;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
+    0 0 20px rgba(255, 200, 0, 0.8);
+  animation: stageFade 0.8s ease;
+  z-index: 10;
+}
+.stage-label:has(span.boss),
+.stage-label:contains("BOSS") {
+  color: #ff5555;
+  text-shadow: 0 0 15px rgba(255, 80, 80, 1), 0 0 25px #ff0000;
 }
 
-/* ==============================
- 🏰🧍🐉 RPG進行バー
-============================== */
+/* =========================================
+   🎬 スタートメニュー (StartMenu & TopSlide)
+========================================= */
+/* TopSlide用 */
+.slider {
+  position: relative;
+}
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 100%;
+}
+
+/* StartMenuスライダー枠 */
+.startmenu-slider {
+  position: relative;
+  width: 100%;
+  max-width: 1250px;
+  height: 730px;
+  margin: 50px auto;
+  overflow: hidden;
+}
+
+/* スライド個別の設定（透過・クリック貫通制御） */
+.startmenu-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none; /* 重要：非表示時は操作不能 */
+  z-index: 0;
+}
+.startmenu-slide.active {
+  opacity: 1;
+  pointer-events: auto; /* 重要：表示時のみ操作可能 */
+  z-index: 10;
+}
+
+/* 黒板上のスライド群は基本操作不能にしておく（中のボタン等はautoで上書き） */
+.startmenu-slides {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* メニューアイテム配置 */
+.startmenu-menu-items {
+  position: absolute;
+  bottom: 120px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  z-index: 4;
+  pointer-events: auto; /* 画像へのクリックを有効化 */
+}
+
+/* 画像ボタンボックス */
+.startmenu-item-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  transition: transform 0.2s, filter 0.2s;
+  cursor: pointer;
+}
+.startmenu-menu-items img {
+  width: 300px;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0.9; /* 通常時は少しだけ薄くしておくと発光感が際立ちます */
+
+  /* ★この行を追加してください！これが滑らかさの正体です */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    filter 0.3s ease, opacity 0.3s ease;
+}
+.startmenu-item-box:hover {
+  transform: scale(1.07);
+  filter: brightness(1.15);
+}
+.startmenu-menu-items img:hover {
+  /* 画像単体へのhover補強 */
+  transform: scale(1.12) translateY(-8px);
+  filter: brightness(1.15);
+  opacity: 1;
+}
+
+/* 左右ナビゲーション */
+.startmenu-prev,
+.startmenu-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px 15px;
+  font-size: 30px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 6;
+}
+.startmenu-prev {
+  left: 10px;
+}
+.startmenu-next {
+  right: 10px;
+}
+
+/* =========================================
+   🖼️ 画像メニューボタン (ExtraMenuなど)
+========================================= */
+.img-menu-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.img-menu-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1); /* 明度アップ */
+}
+.img-menu-btn:active {
+  transform: scale(0.95);
+}
+
+.img-menu-content {
+  width: 550px;
+  max-width: 90vw;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   📖 HowToPlay (遊び方)
+========================================= */
+.howto-root {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+/* howto-bg は共通設定(.page-bg)で定義済み */
+
+.howto-content {
+  position: relative;
+  margin-top: 8%;
+  margin-left: 6%;
+  width: 70%;
+  color: white;
+  z-index: 2;
+  font-family: "Yusei Magic", sans-serif;
+  text-align: left;
+}
+.howto-title {
+  font-size: 38px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #ffeb3b;
+  text-align: center;
+  animation-delay: 0.1s;
+}
+.howto-heading {
+  font-size: 26px;
+  color: #ffeb3b;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.howto-text {
+  font-size: 20px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+.howto-list {
+  font-size: 20px;
+  margin-left: 20px;
+  padding-left: 0;
+  list-style-position: inside;
+  line-height: 1.8em;
+}
+
+/* HowTo ボタン */
+.howto-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  margin-bottom: 60px;
+  z-index: 5;
+}
+.howto-start-btn,
+.howto-switch-btn {
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.howto-start-btn {
+  background: #ffcc66;
+  border: 3px solid #d6a84f;
+}
+.howto-switch-btn {
+  background: #66ccff;
+  border: 3px solid #3ba4d4;
+}
+.howto-start-btn:hover,
+.howto-switch-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-3px);
+}
+
+/* =========================================
+   🗺️ RPGマップ進行バー
+========================================= */
 .map-progress {
   position: absolute;
   top: 30px;
@@ -353,21 +517,18 @@
   transform-origin: top left;
   z-index: 900;
 }
-
 .map-bar {
   display: flex;
   align-items: flex-end;
   justify-content: center;
   position: relative;
 }
-
 .map-step {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .step-circle {
   width: 26px;
   height: 26px;
@@ -383,7 +544,6 @@
   z-index: 1;
   transition: all 0.3s ease;
 }
-
 .step-circle.active {
   background: radial-gradient(circle at center, #00ffcc 0%, #008888 100%);
   border-color: #00ffcc;
@@ -391,7 +551,6 @@
   text-shadow: 0 0 4px #00ffee;
   transform: scale(1.1);
 }
-
 .step-line {
   width: 30px;
   height: 4px;
@@ -400,13 +559,12 @@
   border-radius: 2px;
   transition: all 0.3s ease;
 }
-
 .step-line.filled {
   background: linear-gradient(90deg, #00ffee, #00aa88);
   box-shadow: 0 0 6px #00ffaa;
 }
 
-/* アイコン配置 */
+/* アイコンとフロートアニメーション */
 .castle-icon {
   position: absolute;
   top: -34px;
@@ -416,7 +574,6 @@
   opacity: 0.95;
   animation: floatCastle 2s ease-in-out infinite;
 }
-
 .player-icon {
   position: absolute;
   top: -22px;
@@ -425,7 +582,6 @@
   z-index: 2;
   animation: float 1.8s ease-in-out infinite;
 }
-
 .dragon-icon {
   position: absolute;
   top: -38px;
@@ -434,233 +590,69 @@
   z-index: 2;
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-}
-
-@keyframes floatCastle {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes floatDragon {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-/* ==============================
- 🏁 レベル表示スクリーン
-============================== */
-.level-intro-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: black;
-  color: #ffd700;
+/* =========================================
+   ⚠️ メッセージ・警告
+========================================= */
+.message-default,
+.message-warning,
+.message-success,
+.message-error,
+.message-info,
+.message-near {
   text-align: center;
-  animation: fadeIn 0.5s ease-in;
+  margin-top: 10px;
+  text-shadow: 0 0 6px black;
 }
-
-.level-intro-box {
-  border: 4px solid #ffd700;
-  padding: 40px 60px;
-  border-radius: 20px;
-  box-shadow: 0 0 25px #ffd700;
-  background: rgba(0, 0, 0, 0.85);
-}
-
-.level-intro-box h2 {
-  font-size: 2rem;
-  color: #fff;
-  text-shadow: 0 0 10px #ffd700;
-}
-
-/* === ステージ表示 === */
-.stage-label {
-  position: absolute;
-  top: 70px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 26px;
-  font-weight: bold;
-  color: #ffd700;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
-    0 0 20px rgba(255, 200, 0, 0.8);
-  animation: stageFade 0.8s ease;
-  z-index: 10;
-}
-
-@keyframes stageFade {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-/* BOSS戦 特別演出 */
-.stage-label:has(span.boss),
-.stage-label:contains("BOSS") {
-  color: #ff5555;
-  text-shadow: 0 0 15px rgba(255, 80, 80, 1), 0 0 25px #ff0000;
-}
-.slider {
-  position: relative;
-}
-
-.background {
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  display: block;
-}
-
-.overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+.message-default {
   color: white;
-  width: 100%;
+  font-size: 20px;
 }
-
-.title {
-  font-size: 48px;
+.message-warning {
+  color: #ffcc00;
+  font-size: 22px;
+}
+.message-error {
+  color: #ff5555;
+  font-size: 22px;
+}
+.message-info {
+  color: #66ccff;
+  font-size: 22px;
+}
+.message-success {
+  color: #5affbd;
+  font-size: 22px;
   font-weight: bold;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 5px black;
+  text-shadow: 1px 1px 2px black;
 }
-
-.tap-message {
+.message-near {
+  color: #ffe75c;
   font-size: 24px;
   font-weight: bold;
-  text-shadow: 2px 2px 5px black;
-  cursor: pointer;
-}
-/* ---------- StartMenu 修正セクション（これを styles.css に上書き） ---------- */
-
-/* スライダーの基礎 */
-.startmenu-slider {
-  position: relative;
-  width: 100%;
-  max-width: 1250px;
-  height: 730px;
-  margin: 50px auto;
-  overflow: hidden;
+  text-shadow: 1px 1px 2px black;
 }
 
-/* 黒板背景（下）*/
-.startmenu-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
+.warning-text {
+  color: #ffcc00;
+  font-size: 18px;
+  margin-top: 10px;
+  text-shadow: 0 0 6px rgba(255, 255, 0, 0.6);
+  animation: shake 0.4s ease;
 }
 
-/* スライド（画像群）は黒板より上、タイトルより下にしたい */
-.startmenu-slides {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  pointer-events: none; /* ← これを追加！！ */
+/* =========================================
+   ✨ アニメーション定義 (Keyframes)
+========================================= */
+/* チョーク書きアニメーション（共通） */
+/* StartMenuのタイトルや、HowToPlayの文字で使用 */
+.startmenu-title,
+.tap-message,
+.howto-content * {
+  font-family: "Zen Kurenaido", sans-serif;
+  animation: chalk-write 2.5s ease-out forwards;
 }
 
-/* slide の見え方 */
-.startmenu-slide {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.startmenu-slide.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* メニュー画像群はタイトルより前面（z-index を調整） */
-.startmenu-menu-items {
-  position: absolute;
-  bottom: 120px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  z-index: 4; /* 画像がタイトルと重なっても hover を受けるようにする */
-  pointer-events: auto; /* 念のため */
-}
-
-/* 画像ボタン */
-.startmenu-menu-items img {
-  width: 300px;
-  cursor: pointer;
-  transition: transform 0.25s ease, filter 0.25s ease, opacity 0.25s ease;
-  opacity: 0.85;
-  pointer-events: auto; /* 重要：画像がホバーを受け取れるようにする */
-}
-
-/* hover 効果（全スライド共通） */
-.startmenu-menu-items img:hover {
-  transform: scale(1.12) translateY(-8px);
-  filter: brightness(1.15);
-  opacity: 1;
-}
-
-/* スライダー操作ボタン */
-.startmenu-prev,
-.startmenu-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 10px 15px;
-  font-size: 30px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  cursor: pointer;
-  z-index: 6;
-}
-
-.startmenu-prev {
-  left: 10px;
-}
-.startmenu-next {
-  right: 10px;
-}
-
-/* タイトル（黒板上） — pointer-events:none にしてクリック/hoverを貫通 */
+/* クラスごとの微調整 */
 .startmenu-title {
   position: absolute;
   top: 12%;
@@ -671,14 +663,31 @@
   color: #fff;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
   z-index: 5;
-  pointer-events: none; /* ← 必ず必要 */
-  font-family: "Zen Kurenaido", sans-serif;
-  animation: chalk-write 2.5s ease-out forwards;
+  pointer-events: none;
   white-space: nowrap;
   overflow: hidden;
 }
 
-/* チョーク書きアニメーション */
+.tap-message {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  margin-top: 20px;
+  pointer-events: none;
+}
+
+/* HowToPlay用の上書き */
+.howto-content * {
+  font-family: "Yusei Magic", sans-serif;
+  animation-name: chalkWrite; /* 少し挙動が違うので別名を維持 */
+  animation-duration: 0.8s;
+  opacity: 0;
+}
+
+/* 定義: chalk-write (クリップパスで出現) */
 @keyframes chalk-write {
   0% {
     clip-path: inset(0 100% 0 0);
@@ -693,137 +702,7 @@
   }
 }
 
-.startmenu-item-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  transition: transform 0.2s, filter 0.2s;
-  cursor: pointer;
-}
-
-/* hover 中のエフェクト（画像＋余白まとめて） */
-.startmenu-item-box:hover {
-  transform: scale(1.07);
-  filter: brightness(1.15);
-}
-
-/* ---------- End 修正セクション ---------- */
-
-/* ===============================
-   HowToPlay 背景とレイアウト
-================================ */
-.howto-root {
-  position: relative;
-  width: 100vw;
-  min-height: 100vh; /* ★ 重要：画面より大きくなったら高さが伸びる */
-  overflow-x: hidden;
-  overflow-y: auto; /* ★ スクロール可能へ */
-}
-
-/* 黒板背景を StartMenu と同じ見た目にする */
-.howto-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  z-index: 1;
-  min-height: 100vh; /* ★ 背景が消えないよう最低高さを保証 */
-}
-
-/* ===============================
-   メインコンテンツ
-================================ */
-.howto-content {
-  position: relative;
-  margin-top: 8%;
-  margin-left: 6%;
-  width: 70%;
-  color: white;
-  z-index: 2;
-  font-family: "Yusei Magic", sans-serif;
-  text-align: left;
-}
-
-/* タイトル（中央揃え） */
-.howto-title {
-  font-size: 38px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  color: #ffeb3b;
-  text-align: center;
-}
-
-/* 見出し */
-.howto-heading {
-  font-size: 26px;
-  color: #ffeb3b;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-/* 説明文 */
-.howto-text {
-  font-size: 20px;
-  margin-left: 10px;
-  margin-bottom: 20px;
-}
-
-/* 箇条書き */
-.howto-list {
-  font-size: 20px;
-  margin-left: 20px;
-  padding-left: 0;
-  list-style-position: inside;
-  line-height: 1.8em;
-}
-
-/* ===============================
-   ボタン
-================================ */
-
-/* ボタンを横に並べて中央に配置 */
-.howto-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 30px; /* ボタン間のスペース */
-  margin-top: 40px;
-  margin-bottom: 60px;
-  z-index: 5;
-}
-
-/* 左：Start Menu */
-.howto-start-btn {
-  background: #ffcc66;
-  padding: 14px 28px;
-  border-radius: 12px;
-  border: 3px solid #d6a84f;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* 右：説明切り替え */
-.howto-switch-btn {
-  background: #66ccff;
-  padding: 14px 28px;
-  border-radius: 12px;
-  border: 3px solid #3ba4d4;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* ホバー効果（任意でオシャレ） */
-.howto-start-btn:hover,
-.howto-switch-btn:hover {
-  opacity: 0.85;
-  transform: translateY(-3px);
-  transition: 0.2s;
-}
-
-/* ===============================
-   書き込みアニメーション（チョーク風）
-================================ */
+/* 定義: chalkWrite (HowToPlay用: ふわっと出現) */
 @keyframes chalkWrite {
   from {
     opacity: 0;
@@ -837,15 +716,7 @@
   }
 }
 
-.howto-content * {
-  animation: chalkWrite 0.8s ease-out forwards;
-  opacity: 0;
-}
-
-/* 時間差アニメーション */
-.howto-title {
-  animation-delay: 0.1s;
-}
+/* アニメーション遅延設定 (HowToPlay) */
 .howto-heading:nth-of-type(1) {
   animation-delay: 0.3s;
 }
@@ -855,7 +726,6 @@
 .howto-heading:nth-of-type(2) {
   animation-delay: 0.7s;
 }
-
 .howto-list li:nth-child(1) {
   animation-delay: 0.9s;
 }
@@ -873,4 +743,76 @@
 }
 .howto-list li:nth-child(6) {
   animation-delay: 1.9s;
+}
+
+/* その他アニメーション */
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 6px rgba(255, 100, 100, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 0, 0, 1);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25%,
+  75% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+@keyframes stageFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* 浮遊アニメーション群 */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes floatCastle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes floatDragon {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }

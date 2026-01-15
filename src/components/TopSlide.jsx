@@ -21,7 +21,7 @@ export default function TopSlide({ onStart }) {
           left: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover", // 画面全体にフィット
+          objectFit: "cover",
           objectPosition: "center",
           zIndex: 1,
         }}
@@ -39,7 +39,7 @@ export default function TopSlide({ onStart }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          pointerEvents: "none", // 背景クリックを邪魔しない
+          pointerEvents: "none", // 文字などがクリック判定を邪魔しないようにする
         }}
       >
         <img
@@ -51,20 +51,26 @@ export default function TopSlide({ onStart }) {
             marginBottom: "30px",
           }}
         />
-        <p
-          className="tap-message"
-          onClick={onStart}
-          style={{
-            fontSize: "22px",
-            color: "#fff",
-            textShadow: "0 0 6px rgba(0,0,0,0.7)",
-            cursor: "pointer",
-            pointerEvents: "auto", // クリック可能にする
-          }}
-        >
-          この画面をタップしてね
-        </p>
+
+        {/* CSSクラスでフォントとアニメーションを適用 */}
+        <p className="tap-message">この画面をタップしてね</p>
       </div>
+
+      {/* ★全画面クリック用透明レイヤー（最前面） */}
+      {/* これがあることで、画面のどこを触っても確実に反応します */}
+      <div
+        onClick={onStart}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 9999 /* 最前面に配置 */,
+          cursor: "pointer" /* 指カーソル */,
+          backgroundColor: "transparent" /* 透明 */,
+        }}
+      />
     </div>
   );
 }

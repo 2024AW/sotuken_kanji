@@ -7,7 +7,8 @@ export default function ExtraMenu({ onSelect, onBack }) {
     [
       {
         label: "偉人クイズ",
-        target: "extra-famous", // ★ ここを直す
+        target: "extra-famous",
+        imgSrc: "/images/偉人問題.jpg",
       },
     ],
   ];
@@ -28,36 +29,45 @@ export default function ExtraMenu({ onSelect, onBack }) {
         className="startmenu-background"
       />
 
-      {/* スライド（ボタン） */}
+      {/* ★追加: タイトルテキスト */}
+      <div className="startmenu-title">遊びたいモードを選んでください</div>
+
+      {/* スライド（画像ボタン） */}
       <div
         className="startmenu-slides"
         style={{
           display: "flex",
-          alignItems: "center",
+          // alignItems: "center",  ← これを削除（真ん中揃えをやめる）
+          alignItems: "flex-start", // ★変更：上詰めで配置する
           justifyContent: "center",
           pointerEvents: "auto",
+          gap: "20px",
+
+          // ★追加：上からの余白で位置を調整
+          // タイトルが12%なので、それより少し下の「20%〜25%」くらいが丁度いいです
+          paddingTop: "22%",
+
+          height: "100%", // 親要素の高さを確保
+          boxSizing: "border-box", // paddingを含めて計算させる
         }}
       >
         {slidesData[currentSlide].map((item, index) => (
           <button
             key={index}
             onClick={() => handleClick(item.target)}
-            style={{
-              fontSize: "28px",
-              padding: "20px 40px",
-              borderRadius: "12px",
-              border: "none",
-              cursor: "pointer",
-              backgroundColor: "#fff",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
-            }}
+            className="img-menu-btn"
+            aria-label={item.label}
           >
-            {item.label}
+            <img
+              src={item.imgSrc}
+              alt={item.label}
+              className="img-menu-content"
+            />
           </button>
         ))}
       </div>
 
-      {/* 戻る */}
+      {/* 戻るボタン */}
       <button
         onClick={onBack}
         style={{
@@ -65,6 +75,9 @@ export default function ExtraMenu({ onSelect, onBack }) {
           bottom: 40,
           left: 40,
           zIndex: 10,
+          padding: "10px 20px",
+          fontSize: "18px",
+          cursor: "pointer",
         }}
       >
         戻る

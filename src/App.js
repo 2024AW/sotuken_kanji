@@ -107,7 +107,14 @@ export default function App() {
             setQuestionCount(count);
             setPage("time");
           }}
-          onBack={() => setPage("level")}
+          onBack={() => {
+            // ★ここを修正: gameModeを見て戻り先を分岐させる
+            if (gameMode && gameMode.includes("extra")) {
+              setPage("extraMenu"); // ExtraモードならExtraメニューへ
+            } else {
+              setPage("level"); // 通常モードなら難易度選択へ
+            }
+          }}
         />
       )}
 
@@ -148,14 +155,13 @@ export default function App() {
           />
         ) : (
           <Quiz
-  level={level}
-  questionCount={questionCount}
-  timeLimit={timeLimit}
-  onBack={() => setPage("startMenu")}
-  bgmVolume={bgmVolume}
-  bgm={bgm}
-/>
-
+            level={level}
+            questionCount={questionCount}
+            timeLimit={timeLimit}
+            onBack={() => setPage("startMenu")}
+            bgmVolume={bgmVolume}
+            bgm={bgm}
+          />
         ))}
     </div>
   );
