@@ -1,76 +1,51 @@
+// src/components/TopSlide.js
 import React from "react";
+import "../styles.css";
 
 export default function TopSlide({ onStart }) {
   return (
+    // 1. 統一された黒板枠
+    // 黒板全体をクリック可能(onClick)にし、カーソルを指マークにする
     <div
-      className="slider"
-      style={{
-        width: "100vw",
-        height: "100dvh",
-        overflow: "hidden",
-        position: "relative",
-      }}
+      className="unified-board"
+      onClick={onStart}
+      style={{ cursor: "pointer" }}
     >
-      {/* 背景黒板画像 */}
+      {/* 2. 背景画像 (kokuban11.png) */}
       <img
         src="/images/kokuban11.png"
         alt="背景"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center",
-          zIndex: 1,
-        }}
+        className="unified-board-bg"
       />
 
-      {/* オーバーレイ（タイトルとメッセージ） */}
-      <div
-        className="overlay"
-        style={{
-          position: "relative",
-          zIndex: 2,
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          pointerEvents: "none", // 文字などがクリック判定を邪魔しないようにする
-        }}
-      >
+      {/* 3. コンテンツの中身 */}
+      <div className="unified-board-content">
+        {/* タイトルロゴ */}
         <img
           src="/images/kanjinojikan.png"
           alt="タイトル"
           style={{
-            maxWidth: "90%",
+            maxWidth: "85%", // 黒板からはみ出さないように制限
             height: "auto",
-            marginBottom: "30px",
+            marginBottom: "40px",
+            // ユーザー操作を邪魔しない設定（画像ドラッグ防止など）
+            pointerEvents: "none",
           }}
         />
 
-        {/* CSSクラスでフォントとアニメーションを適用 */}
-        <p className="tap-message">この画面をタップしてね</p>
+        {/* タップメッセージ */}
+        {/* styles.css でフォントやアニメーションが定義済み */}
+        <p
+          className="tap-message"
+          style={{
+            fontSize: "28px", // 少し大きく見やすく
+            color: "white",
+            pointerEvents: "none",
+          }}
+        >
+          この画面をタップしてね
+        </p>
       </div>
-
-      {/* ★全画面クリック用透明レイヤー（最前面） */}
-      {/* これがあることで、画面のどこを触っても確実に反応します */}
-      <div
-        onClick={onStart}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: 9999 /* 最前面に配置 */,
-          cursor: "pointer" /* 指カーソル */,
-          backgroundColor: "transparent" /* 透明 */,
-        }}
-      />
     </div>
   );
 }

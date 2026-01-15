@@ -17,12 +17,10 @@ export default function TimeSelect({ onSelect, onBack }) {
       />
 
       <div className="unified-board-content">
-        {/* ★スタイルを削除し、クラスに任せる */}
         <h2
           className="board-title"
           style={{
             marginBottom: "50px",
-            /* TimeSelectは元々margin-top指定がなかったので必要なら調整 */
           }}
         >
           制限時間を選んでください
@@ -62,21 +60,8 @@ export default function TimeSelect({ onSelect, onBack }) {
           ))}
         </div>
 
-        <button
-          onClick={onBack}
-          style={{
-            position: "absolute",
-            bottom: "50px",
-            left: "50px",
-            padding: "12px 24px",
-            fontSize: "20px",
-            borderRadius: "6px",
-            cursor: "pointer",
-            background: "rgba(255, 255, 255, 0.9)",
-            border: "1px solid #ddd",
-            color: "#333",
-          }}
-        >
+        {/* ★ここを共通クラスに変更 */}
+        <button className="unified-back-btn" onClick={onBack}>
           ← 戻る
         </button>
       </div>

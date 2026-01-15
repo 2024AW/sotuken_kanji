@@ -18,7 +18,6 @@ export default function QuestionCount({ onSelect, onBack }) {
       />
 
       <div className="unified-board-content">
-        {/* ★スタイルを削除し、クラスに任せる */}
         <h2
           className="board-title"
           style={{
@@ -63,21 +62,8 @@ export default function QuestionCount({ onSelect, onBack }) {
           ))}
         </div>
 
-        <button
-          onClick={onBack}
-          style={{
-            position: "absolute",
-            bottom: "40px",
-            left: "40px",
-            padding: "10px 24px",
-            fontSize: "18px",
-            borderRadius: "6px",
-            cursor: "pointer",
-            background: "rgba(255, 255, 255, 0.85)",
-            border: "1px solid #ddd",
-            color: "#333",
-          }}
-        >
+        {/* ★ここを共通クラスに変更 */}
+        <button className="unified-back-btn" onClick={onBack}>
           ← 戻る
         </button>
       </div>

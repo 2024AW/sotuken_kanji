@@ -914,3 +914,31 @@
   align-items: center;
   color: #fff; /* 文字は基本白 */
 }
+
+/* --- 統一された戻るボタンのスタイル --- */
+.unified-back-btn {
+  position: absolute;
+  bottom: 50px; /* 下からの位置 */
+  left: 50px; /* 左からの位置 */
+
+  padding: 12px 24px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333; /* 文字色：濃いグレー */
+
+  background: rgba(255, 255, 255, 0.9); /* 背景：ほぼ不透明な白 */
+  border: 2px solid #ddd; /* 枠線 */
+  border-radius: 8px; /* 角丸 */
+
+  cursor: pointer;
+  z-index: 100; /* 他の要素より手前に表示 */
+  transition: transform 0.2s ease, background 0.2s;
+  text-decoration: none;
+}
+
+/* ホバー時の動き */
+.unified-back-btn:hover {
+  transform: scale(1.05); /* 少し拡大 */
+  background: #fff; /* 真っ白に */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 光るエフェクト */
+}

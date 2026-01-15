@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Timer from "./Timer";
 import Lives from "./Lives";
-import Enemy from "./Enemy";
 import DebugPanel from "./DebugPanel";
 import LoadingScreen from "./LoadingScreen";
 import ConfirmGiveUp from "./ConfirmGiveUp";
@@ -589,7 +588,6 @@ export default function Quiz({
 
       <div className="quiz-mode" style={getBackgroundStyle()}>
         <div className="quiz-card">
-          <Enemy visible={level === "easy"} />
           <Timer timeLeft={timeLeft} />
 
           <div className="question-text">

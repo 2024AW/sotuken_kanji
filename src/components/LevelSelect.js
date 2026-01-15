@@ -19,7 +19,6 @@ export default function LevelSelect({ onSelect, onBack }) {
       />
 
       <div className="unified-board-content">
-        {/* ★スタイルを削除し、クラスに任せる */}
         <h2
           className="board-title"
           style={{
@@ -71,22 +70,9 @@ export default function LevelSelect({ onSelect, onBack }) {
           ))}
         </div>
 
-        <button
-          onClick={onBack}
-          style={{
-            position: "absolute",
-            bottom: "50px",
-            left: "50px",
-            padding: "10px 24px",
-            fontSize: "18px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            background: "rgba(255, 255, 255, 0.2)",
-            color: "#fff",
-            border: "1px solid rgba(255, 255, 255, 0.4)",
-          }}
-        >
-          戻る
+        {/* ★ここを共通クラスに変更 */}
+        <button className="unified-back-btn" onClick={onBack}>
+          ← 戻る
         </button>
       </div>
     </div>
