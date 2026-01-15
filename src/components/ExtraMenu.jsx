@@ -21,67 +21,73 @@ export default function ExtraMenu({ onSelect, onBack }) {
   };
 
   return (
-    <div className="startmenu-slider">
-      {/* 背景 */}
+    // 1. 統一された外側の枠
+    <div className="unified-board">
+      {/* 2. 背景画像 (kokuban13.png) */}
       <img
         src="/images/kokuban13.png"
         alt="background"
-        className="startmenu-background"
+        className="unified-board-bg"
       />
 
-      {/* ★追加: タイトルテキスト */}
-      <div className="startmenu-title">遊びたいモードを選んでください</div>
+      {/* 3. コンテンツの中身 */}
+      <div className="unified-board-content">
+        {/* タイトル：統一クラス(.board-title)を使用 */}
+        <h2
+          className="board-title"
+          style={{
+            marginBottom: "40px",
+            marginTop: "-40px", // 少し上に配置してバランス調整
+          }}
+        >
+          遊びたいモードを選んでください
+        </h2>
 
-      {/* スライド（画像ボタン） */}
-      <div
-        className="startmenu-slides"
-        style={{
-          display: "flex",
-          // alignItems: "center",  ← これを削除（真ん中揃えをやめる）
-          alignItems: "flex-start", // ★変更：上詰めで配置する
-          justifyContent: "center",
-          pointerEvents: "auto",
-          gap: "20px",
+        {/* スライド（画像ボタン） */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          {slidesData[currentSlide].map((item, index) => (
+            <button
+              key={index}
+              onClick={() => handleClick(item.target)}
+              className="img-menu-btn"
+              aria-label={item.label}
+            >
+              <img
+                src={item.imgSrc}
+                alt={item.label}
+                className="img-menu-content"
+                // .img-menu-content は styles.css で width: 550px 等に設定済み
+              />
+            </button>
+          ))}
+        </div>
 
-          // ★追加：上からの余白で位置を調整
-          // タイトルが12%なので、それより少し下の「20%〜25%」くらいが丁度いいです
-          paddingTop: "22%",
-
-          height: "100%", // 親要素の高さを確保
-          boxSizing: "border-box", // paddingを含めて計算させる
-        }}
-      >
-        {slidesData[currentSlide].map((item, index) => (
-          <button
-            key={index}
-            onClick={() => handleClick(item.target)}
-            className="img-menu-btn"
-            aria-label={item.label}
-          >
-            <img
-              src={item.imgSrc}
-              alt={item.label}
-              className="img-menu-content"
-            />
-          </button>
-        ))}
+        {/* 戻るボタン（黒板内の左下に統一配置） */}
+        <button
+          onClick={onBack}
+          style={{
+            position: "absolute",
+            bottom: "50px",
+            left: "50px",
+            padding: "10px 24px",
+            fontSize: "18px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            background: "rgba(255, 255, 255, 0.2)",
+            color: "#fff",
+            border: "1px solid rgba(255, 255, 255, 0.4)",
+          }}
+        >
+          戻る
+        </button>
       </div>
-
-      {/* 戻るボタン */}
-      <button
-        onClick={onBack}
-        style={{
-          position: "absolute",
-          bottom: 40,
-          left: 40,
-          zIndex: 10,
-          padding: "10px 20px",
-          fontSize: "18px",
-          cursor: "pointer",
-        }}
-      >
-        戻る
-      </button>
     </div>
   );
 }

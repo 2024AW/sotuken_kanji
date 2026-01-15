@@ -28,95 +28,123 @@ export default function CreditPage({ onBack }) {
   ];
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        minHeight: "100vh",
-        backgroundImage: `url("/images/kokuban57.png")`,
-        backgroundSize: "cover",
-        padding: "40px",
-        color: "white",
-      }}
-    >
-      {/* タイトル */}
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        {pageIndex === 0 ? "🎉 クレジット" : "📘 規定ページ " + pageIndex}
-      </h1>
+    <div className="unified-board">
+      {/* 背景画像 (kokuban57.png) */}
+      <img
+        src="/images/kokuban57.png"
+        alt="background"
+        className="unified-board-bg"
+      />
 
-      <div
-        style={{
-          width: "75%",
-          margin: "0 auto",
-          background: "rgba(0,0,0,0.4)",
-          padding: "25px",
-          borderRadius: "15px",
-        }}
-      >
-        {/* クレジットページ */}
-        {pageIndex === 0 && (
-          <>
-            <p style={{ fontSize: "22px", marginBottom: "12px" }}>制作：Kai</p>
-            <p style={{ fontSize: "22px", marginBottom: "12px" }}>
-              協力：ChatGPT（デザイン・構造提案）
-            </p>
-            <p style={{ fontSize: "22px", marginBottom: "12px" }}>
-              使用素材：フリー音源 / イラスト素材
-            </p>
-            <p style={{ fontSize: "22px" }}>
-              特別感謝：テストプレイヤーの皆さま
-            </p>
-          </>
-        )}
+      <div className="unified-board-content">
+        {/* タイトル (統一スタイル適用) */}
+        <h2 className="board-title" style={{ marginTop: "-20px" }}>
+          {pageIndex === 0 ? "🎉 クレジット" : "📘 規定ページ " + pageIndex}
+        </h2>
 
-        {/* 規定ページ */}
-        {pageIndex > 0 &&
-          rulesPages[pageIndex - 1].map((line, i) => (
-            <p key={i} style={{ fontSize: "20px", marginBottom: "10px" }}>
-              {line}
-            </p>
-          ))}
-      </div>
+        {/* コンテンツボックス (黒板風の半透明背景) */}
+        <div
+          style={{
+            width: "80%",
+            height: "60%", // 高さを固定して安定させる
+            background: "rgba(0, 0, 0, 0.3)", // 黒板に馴染む薄い黒
+            padding: "30px",
+            borderRadius: "15px",
+            border: "2px solid rgba(255,255,255,0.2)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#fff",
+            textAlign: "center",
+            overflowY: "auto", // 内容が多い場合はスクロール
+          }}
+        >
+          {/* クレジットページ */}
+          {pageIndex === 0 && (
+            <>
+              <p style={{ fontSize: "24px", marginBottom: "15px" }}>
+                制作：Kai
+              </p>
+              <p style={{ fontSize: "24px", marginBottom: "15px" }}>
+                協力：ChatGPT（デザイン・構造提案）
+              </p>
+              <p style={{ fontSize: "24px", marginBottom: "15px" }}>
+                使用素材：フリー音源 / イラスト素材
+              </p>
+              <p style={{ fontSize: "24px" }}>
+                特別感謝：テストプレイヤーの皆さま
+              </p>
+            </>
+          )}
 
-      {/* --- ボタンエリア --- */}
-      <div
-        style={{
-          marginTop: "40px",
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
-        {/* 前へ */}
-        {pageIndex > 0 && (
-          <button style={btnStyle} onClick={() => setPageIndex(pageIndex - 1)}>
-            ← 戻る
-          </button>
-        )}
+          {/* 規定ページ */}
+          {pageIndex > 0 &&
+            rulesPages[pageIndex - 1].map((line, i) => (
+              <p
+                key={i}
+                style={{
+                  fontSize: "22px",
+                  marginBottom: "12px",
+                  lineHeight: "1.6",
+                }}
+              >
+                {line}
+              </p>
+            ))}
+        </div>
 
-        {/* 次へ（規定ページへ進む） */}
-        {pageIndex < rulesPages.length ? (
-          <button style={btnStyle} onClick={() => setPageIndex(pageIndex + 1)}>
-            → 次へ
-          </button>
-        ) : null}
+        {/* --- ボタンエリア (黒板の下部に配置) --- */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "40px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            gap: "30px",
+          }}
+        >
+          {/* 戻るボタン (StartMenuへ) */}
+          {pageIndex === 0 && (
+            <button onClick={onBack} style={btnStyle}>
+              ← メニューに戻る
+            </button>
+          )}
 
-        {/* 最初のクレジットページでは StartMenu に戻るを表示 */}
-        {pageIndex === 0 && (
-          <button style={btnStyle} onClick={onBack}>
-            ← メニューに戻る
-          </button>
-        )}
+          {/* 前へボタン */}
+          {pageIndex > 0 && (
+            <button
+              onClick={() => setPageIndex(pageIndex - 1)}
+              style={btnStyle}
+            >
+              ← 前へ
+            </button>
+          )}
+
+          {/* 次へボタン */}
+          {pageIndex < rulesPages.length && (
+            <button
+              onClick={() => setPageIndex(pageIndex + 1)}
+              style={btnStyle}
+            >
+              次へ →
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-// 共通ボタンスタイル
+// ボタンの統一スタイル
 const btnStyle = {
-  padding: "12px 24px",
+  padding: "10px 24px",
   fontSize: "18px",
-  background: "#ffcc66",
-  borderRadius: "12px",
-  border: "3px solid #d6a84f",
+  background: "rgba(255, 255, 255, 0.2)",
+  color: "#fff",
+  border: "1px solid rgba(255, 255, 255, 0.4)",
+  borderRadius: "8px",
   cursor: "pointer",
+  transition: "0.2s",
 };

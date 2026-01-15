@@ -1,4 +1,6 @@
+// src/components/TimeSelect.js
 import React from "react";
+import "../styles.css";
 
 export default function TimeSelect({ onSelect, onBack }) {
   const times = [
@@ -7,105 +9,77 @@ export default function TimeSelect({ onSelect, onBack }) {
   ];
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100dvh",
-        backgroundImage: `url("/images/kokuban15.png")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+    <div className="unified-board">
+      <img
+        src="/images/kokuban15.png"
+        alt="background"
+        className="unified-board-bg"
+      />
 
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
+      <div className="unified-board-content">
+        {/* ★スタイルを削除し、クラスに任せる */}
+        <h2
+          className="board-title"
+          style={{
+            marginBottom: "50px",
+            /* TimeSelectは元々margin-top指定がなかったので必要なら調整 */
+          }}
+        >
+          制限時間を選んでください
+        </h2>
 
-        paddingTop: "40px",
-      }}
-    >
-      {/* タイトル */}
-      <h2
-        style={{
-          color: "white",
-          textShadow: "0 0 6px rgba(0,0,0,0.8)",
-          marginBottom: "30px",
-          fontSize: "26px",
-          fontWeight: "600",
-        }}
-      >
-        制限時間を選んでください
-      </h2>
+        <div
+          style={{
+            display: "flex",
+            gap: "80px",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          {times.map((t) => (
+            <img
+              key={t.sec}
+              src={t.img}
+              alt={`${t.sec}秒`}
+              onClick={() => onSelect(t.sec)}
+              style={{
+                width: "300px",
+                maxWidth: "35%",
+                height: "auto",
+                cursor: "pointer",
+                transition: "transform 0.25s ease, filter 0.25s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.15)";
+                e.currentTarget.style.filter = "brightness(1.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.filter = "brightness(1)";
+              }}
+            />
+          ))}
+        </div>
 
-      {/* タイム画像２つ（横並び） */}
-      <div
-        style={{
-          display: "flex",
-          gap: "60px",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          flexWrap: "wrap",
-        }}
-      >
-        {times.map((t) => (
-          <img
-            key={t.sec}
-            src={t.img}
-            alt={`${t.sec}秒`}
-            onClick={() => onSelect(t.sec)}
-            style={{
-              width: "280px",
-              maxWidth: "45vw",
-              cursor: "pointer",
-              transition: "transform 0.25s ease, filter 0.25s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.2)"; // 拡大率アップ
-              e.currentTarget.style.filter = "brightness(1.7) contrast(1.1)"; // 明るささらにアップ
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.filter = "brightness(1) contrast(1)";
-            }}
-          />
-        ))}
+        <button
+          onClick={onBack}
+          style={{
+            position: "absolute",
+            bottom: "50px",
+            left: "50px",
+            padding: "12px 24px",
+            fontSize: "20px",
+            borderRadius: "6px",
+            cursor: "pointer",
+            background: "rgba(255, 255, 255, 0.9)",
+            border: "1px solid #ddd",
+            color: "#333",
+          }}
+        >
+          ← 戻る
+        </button>
       </div>
-
-      {/* 戻るボタン（中央下） */}
-      <button
-        onClick={onBack}
-        style={{
-          marginTop: "40px",
-          padding: "12px 24px",
-          fontSize: "20px",
-          borderRadius: "6px",
-          cursor: "pointer",
-          background: "rgba(255, 255, 255, 0.9)",
-          border: "1px solid #ddd",
-        }}
-      >
-        ← 戻る
-      </button>
-
-      {/* 横向きレイアウト最適化 */}
-      <style>
-        {`
-          @media (orientation: landscape) {
-            h2 {
-              margin-bottom: 20px !important;
-              font-size: 22px !important;
-            }
-            img {
-              width: 220px !important;
-              max-width: 30vw !important;
-            }
-            button {
-              margin-top: 25px !important;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 }

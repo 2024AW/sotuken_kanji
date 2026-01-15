@@ -1,4 +1,6 @@
+// src/components/LevelSelect.js
 import React from "react";
+import "../styles.css";
 
 export default function LevelSelect({ onSelect, onBack }) {
   const levels = [
@@ -9,97 +11,84 @@ export default function LevelSelect({ onSelect, onBack }) {
   ];
 
   return (
-    <div
-      style={{
-        textAlign: "center",
-        padding: "40px",
-        minHeight: "100vh",
-        backgroundImage: `url("/images/kokuban13.png")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative", // 子要素の絶対配置用
-      }}
-    >
-      <h2
-        style={{
-          color: "white",
-          textShadow: "0 0 5px black",
-          marginBottom: "50px", // 下の余白を広めに
-          marginTop: "-20px", // 上に少し寄せる
-        }}
-      >
-        難易度を選んでください
-      </h2>
+    <div className="unified-board">
+      <img
+        src="/images/kokuban13.png"
+        alt="background"
+        className="unified-board-bg"
+      />
 
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          justifyContent: "center",
-          width: "800px",
-          alignItems: "flex-start",
-          marginTop: "-20px",
-        }}
-      >
-        {levels.map((lvl) => (
-          <img
-            key={lvl.id}
-            src={lvl.img}
-            alt={lvl.label}
-            onClick={() => onSelect(lvl.id)}
-            style={{
-              width: "180px",
-              height: "auto",
-              cursor: "pointer",
-              borderRadius: "12px",
-              boxShadow: "0 0 5px rgba(0,0,0,0.5)",
-              transition: "transform 0.25s, box-shadow 0.25s",
-              marginTop: "-10px",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.08)";
-              e.currentTarget.style.boxShadow = "0 0 20px gold";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow = "0 0 5px rgba(0,0,0,0.5)";
-            }}
-          />
-        ))}
+      <div className="unified-board-content">
+        {/* ★スタイルを削除し、クラスに任せる */}
+        <h2
+          className="board-title"
+          style={{
+            marginBottom: "40px",
+            marginTop: "-30px",
+          }}
+        >
+          難易度を選んでください
+        </h2>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "30px",
+            justifyContent: "center",
+            width: "90%",
+            alignItems: "center",
+          }}
+        >
+          {levels.map((lvl) => (
+            <div
+              key={lvl.id}
+              onClick={() => onSelect(lvl.id)}
+              style={{
+                cursor: "pointer",
+                transition: "transform 0.25s, filter 0.25s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.1)";
+                e.currentTarget.style.filter = "brightness(1.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.filter = "brightness(1)";
+              }}
+            >
+              <img
+                src={lvl.img}
+                alt={lvl.label}
+                style={{
+                  width: "100%",
+                  maxWidth: "200px",
+                  height: "auto",
+                  borderRadius: "12px",
+                  boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={onBack}
+          style={{
+            position: "absolute",
+            bottom: "50px",
+            left: "50px",
+            padding: "10px 24px",
+            fontSize: "18px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            background: "rgba(255, 255, 255, 0.2)",
+            color: "#fff",
+            border: "1px solid rgba(255, 255, 255, 0.4)",
+          }}
+        >
+          戻る
+        </button>
       </div>
-
-      {/* 左下の戻るボタン */}
-      <button
-        onClick={onBack}
-        style={{
-          position: "fixed",
-          bottom: "40px", // 下の余白を広げる
-          left: "40px", // 左の余白を広げる
-          padding: "10px 20px",
-          fontSize: "16px",
-          borderRadius: "8px",
-          cursor: "pointer",
-          background: "rgba(255, 255, 255, 0.2)",
-          color: "#fff",
-          border: "1px solid rgba(255, 255, 255, 0.4)",
-          textShadow: "1px 1px 2px black",
-          transition: "transform 0.2s, box-shadow 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.05)";
-          e.currentTarget.style.boxShadow = "0 0 10px gold";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.boxShadow = "none";
-        }}
-      >
-        戻る
-      </button>
     </div>
   );
 }

@@ -658,18 +658,21 @@
   animation: shake 0.4s ease;
 }
 
-/* =========================================
-   ✨ アニメーション定義 (Keyframes)
-========================================= */
-/* チョーク書きアニメーション（共通） */
-/* StartMenuのタイトルや、HowToPlayの文字で使用 */
+/* チョーク書きアニメーション + タイトル統一スタイル */
 .startmenu-title,
 .tap-message,
-.howto-content * {
+.howto-content *,
+.board-title {
   font-family: "Zen Kurenaido", sans-serif;
   animation: chalk-write 2.5s ease-out forwards;
-}
+  white-space: nowrap;
 
+  /* ★以下を追加して統一（LevelSelectのサイズに合わせる） */
+  font-size: 2rem; /* LevelSelectと同じサイズ */
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 5px black; /* 影も統一 */
+}
 /* クラスごとの微調整 */
 .startmenu-title {
   position: absolute;
