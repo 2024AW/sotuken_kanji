@@ -8,6 +8,7 @@ export default function DebugPanel({
   questionCount,
   questionsLength,
   isChecking,
+  currentDifficulty, // ★追加: 現在の難易度を受け取る
 }) {
   return (
     <div
@@ -37,6 +38,20 @@ export default function DebugPanel({
           <p>
             目標正解数 (questionCount): <strong>{questionCount}</strong>
           </p>
+
+          {/* ★追加: 難易度表示 (Bossなら赤文字で見やすくしています) */}
+          <p>
+            難易度:
+            <strong
+              style={{
+                color: currentDifficulty === "boss" ? "#ff4444" : "white",
+                marginLeft: "4px",
+              }}
+            >
+              {currentDifficulty}
+            </strong>
+          </p>
+
           <p>
             残り問題ストック: <strong>{questionsLength}</strong>
           </p>

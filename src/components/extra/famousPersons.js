@@ -25,7 +25,7 @@ export const famousPersons = [
     name: "ジャンヌダルク",
     display: "ジャンヌ・ダルク",
     image: "/images/famous/ジャンヌ・ダルク.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ジャンヌ・ダルク"],
     meaning:
       "百年戦争でフランス軍を率いた少女の指導者。神のお告げを信じて戦い、フランスを勝利に導いたが、のちに捕らえられ処刑された。",
@@ -52,7 +52,7 @@ export const famousPersons = [
     name: "ケネディ",
     display: "ケネディ",
     image: "/images/famous/ケネディ.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ジョン・F・ケネディ"],
     meaning:
       "アメリカ第35代大統領。冷戦下で国の指導を行い、月への人類到達を目標に掲げるなど、未来への挑戦を示した人物。",
@@ -132,7 +132,7 @@ export const famousPersons = [
     name: "シェイクスピア",
     display: "シェイクスピア",
     image: "/images/famous/シェイクスピア.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ウィリアム・シェイクスピア"],
     meaning:
       "多くの戯曲や詩を残したイギリスの劇作家。『ロミオとジュリエット』などの作品で、人間の感情を深く描いた人物。",
@@ -196,7 +196,7 @@ export const famousPersons = [
     name: "スターリン",
     display: "スターリン",
     image: "/images/famous/スターリン.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ヨシフ・スターリン", "ヨシフ・ヴィサリオノヴィチ・スターリン"],
     meaning:
       "ソ連（ソビエト連邦）の指導者。強い権力で国をまとめ、工業化を進めたが、厳しい政治で多くの犠牲者も出した人物。",
@@ -272,7 +272,7 @@ export const famousPersons = [
     name: "ホー・チミン",
     display: "ホー・チミン",
     image: "/images/famous/ホー・チミン.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ホーチミン"],
     meaning:
       "ベトナム独立を指導した革命家・政治家。フランスなどの支配からの独立を目指し、ベトナム民主共和国を建国した人物。",
@@ -318,7 +318,7 @@ export const famousPersons = [
     name: "ムッソリーニ",
     display: "ムッソリーニ",
     image: "/images/famous/ムッソリーニ.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ベニート・ムッソリーニ"],
     meaning:
       "イタリアの政治家。ファシズムを掲げて独裁政治を行い、第二次世界大戦では枢軸国の一員として国を率いた人物。",
@@ -396,7 +396,7 @@ export const famousPersons = [
     name: "行基",
     display: "行基",
     image: "/images/famous/行基.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     meaning:
       "奈良時代の僧。民衆への布教とともに、橋や堤防の建設などの社会事業を行った。東大寺の大仏建立にも貢献し、菩薩と呼ばれた。",
   },
@@ -404,7 +404,7 @@ export const famousPersons = [
     name: "ろじん",
     display: "魯迅",
     image: "/images/famous/魯迅.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["ルーシュン", "魯迅"],
     meaning:
       "中国近代文学を代表する作家・思想家。社会の矛盾を鋭く描いた作品で、人々の意識改革を促した人物。",
@@ -432,7 +432,7 @@ export const famousPersons = [
     display: "始皇帝",
     image: "/images/famous/始皇帝.jpg",
     difficulty: "normal",
-    aliases: ["しこうてい", "秦の始皇帝"],
+    aliases: ["しこうてい", "秦の始皇帝","しんのしこうてい"],
     meaning:
       "中国を初めて統一した皇帝。法律や文字、貨幣を統一し、強い中央集権国家を築いた人物。",
   },
@@ -457,7 +457,7 @@ export const famousPersons = [
     name: "蒋介石",
     display: "蒋介石",
     image: "/images/famous/蒋介石.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["しょうかいせき"],
     meaning:
       "中国国民党の指導者。中国統一を目指して戦い、のちに台湾で中華民国政府を率いた人物。",
@@ -571,7 +571,7 @@ export const famousPersons = [
     name: "もりおうがい",
     display: "森鴎外",
     image: "/images/famous/森鴎外.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["森鷗外"],
     meaning:
       "明治時代の作家・医師。小説や評論を通して近代文学を発展させ、日本文化や社会を深く描いた人物。",
@@ -634,7 +634,7 @@ export const famousPersons = [
     name: "もうりもとなり",
     display: "毛利元就",
     image: "/images/famous/毛利元就.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["毛利元就"],
     meaning:
       "戦国時代の武将。知略に優れ、毛利氏の勢力を中国地方一帯に広げた人物。「三本の矢」の話で知られる賢将。",
@@ -662,7 +662,7 @@ export const famousPersons = [
     name: "ほりたつお",
     display: "堀辰雄",
     image: "/images/famous/堀辰雄.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["堀辰雄"],
     meaning:
       "昭和時代の小説家。『風立ちぬ』などの作品で、繊細な心理描写や自然描写を通して人間の心の機微を表現した人物。",
@@ -707,7 +707,7 @@ export const famousPersons = [
     name: "たけだしんげん",
     display: "武田信玄",
     image: "/images/famous/武田信玄.jpg",
-    difficulty: "boss",
+    difficulty: "normal",
     aliases: ["武田信玄"],
     meaning:
       "戦国時代の武将。甲斐の国を治め、優れた戦略と軍事力で信濃や周辺地域に勢力を広げた人物。「風林火山」の旗印で知られる名将。",
@@ -789,7 +789,7 @@ export const famousPersons = [
     name: "吉田松陰",
     display: "吉田松陰",
     image: "/images/famous/吉田松陰.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["よしだしょういん"],
     meaning:
       "幕末の思想家・教育者。長州藩で若者を教育し、倒幕や日本の近代化を目指す人材を育てた人物。",
@@ -835,7 +835,7 @@ export const famousPersons = [
     name: "こんどういさみ",
     display: "近藤勇",
     image: "/images/famous/近藤勇.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["近藤勇"],
     meaning:
       "幕末の武士・新撰組の隊長。京都で治安維持にあたり、幕府側の武士として活躍した人物。",
@@ -907,7 +907,7 @@ export const famousPersons = [
     name: "国木田独歩",
     display: "国木田独歩",
     image: "/images/famous/国木田独歩.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["くにきだどっぽ"],
     meaning:
       "明治時代の小説家・詩人。『武蔵野』などの作品で自然や庶民の生活を描き、近代日本文学の発展に貢献した人物。",
@@ -980,7 +980,7 @@ export const famousPersons = [
     name: "杉原千畝",
     display: "杉原千畝",
     image: "/images/famous/杉原千畝.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["すぎはらちうね"],
     meaning:
       "第二次世界大戦中の外交官。ナチス・ドイツから逃れるユダヤ人に日本のビザを発行し、多くの命を救った人物。",
@@ -1098,7 +1098,7 @@ export const famousPersons = [
     name: "滝廉太郎",
     display: "滝廉太郎",
     image: "/images/famous/滝廉太郎.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["たきれんたろう"],
     meaning:
       "明治時代の作曲家。『荒城の月』や『おぼろ月夜』などを作曲し、日本の近代音楽の発展に大きく貢献した人物。",
@@ -1153,7 +1153,7 @@ export const famousPersons = [
     name: "東郷平八郎",
     display: "東郷平八郎",
     image: "/images/famous/東郷平八郎.jpg",
-    difficulty: "normal",
+    difficulty: "boss",
     aliases: ["とうごうへいはちろう"],
     meaning:
       "明治・大正時代の海軍軍人。日露戦争で日本海海戦を指揮し、日本の勝利に大きく貢献した人物。",
@@ -1212,5 +1212,15 @@ export const famousPersons = [
     aliases: ["とくがわつなよし"],
     meaning:
       "江戸幕府の第5代将軍。「生類憐みの令」を出し、動物愛護や道徳政策を重視した人物。",
+  },
+
+  {
+    name: "坂口安吾",
+    display: "坂口安吾",
+    image: "/images/famous/坂口安吾.jpg",
+    difficulty: "boss",
+    aliases: ["さかぐちあんご"],
+    meaning:
+      "昭和時代の小説家。戦後文学を代表する作家で、人間の本質や価値観を鋭く問い直した人物。",
   },
 ];

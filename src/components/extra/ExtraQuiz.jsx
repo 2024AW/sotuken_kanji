@@ -6,7 +6,6 @@ import Lives from "../Lives";
 import DebugPanel from "../DebugPanel";
 import LoadingScreen from "../LoadingScreen";
 import ConfirmGiveUp from "../ConfirmGiveUp";
-import TimeoutScreen from "../TimeoutScreen"; // ※もし使っていないなら削除可
 import QuestionCounter from "../QuestionCounter";
 import ActionButtons from "../ActionButtons";
 import MessageDisplay from "../MessageDisplay";
@@ -21,15 +20,15 @@ import { famousPersons } from "./famousPersons";
 import "../../styles.css";
 
 // =========================================
-// 配列シャッフル
+// 配列シャッフル関数
 // =========================================
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
+function shuffle(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return a;
+  return arr;
 }
 
 export default function ExtraQuiz({
@@ -41,7 +40,9 @@ export default function ExtraQuiz({
   // =========================================
   // State
   // =========================================
-  const [allQuestions, setAllQuestions] = useState([]);
+  const [normalPool, setNormalPool] = useState([]);
+  const [bossPool, setBossPool] = useState([]);
+  
   const [current, setCurrent] = useState(null);
   const [usedQuestions, setUsedQuestions] = useState([]);
 
@@ -49,7 +50,7 @@ export default function ExtraQuiz({
   const [result, setResult] = useState("");
   const [messageType, setMessageType] = useState("");
 
-  const [questionNumber, setQuestionNumber] = useState(1); // 現在の問題数（1からスタート）
+  const [questionNumber, setQuestionNumber] = useState(1);
   const [lives, setLives] = useState(3);
 
   const [timeLeft, setTimeLeft] = useState(timeLimit);
@@ -87,18 +88,20 @@ export default function ExtraQuiz({
   // 初期化
   // =========================================
   useEffect(() => {
-    // 難易度別に分けてシャッフル
-    const normal = shuffle(
-      famousPersons.filter((q) => q.difficulty !== "boss")
-    );
-    const boss = shuffle(famousPersons.filter((q) => q.difficulty === "boss"));
+    // 全データを難易度別に分けてシャッフルし、プール(在庫)として保持
+    const normals = shuffle(famousPersons.filter((q) => q.difficulty === "normal"));
+    const bosses = shuffle(famousPersons.filter((q) => q.difficulty === "boss"));
 
-    // 通常問題 + ボス問題を結合して出題リストを作成
-    const selected = [...normal.slice(0, questionCount - 1), boss[0]];
+    setNormalPool(normals);
+    setBossPool(bosses);
+    setUsedQuestions([]);
 
-    setAllQuestions(selected);
-    setCurrent(selected[0]);
-    setUsedQuestions([]); // 出題済みリストをリセット
+    // 最初の問題を設定
+    if (normals.length > 0) {
+      setCurrent(normals[0]);
+    } else if (bosses.length > 0) {
+      setCurrent(bosses[0]);
+    }
 
     setQuestionNumber(1);
     setLives(3);
@@ -151,37 +154,46 @@ export default function ExtraQuiz({
   // 次の問題へ
   // =========================================
   const advanceToNextProblem = () => {
-    // 1. まず、今の問題を「出題済みリスト」に正式に追加して保存します
+    // 1. 今の問題を出題済みに登録
     const newUsedQuestions = [...usedQuestions, current];
     setUsedQuestions(newUsedQuestions);
 
-    // 2. クリア判定 (★修正箇所: >= ではなく > に変更)
-    // questionNumberは正解時に+1されているため、
-    // 「7問設定」の場合、7問正解後の questionNumber は 8 になります。
-    // そのため、8 > 7 となった時点でクリアとするのが正しいです。
-    if (questionNumber > questionCount) {
+    // 2. 正解かそれ以外(スキップ/時間切れ)かで次の番号を決定
+    const isCorrect = correctAdvanceMode === "correct";
+    
+    // 正解したときだけ問題番号を進める
+    const nextQNumber = isCorrect ? questionNumber + 1 : questionNumber;
+
+    // 3. クリア判定
+    if (isCorrect && questionNumber >= questionCount) {
       setShowGameClear(true);
       return;
     }
 
-    // 3. 未出題の問題を抽出
-    // 「全問題」から「今保存した出題済みリスト」に含まれないものを探します
-    const unused = allQuestions.filter((q) => !newUsedQuestions.includes(q));
+    setQuestionNumber(nextQNumber);
 
-    if (unused.length === 0) {
-      // 万が一、問題が尽きた場合もクリア扱いにする
-      setShowGameClear(true);
-      return;
+    // 4. 次の問題を選ぶ (最終問題ならBoss、それ以外はNormal)
+    const isBossStage = nextQNumber === questionCount;
+    const targetPool = isBossStage ? bossPool : normalPool;
+
+    // 未出題の問題をプールから探す
+    let candidates = targetPool.filter((q) => !newUsedQuestions.includes(q));
+
+    // もし候補が尽きたらリサイクル
+    if (candidates.length === 0) {
+      candidates = targetPool.filter((q) => q !== current);
+      if (candidates.length === 0) candidates = [current];
     }
 
-    // 4. ランダムで次の問題を選ぶ
-    const next = unused[Math.floor(Math.random() * unused.length)];
+    // ランダムに選択
+    const next = candidates[Math.floor(Math.random() * candidates.length)];
     setCurrent(next);
 
     // 状態のリセット
     setAnswer("");
     setResult("");
     setMessageType("");
+    
     setTimeLeft(timeLimit);
   };
 
@@ -191,8 +203,8 @@ export default function ExtraQuiz({
   const handleNextAfterCorrect = () => {
     setShowCorrectOverlay(false);
 
-    // 正解以外（skip / timeout）はライフを減らす
-    if (correctAdvanceMode !== "correct") {
+    // タイムアウト（時間切れ）の時だけライフを減らす
+    if (correctAdvanceMode === "timeout") {
       const newLives = lives - 1;
       setLives(newLives);
 
@@ -217,7 +229,6 @@ export default function ExtraQuiz({
 
     const ans = answer.trim();
 
-    // 簡易的なアルファベットチェック（誤入力防止）
     if (/^[a-zA-Z]+$/.test(ans)) {
       setMessageType("warning");
       setResult("⚠️ ひらがなで入力してね");
@@ -232,12 +243,10 @@ export default function ExtraQuiz({
       (current.aliases || []).some((a) => normalize(a) === normalize(ans));
 
     if (isCorrect) {
-      setQuestionNumber((n) => n + 1); // 正解したら番号を進める
-
       // 正解情報をセット
       setCorrectInfo({
-        kanji: "", // Extraでは使わない
-        reading: current.display, // 「読み」の場所に display名 を入れる
+        kanji: "",
+        reading: current.display, 
         meaning: current.meaning,
         image: current.image,
       });
@@ -335,8 +344,10 @@ export default function ExtraQuiz({
         gameMode="extra"
         questionNumber={questionNumber}
         questionCount={questionCount}
-        questionsLength={allQuestions.length}
+        questionsLength={normalPool.length + bossPool.length}
         usedCount={usedQuestions.length}
+        isChecking={isChecking}
+        currentDifficulty={current?.difficulty} 
       />
 
       <div className="lives-container">
@@ -354,15 +365,20 @@ export default function ExtraQuiz({
               <img
                 src={current.image}
                 alt=""
-                style={{ maxHeight: "280px", borderRadius: "8px" }}
+                style={{
+                  maxHeight: "280px",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+                }}
               />
             )}
           </div>
 
+          {/* ★修正: プレースホルダーを変更 */}
           <input
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            placeholder="ひらがなで答えてね"
+            placeholder="名前を入力してね！"
             className="answer-input"
             onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
             readOnly={isGameOver || isChecking}
