@@ -14,6 +14,10 @@ import CorrectOverlay from "./CorrectOverlay";
 import GameClearScreen from "./GameClearScreen";
 import { questionSets } from "./questions";
 
+// ★ BossStage と Stage3 をインポート
+import BossStage from "./background/BossStage";
+import Stage3 from "./background/Stage3"; // ★追加
+
 import "../styles.css";
 
 // =========================================
@@ -57,7 +61,6 @@ export default function Quiz({
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [lastAnswer, setLastAnswer] = useState("");
   const [questionNumber, setQuestionNumber] = useState(1);
 
   const [warning, setWarning] = useState("");
@@ -71,15 +74,12 @@ export default function Quiz({
   const [showGameClear, setShowGameClear] = useState(false);
   const [showCorrectOverlay, setShowCorrectOverlay] = useState(false);
   const [correctAdvanceMode, setCorrectAdvanceMode] = useState("correct");
-  // "correct" | "skip"
 
   const [correctInfo, setCorrectInfo] = useState({
     kanji: "",
     reading: "",
     meaning: "",
   });
-
-  const FEEDBACK_DURATION = 1000;
 
   // =========================================
   // 🎵 BGM 管理
@@ -91,13 +91,12 @@ export default function Quiz({
   );
   const bossBGMRef = React.useRef(new Audio("/bgm-boss.mp3"));
   const clearBGMRef = React.useRef(new Audio("/bgm-clear.mp3"));
-  const playingRef = React.useRef("none"); // "normal" | "boss" | "none"
+  const playingRef = React.useRef("none");
 
   const normalBGM = normalBGMRef.current;
   const bossBGM = bossBGMRef.current;
   const clearBGM = clearBGMRef.current;
 
-  // ✅ すべてのBGMを止める（戻る/クリア/ゲームオーバー用）
   const stopAllBgm = () => {
     normalBGM.pause();
     normalBGM.currentTime = 0;
@@ -121,12 +120,10 @@ export default function Quiz({
   }, [bgmVolume, normalBGM, bossBGM, clearBGM]);
 
   // =========================================
-  // ★ ステージ判定（rank 決定）
+  // ★ ステージ判定
   // =========================================
   const getLevelStage = (qNum) => {
     const idx = qNum - 1;
-
-    // 最後の問題は BOSS
     if (idx === questionCount - 1) return "BOSS";
 
     let interval = 2;
@@ -137,7 +134,7 @@ export default function Quiz({
   };
 
   // =========================================
-  // 初期化（rank グループ作成）
+  // 初期化
   // =========================================
   useEffect(() => {
     const selected = questionSets[level];
@@ -188,24 +185,20 @@ export default function Quiz({
     if (isGameOver || showGameClear) return;
 
     const want = stage === "BOSS" ? "boss" : "normal";
-    if (playingRef.current === want) return; // すでにそのBGMなら何もしない
+    if (playingRef.current === want) return;
 
     if (want === "boss") {
-      // normal -> boss
       if (!normalBGM.paused) normalBGM.pause();
-      bossBGM.currentTime = 0; // 切替時だけ先頭から
+      bossBGM.currentTime = 0;
       bossBGM.play().catch(() => {});
     } else {
-      // boss -> normal
       if (!bossBGM.paused) bossBGM.pause();
-      // ★ここが重要：stage1〜3は流し続けたいので currentTime=0 しない
       normalBGM.play().catch(() => {});
     }
 
     playingRef.current = want;
   }, [stage, isGameOver, showGameClear, normalBGM, bossBGM]);
 
-  // ✅ Quiz画面から離れたら必ずBGM停止（クリア画面は Quiz 自体を返さないのでここは問題なし）
   useEffect(() => {
     return () => {
       stopAllBgm();
@@ -215,7 +208,6 @@ export default function Quiz({
   // =========================================
   // ★ タイマー
   // =========================================
-  // ★ タイマー
   useEffect(() => {
     if (
       !current ||
@@ -232,7 +224,7 @@ export default function Quiz({
       setTimeLeft((t) => {
         if (t <= 1) {
           clearInterval(timer);
-          handleTimeUp(); // ← ここ
+          handleTimeUp();
           return 0;
         }
         return t - 1;
@@ -250,20 +242,17 @@ export default function Quiz({
   ]);
 
   // =========================================
-  // ★ 次の問題へ（rank 切替）
+  // ★ 次の問題へ
   // =========================================
   const advanceToNextProblem = (isCorrect = false) => {
-    // ゲームクリア
     if (isCorrect && questionNumber === questionCount) {
-      // ✅ 通常BGMを止める
       normalBGM.pause();
       bossBGM.pause();
       normalBGM.currentTime = 0;
       bossBGM.currentTime = 0;
 
-      // ✅ クリアBGMを鳴らす
       clearBGM.currentTime = 0;
-      clearBGM.play().catch(() => {}); // 自動再生制限対策
+      clearBGM.play().catch(() => {});
 
       setShowGameClear(true);
       return;
@@ -290,14 +279,12 @@ export default function Quiz({
 
     if (isCorrect) setQuestionNumber(nextQuestionNum);
 
-    // 必ずリセット
     setAnswer("");
     setWarning("");
     setResult("");
     setMessageType("");
     setTimeLeft(timeLimit);
 
-    // ★ ステージ変更と Overlay 表示
     if (nextStage !== stage) {
       setStage(nextStage);
       setShowLevelIntro(true);
@@ -313,7 +300,6 @@ export default function Quiz({
 
     const ans = answer.trim();
 
-    // --- ローマ字チェック ---
     if (/^[a-zA-Z]+$/.test(ans)) {
       setMessageType("warning");
       setResult("⚠️ ひらがなで入力してね");
@@ -327,7 +313,6 @@ export default function Quiz({
       .split(",")
       .map((r) => r.trim());
 
-    // --- ニアミス判定 ---
     const isNearMatch = (input, correct) => {
       if (input === correct) return false;
       if (Math.abs(input.length - correct.length) > 1) return false;
@@ -357,12 +342,10 @@ export default function Quiz({
       return diff === 1;
     };
 
-    // --- 正解 ---
     if (readings.includes(ans)) {
       setMessageType("success");
-      setResult(""); // 下のメッセージ表示は使わないなら空に
+      setResult("");
 
-      // ★ オーバーレイに表示したい情報をセット
       setCorrectInfo({
         kanji: current.kanji,
         reading: current.reading,
@@ -371,11 +354,10 @@ export default function Quiz({
       setCorrectAdvanceMode("correct");
       setShowCorrectOverlay(true);
 
-      setIsChecking(false); // overlay中は入力できないので解除してOK
+      setIsChecking(false);
       return;
     }
 
-    // --- おしい ---
     if (readings.some((r) => isNearMatch(ans, r))) {
       setMessageType("near");
       setResult("🤏 おしい！もう一度チャレンジ！");
@@ -384,7 +366,6 @@ export default function Quiz({
       return;
     }
 
-    // --- 不正解 ---
     setMessageType("error");
     setResult("❌ 間違い！もう一度チャレンジ！");
 
@@ -410,94 +391,9 @@ export default function Quiz({
     setShowCorrectOverlay(true);
   };
 
-  const handleNextAfterTimeout = () => {
-    const newLives = lives - 1;
-    setLives(newLives);
-
-    // ★ メッセージ表示
-    setMessageType("error");
-    setResult(`❌ 時間切れ！（残り${newLives}機）`);
-
-    // ★ ライフが0 → GAME OVER
-    if (newLives <= 0) {
-      setTimeout(() => {
-        stopAllBgm(); // ✅ 追加
-        setIsGameOver(true);
-      }, 1000); // ← 少し余韻を持たせる
-      return;
-    }
-
-    // ★ ここが重要ポイント！
-    // TimeoutScreen が消えてからメッセージを少し見せて、
-    // その後で次の問題へ進む
-    setTimeout(() => {
-      advanceToNextProblem(false);
-      setIsChecking(false);
-    }, 1000); // ← 好きな待ち時間（1000ms = 1秒）
-  };
-
-  // =========================================
-  // ★ スキップ
-  // =========================================
-  const skipQuestion = () => {
-    if (skipUsed || isChecking) return;
-
-    setIsChecking(true);
-    setSkipUsed(true);
-
-    // スキップでも答え情報をOverlayに渡す
-    setCorrectInfo({
-      kanji: current?.kanji || "",
-      reading: current?.reading || "",
-      meaning: current?.meaning || "",
-    });
-
-    setCorrectAdvanceMode("skip");
-    setShowCorrectOverlay(true);
-
-    setIsChecking(false);
-  };
-
-  // =========================================
-  // ★ ギブアップ
-  // =========================================
-  const handleGiveUp = () => setShowConfirm(true);
-
-  const confirmGiveUp = (choice) => {
-    if (choice === "yes") {
-      stopAllBgm(); // ✅ 先に止める
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        onBack();
-      }, 800);
-    } else {
-      setShowConfirm(false);
-    }
-  };
-
-  // =========================================
-  // ★ 背景色
-  // =========================================
-  const getBackgroundStyle = () => {
-    switch (stage) {
-      case 1:
-        return { background: "linear-gradient(to bottom, #56ab2f, #a8e063)" };
-      case 2:
-        return { background: "linear-gradient(to bottom, #f6d365, #fda085)" };
-      case 3:
-        return { background: "linear-gradient(to bottom, #ff512f, #1f1c18)" };
-      case "BOSS":
-        return { background: "linear-gradient(to bottom, #4b0082, #0d001a)" };
-      default:
-        return { background: "#000" };
-    }
-  };
-
   const handleNextAfterCorrect = () => {
     setShowCorrectOverlay(false);
 
-    // ⏱ TIMEOUT
     if (correctAdvanceMode === "timeout") {
       const newLives = lives - 1;
       setLives(newLives);
@@ -520,14 +416,71 @@ export default function Quiz({
       return;
     }
 
-    // ⏭ SKIP
     if (correctAdvanceMode === "skip") {
       advanceToNextProblem(false);
       return;
     }
 
-    // ✅ CORRECT
     advanceToNextProblem(true);
+  };
+
+  // =========================================
+  // ★ スキップ
+  // =========================================
+  const skipQuestion = () => {
+    if (skipUsed || isChecking) return;
+
+    setIsChecking(true);
+    setSkipUsed(true);
+
+    setCorrectInfo({
+      kanji: current?.kanji || "",
+      reading: current?.reading || "",
+      meaning: current?.meaning || "",
+    });
+
+    setCorrectAdvanceMode("skip");
+    setShowCorrectOverlay(true);
+
+    setIsChecking(false);
+  };
+
+  // =========================================
+  // ★ ギブアップ
+  // =========================================
+  const handleGiveUp = () => setShowConfirm(true);
+
+  const confirmGiveUp = (choice) => {
+    if (choice === "yes") {
+      stopAllBgm();
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        onBack();
+      }, 800);
+    } else {
+      setShowConfirm(false);
+    }
+  };
+
+  // =========================================
+  // ★ 背景スタイル
+  // =========================================
+  const getBackgroundStyle = () => {
+    switch (stage) {
+      case 1:
+        return { background: "linear-gradient(to bottom, #56ab2f, #a8e063)" };
+      case 2:
+        return { background: "linear-gradient(to bottom, #f6d365, #fda085)" };
+      case 3:
+        // ★変更: Stage3を表示するので透明に
+        return { background: "transparent" };
+      case "BOSS":
+        // ★変更: BossStageを表示するので透明に
+        return { background: "transparent" };
+      default:
+        return { background: "#000" };
+    }
   };
 
   // =========================================
@@ -536,7 +489,6 @@ export default function Quiz({
   if (loading) return <LoadingScreen message="終了しています..." />;
   if (showConfirm) return <ConfirmGiveUp onConfirm={confirmGiveUp} />;
 
-  // ✅ クリア時のreturnは1要素で返す
   if (showGameClear) {
     return (
       <GameClearScreen
@@ -549,14 +501,23 @@ export default function Quiz({
   }
 
   return (
-    <div className="quiz-root" style={{ position: "relative" }}>
-      {/* ✅ CorrectOverlayは通常画面の上に出す */}
+    <div
+      className="quiz-root"
+      style={{ position: "relative", overflow: "hidden" }}
+    >
+      {/* ★ Stage3 背景 (Level 3時のみ表示) */}
+      {stage === 3 && <Stage3 />}
+
+      {/* ★ BOSSステージ背景 (BOSS時のみ表示) */}
+      {stage === "BOSS" && <BossStage />}
+
+      {/* CorrectOverlay */}
       {showCorrectOverlay && (
         <CorrectOverlay
           kanji={correctInfo.kanji}
           reading={correctInfo.reading}
           meaning={correctInfo.meaning}
-          mode={correctAdvanceMode} // ← 追加
+          mode={correctAdvanceMode}
           onNext={handleNextAfterCorrect}
         />
       )}
@@ -586,14 +547,22 @@ export default function Quiz({
 
       <QuestionCounter current={questionNumber} total={questionCount} />
 
+      {/* 背景色を設定するコンテナ */}
+      {/* 背景色を設定するコンテナ */}
       <div className="quiz-mode" style={getBackgroundStyle()}>
         <div className="quiz-card">
           <Timer timeLeft={timeLeft} />
 
-          <div className="question-text">
-            {showCorrectOverlay ? "" : current?.kanji}
+          {/* ★修正: 条件分岐で中身を空にするのではなく、visibilityで制御する */}
+          <div
+            className="question-text"
+            style={{
+              // オーバーレイが出ている時は「非表示(hidden)」にするが、場所は確保する
+              visibility: showCorrectOverlay ? "hidden" : "visible",
+            }}
+          >
+            {current?.kanji}
           </div>
-
           <input
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}

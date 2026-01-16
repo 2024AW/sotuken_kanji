@@ -1,3 +1,4 @@
+// src/components/Timer.js
 import React from "react";
 
 export default function Timer({ timeLeft }) {
@@ -6,10 +7,14 @@ export default function Timer({ timeLeft }) {
   return (
     <div
       style={{
-        position: "relative", // 画像と数字を重ねる
-        width: "120px", // timer.png に合わせて調整
-        height: "120px",
-        margin: "20px auto", // 中央寄せ
+        position: "relative",
+        // ★修正1: サイズを少し小さく (120px -> 100px)
+        width: "100px",
+        height: "100px",
+
+        margin: "0 auto 20px",
+        // ★修正2: 位置をさらに少し上にずらす (-30px -> -40px)
+        transform: "translateY(-40px)",
       }}
     >
       {/* 背景画像 */}
@@ -29,7 +34,8 @@ export default function Timer({ timeLeft }) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          fontSize: "48px",
+          // ★修正3: 枠に合わせて文字も少し小さく (48px -> 38px)
+          fontSize: "38px",
           fontWeight: "bold",
           color: isWarning ? "red" : "black",
           textShadow: "0 0 5px black",
