@@ -692,8 +692,9 @@
   text-shadow: 0 0 6px rgba(255, 255, 0, 0.6);
   animation: shake 0.4s ease;
 }
-
-/* チョーク書きアニメーション + タイトル統一スタイル */
+/* ---------------------------------------------------------
+   ★ チョーク書きアニメーション + タイトル統一スタイル (修正版)
+--------------------------------------------------------- */
 .startmenu-title,
 .tap-message,
 .howto-content *,
@@ -702,11 +703,11 @@
   animation: chalk-write 2.5s ease-out forwards;
   white-space: nowrap;
 
-  /* ★以下を追加して統一（LevelSelectのサイズに合わせる） */
-  font-size: 2rem; /* LevelSelectと同じサイズ */
+  /* LevelSelect等のサイズ・影に統一 */
+  font-size: 2rem;
   font-weight: bold;
   color: #fff;
-  text-shadow: 0 0 5px black; /* 影も統一 */
+  text-shadow: 0 0 5px black;
 }
 /* クラスごとの微調整 */
 .startmenu-title {

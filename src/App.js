@@ -4,7 +4,7 @@ import StartMenu from "./components/StartMenu";
 import HowToPlay from "./components/HowToPlay";
 import VolumeSetting from "./components/VolumeSetting";
 import BgmSelect from "./components/BgmSelect"; // ← ★追加
-import CreditPage from "./components/CreditPage";
+import CreditPage from "./components/credit/CreditPage";
 import ExtraMenu from "./components/ExtraMenu";
 import ExtraQuiz from "./components/extra/ExtraQuiz";
 import LevelSelect from "./components/LevelSelect";
