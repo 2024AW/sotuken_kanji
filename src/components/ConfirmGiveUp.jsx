@@ -1,5 +1,4 @@
-// ConfirmGiveUp.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export default function ConfirmGiveUp({ onConfirm }) {
   const [closing, setClosing] = useState(false);
@@ -34,15 +33,34 @@ export default function ConfirmGiveUp({ onConfirm }) {
       `}
       </style>
 
+      {/* オーバーレイ背景（クリック無効化用） */}
       <div
         style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 1900, // 他の要素より手前に
+        }}
+      />
+
+      <div
+        style={{
+          // ★変更点: 配置方法を絶対配置に変更して位置を固定
+          position: "absolute",
+          top: "30%", // 上からの位置 (数値を小さくするともっと上に行きます)
+          left: 0,
+          right: 0,
+          margin: "auto", // 左右中央寄せ
+          zIndex: 2000, // 最前面に表示
+
           textAlign: "center",
           padding: "60px",
           background: "rgba(0, 0, 0, 0.85)",
           border: "3px solid #f8b400",
           borderRadius: "15px",
           width: "70%",
-          margin: "100px auto",
           color: "white",
           animation: `${
             closing ? "slideUpExit" : "slideDown"
