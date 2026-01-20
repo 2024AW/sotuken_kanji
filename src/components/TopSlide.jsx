@@ -5,13 +5,12 @@ import "../styles.css";
 export default function TopSlide({ onStart }) {
   return (
     // 1. 統一された黒板枠
-    // 黒板全体をクリック可能(onClick)にし、カーソルを指マークにする
     <div
       className="unified-board"
       onClick={onStart}
       style={{ cursor: "pointer" }}
     >
-      {/* 2. 背景画像 (kokuban11.png) */}
+      {/* 2. 背景画像 */}
       <img
         src="/images/kokuban11.png"
         alt="背景"
@@ -22,23 +21,24 @@ export default function TopSlide({ onStart }) {
       <div className="unified-board-content">
         {/* タイトルロゴ */}
         <img
-          src="/images/kanjinojikan.png"
+          src="/images/サイトロゴ1.png"
           alt="タイトル"
           style={{
-            maxWidth: "85%", // 黒板からはみ出さないように制限
+            // ★修正1: ロゴサイズをコンパクトに (例: 55%)
+            maxWidth: "65%",
             height: "auto",
             marginBottom: "40px",
-            // ユーザー操作を邪魔しない設定（画像ドラッグ防止など）
             pointerEvents: "none",
           }}
         />
 
         {/* タップメッセージ */}
-        {/* styles.css でフォントやアニメーションが定義済み */}
         <p
           className="tap-message"
           style={{
-            fontSize: "28px", // 少し大きく見やすく
+            // ★修正2: 位置を少し上に調整
+            marginTop: "-20px",
+            fontSize: "28px",
             color: "white",
             pointerEvents: "none",
           }}
