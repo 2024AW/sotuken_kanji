@@ -1,0 +1,100 @@
+/* =========================================
+   📱 スマホ・タブレット用レスポンシブ設定
+   (画面幅 768px 以下の場合に適用)
+========================================= */
+@media screen and (max-width: 768px) {
+  /* --- 全体レイアウト --- */
+  .page-inner,
+  .unified-board,
+  .startmenu-slider {
+    width: 100vw !important;
+    height: 100dvh !important; /* スマホのアドレスバー対策 */
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  /* 黒板画像: スマホでは左右が見切れてもOK、高さを合わせる */
+  .unified-board-bg,
+  .startmenu-background,
+  .page-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important; /* アスペクト比維持して画面を埋める */
+    object-position: center;
+  }
+
+  /* --- StartMenu (TopSlide) --- */
+  .startmenu-title {
+    font-size: 1.5rem !important; /* タイトルを少し小さく */
+    top: 15% !important;
+  }
+
+  .tap-message {
+    font-size: 1.2rem !important;
+  }
+
+  /* StartMenu の画像メニュー */
+  .startmenu-menu-items {
+    flex-direction: column; /* 縦並びに変更 */
+    gap: 15px !important;
+    top: 55% !important;
+  }
+
+  .startmenu-item-box {
+    width: 70% !important; /* 横幅を大きく */
+    max-width: none !important;
+  }
+
+  /* --- クイズ画面 --- */
+  .question-text {
+    font-size: 60px !important; /* 漢字を少し小さく */
+    margin-top: 60px !important;
+  }
+
+  .answer-input {
+    width: 85% !important;
+    font-size: 20px !important;
+    padding: 10px !important;
+  }
+
+  /* HUD (ライフ・問題数) */
+  .lives-container {
+    top: 10px !important;
+    right: 10px !important;
+    font-size: 24px !important; /* ハートを小さく */
+  }
+
+  .question-count {
+    top: 10px !important;
+    left: 10px !important;
+    font-size: 16px !important;
+  }
+
+  /* --- HowToPlay --- */
+  .howto-scroll-area {
+    padding: 20px !important; /* 左右の余白を詰める */
+    height: 60% !important;
+  }
+
+  .howto-heading {
+    width: 100% !important;
+    font-size: 20px !important;
+  }
+
+  .howto-text,
+  .howto-list {
+    font-size: 16px !important;
+  }
+
+  /* --- 共通パーツ --- */
+  .common-btn,
+  .unified-back-btn {
+    padding: 8px 16px !important;
+    font-size: 16px !important;
+  }
+
+  .unified-back-btn {
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+}
