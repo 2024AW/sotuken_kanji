@@ -1,17 +1,16 @@
-// src/components/StartMenu.jsx
+// src/components/StartMenu.js
 import React, { useState } from "react";
 import "../styles.css";
 
 export default function StartMenu({ onSelect }) {
-  const slidesData = [
-    // ===== 1ページ目 =====
+  // ===== データ定義 =====
+  // PC用: 3つずつのグループ (2ページ)
+  const pcSlides = [
     [
       { img: "/images/エクストラ.png", target: "extra" },
       { img: "/images/メイン.png", target: "level" },
       { img: "/images/遊び方説明.png", target: "howto" },
     ],
-
-    // ===== 2ページ目 =====
     [
       { img: "/images/ジュークボックス.png", target: "bgm" },
       { img: "/images/音量調整.png", target: "volume" },
@@ -19,63 +18,111 @@ export default function StartMenu({ onSelect }) {
     ],
   ];
 
-  const [index, setIndex] = useState(0);
+  // スマホ用: 全データを1つの配列にまとめる (フラット化)
+  // [item1, item2, item3, item4, item5, item6] という形になります
+  const mobileItems = pcSlides.flat();
 
-  const handlePrev = () => {
-    setIndex((prev) => (prev - 1 + slidesData.length) % slidesData.length);
+  // ===== State (状態管理) =====
+  const [pcIndex, setPcIndex] = useState(0);       // PC用のページ番号 (0 or 1)
+  const [mobileIndex, setMobileIndex] = useState(0); // スマホ用のアイテム番号 (0 ~ 5)
+
+  // ===== PC用 操作ハンドラ =====
+  const handlePcPrev = () => {
+    setPcIndex((prev) => (prev - 1 + pcSlides.length) % pcSlides.length);
+  };
+  const handlePcNext = () => {
+    setPcIndex((prev) => (prev + 1) % pcSlides.length);
   };
 
-  const handleNext = () => {
-    setIndex((prev) => (prev + 1) % slidesData.length);
+  // ===== スマホ用 操作ハンドラ =====
+  const handleMobilePrev = () => {
+    setMobileIndex((prev) => (prev - 1 + mobileItems.length) % mobileItems.length);
+  };
+  const handleMobileNext = () => {
+    setMobileIndex((prev) => (prev + 1) % mobileItems.length);
   };
 
   return (
-    // 1. 外側の枠 (.unified-board)
-    // 元の "startmenu-slider" クラスの代わりに共通クラスを使用
     <div className="unified-board">
-      {/* 2. 背景画像 (.unified-board-bg) */}
+      {/* 背景画像 */}
       <img
         src="/images/kokuban12.png"
         className="unified-board-bg"
         alt="黒板"
       />
 
-      {/* 3. コンテンツの中身 (.unified-board-content) */}
       <div className="unified-board-content">
-        {/* === 元のコンテンツをここに配置 === */}
-
         {/* タイトル */}
         <div className="startmenu-title">遊びたいモードを選んでください</div>
 
-        {/* スライド */}
-        <div className="startmenu-slides">
-          {slidesData.map((slide, i) => (
-            <div
-              key={i}
-              className={`startmenu-slide ${i === index ? "active" : ""}`}
-            >
-              <div className="startmenu-menu-items">
-                {slide.map((item, j) => (
-                  <div
-                    key={j}
-                    className="startmenu-item-box"
-                    onClick={() => item.target && onSelect(item.target)}
-                  >
-                    <img src={item.img} alt={`menu-${j}`} />
-                  </div>
-                ))}
+        {/* =================================================
+            🖥️ PC用レイアウト (クラス名: pc-layout-area)
+            CSSでスマホの時は display: none にします
+           ================================================= */}
+        <div className="pc-layout-area">
+          <div className="startmenu-slides">
+            {pcSlides.map((slide, i) => (
+              <div
+                key={i}
+                className={`startmenu-slide ${i === pcIndex ? "active" : ""}`}
+              >
+                <div className="startmenu-menu-items">
+                  {slide.map((item, j) => (
+                    <div
+                      key={j}
+                      className="startmenu-item-box"
+                      onClick={() => item.target && onSelect(item.target)}
+                    >
+                      <img src={item.img} alt={`menu-${j}`} />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {/* PC用矢印 */}
+          <button className="startmenu-prev" onClick={handlePcPrev}>&lt;</button>
+          <button className="startmenu-next" onClick={handlePcNext}>&gt;</button>
         </div>
 
-        {/* ナビゲーション */}
-        <button className="startmenu-prev" onClick={handlePrev}>
-          &lt;
-        </button>
-        <button className="startmenu-next" onClick={handleNext}>
-          &gt;
-        </button>
+        {/* =================================================
+            📱 スマホ用レイアウト (クラス名: mobile-layout-area)
+            CSSでPCの時は display: none にします
+           ================================================= */}
+        <div className="mobile-layout-area">
+          {/* 画像表示エリア (1枚だけ表示) */}
+          <div 
+            className="mobile-item-display"
+            onClick={() => {
+              const target = mobileItems[mobileIndex].target;
+              if(target) onSelect(target);
+            }}
+          >
+            <img 
+              src={mobileItems[mobileIndex].img} 
+              alt="menu-item" 
+            />
+          </div>
+
+          {/* 操作ボタンエリア (画像の下) */}
+          <div className="mobile-controls-container">
+            <button className="mobile-arrow-btn" onClick={handleMobilePrev}>
+              ◀
+            </button>
+            
+            {/* 今何番目かを示すドット */}
+            <div className="mobile-dots">
+              {mobileItems.map((_, i) => (
+                <span key={i} className={`dot ${i === mobileIndex ? "active" : ""}`}></span>
+              ))}
+            </div>
+
+            <button className="mobile-arrow-btn" onClick={handleMobileNext}>
+              ▶
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
   );
