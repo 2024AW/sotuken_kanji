@@ -17,8 +17,10 @@
   height: 100%;
 }
 
+
 /* --- 📱 スマホ・タブレット時 (max-width: 768px) --- */
 @media screen and (max-width: 768px) {
+
   /* 1. PC用のエリアを完全に消す */
   .pc-layout-area {
     display: none !important;
@@ -45,7 +47,7 @@
   .mobile-item-display img {
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
   }
   .mobile-item-display:active {
     transform: scale(0.95); /* タップした瞬間に少し凹む */
@@ -88,7 +90,7 @@
   .dot {
     width: 12px;
     height: 12px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255,255,255,0.3);
     border-radius: 50%;
   }
   .dot.active {

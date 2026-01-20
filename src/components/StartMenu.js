@@ -7,9 +7,9 @@ export default function StartMenu({ onSelect }) {
   // PC用: 3つずつのグループ (2ページ)
   const pcSlides = [
     [
-      { img: "/images/エクストラ.png", target: "extra" },
-      { img: "/images/メイン.png", target: "level" },
       { img: "/images/遊び方説明.png", target: "howto" },
+      { img: "/images/メイン.png", target: "level" },
+      { img: "/images/エクストラ.png", target: "extra" },
     ],
     [
       { img: "/images/ジュークボックス.png", target: "bgm" },
@@ -23,7 +23,7 @@ export default function StartMenu({ onSelect }) {
   const mobileItems = pcSlides.flat();
 
   // ===== State (状態管理) =====
-  const [pcIndex, setPcIndex] = useState(0);       // PC用のページ番号 (0 or 1)
+  const [pcIndex, setPcIndex] = useState(0); // PC用のページ番号 (0 or 1)
   const [mobileIndex, setMobileIndex] = useState(0); // スマホ用のアイテム番号 (0 ~ 5)
 
   // ===== PC用 操作ハンドラ =====
@@ -36,7 +36,9 @@ export default function StartMenu({ onSelect }) {
 
   // ===== スマホ用 操作ハンドラ =====
   const handleMobilePrev = () => {
-    setMobileIndex((prev) => (prev - 1 + mobileItems.length) % mobileItems.length);
+    setMobileIndex(
+      (prev) => (prev - 1 + mobileItems.length) % mobileItems.length
+    );
   };
   const handleMobileNext = () => {
     setMobileIndex((prev) => (prev + 1) % mobileItems.length);
@@ -81,8 +83,12 @@ export default function StartMenu({ onSelect }) {
             ))}
           </div>
           {/* PC用矢印 */}
-          <button className="startmenu-prev" onClick={handlePcPrev}>&lt;</button>
-          <button className="startmenu-next" onClick={handlePcNext}>&gt;</button>
+          <button className="startmenu-prev" onClick={handlePcPrev}>
+            &lt;
+          </button>
+          <button className="startmenu-next" onClick={handlePcNext}>
+            &gt;
+          </button>
         </div>
 
         {/* =================================================
@@ -91,17 +97,14 @@ export default function StartMenu({ onSelect }) {
            ================================================= */}
         <div className="mobile-layout-area">
           {/* 画像表示エリア (1枚だけ表示) */}
-          <div 
+          <div
             className="mobile-item-display"
             onClick={() => {
               const target = mobileItems[mobileIndex].target;
-              if(target) onSelect(target);
+              if (target) onSelect(target);
             }}
           >
-            <img 
-              src={mobileItems[mobileIndex].img} 
-              alt="menu-item" 
-            />
+            <img src={mobileItems[mobileIndex].img} alt="menu-item" />
           </div>
 
           {/* 操作ボタンエリア (画像の下) */}
@@ -109,11 +112,14 @@ export default function StartMenu({ onSelect }) {
             <button className="mobile-arrow-btn" onClick={handleMobilePrev}>
               ◀
             </button>
-            
+
             {/* 今何番目かを示すドット */}
             <div className="mobile-dots">
               {mobileItems.map((_, i) => (
-                <span key={i} className={`dot ${i === mobileIndex ? "active" : ""}`}></span>
+                <span
+                  key={i}
+                  className={`dot ${i === mobileIndex ? "active" : ""}`}
+                ></span>
               ))}
             </div>
 
@@ -122,7 +128,6 @@ export default function StartMenu({ onSelect }) {
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );
