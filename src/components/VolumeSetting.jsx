@@ -114,7 +114,7 @@ export default function VolumeSetting({ bgmVolume, seVolume, onSave, onBack }) {
 
           {/* 保存（ピンク色） */}
           <button onClick={handleSave} style={pinkBtnStyle}>
-            ✔ 設定を保存する
+            ✔ 保存する
           </button>
         </div>
 
