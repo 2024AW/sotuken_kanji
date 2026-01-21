@@ -61,11 +61,12 @@
   }
 
   /* --- 4. StartMenu の調整 --- */
+  /* ★修正: タイトルの位置を少し下に (12% -> 15%) */
   .startmenu-title {
     font-size: 1.48rem !important;
     width: 100% !important;
     position: absolute !important;
-    top: 12% !important;
+    top: 15% !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     white-space: nowrap !important;
@@ -78,6 +79,7 @@
     display: none !important;
   }
 
+  /* ★修正: タイトルが下がった分、コンテンツ開始位置も調整 */
   .mobile-layout-area {
     display: flex !important;
     flex-direction: column;
@@ -85,7 +87,7 @@
     justify-content: center;
     width: 100%;
     height: 70%;
-    margin-top: 60px !important;
+    margin-top: 80px !important;
   }
 
   .mobile-item-display {
@@ -204,14 +206,14 @@
   }
 
   /* --- 6. BgmSelect タイトル・リスト調整 --- */
-
+  /* ★修正: 位置を少し下に (8% -> 12%) */
   .board-title {
     font-size: 1.5rem !important;
     width: 95% !important;
     white-space: nowrap !important;
     text-align: center;
     position: absolute !important;
-    top: 8% !important;
+    top: 12% !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     z-index: 20;
@@ -220,13 +222,13 @@
 
   /* リストコンテナの調整 */
   .unified-board-content > div[style*="maxHeight: 60%"] {
-    margin-top: 60px !important;
+    margin-top: 80px !important; /* タイトルに合わせて下げる */
     width: 85% !important;
     height: 55% !important;
     padding: 10px !important;
   }
 
-  /* 各BGM行のレイアウト変更: 横並びから縦並びへ */
+  /* 各BGM行のレイアウト変更 */
   .unified-board-content
     div[style*="display: flex"][style*="justify-content: space-between"] {
     flex-direction: column !important;
@@ -235,19 +237,16 @@
     padding: 10px 5px !important;
   }
 
-  /* BGM名ラベル（上段）の調整 */
   .unified-board-content label {
     font-size: 18px !important;
     width: 100% !important;
   }
 
-  /* ボタンエリア（下段）の調整 */
   .unified-board-content div[style*="display: flex"][style*="gap: 10px"] {
     align-self: flex-end !important;
     width: auto !important;
   }
 
-  /* 保存・戻るボタンエリアの調整 */
   .unified-board-content
     > div[style*="width: 100%"][style*="margin-top: 30px"] {
     gap: 15px !important;
@@ -255,60 +254,80 @@
   }
 
   /* --- 7. CreditPage (クレジット) 調整 --- */
-
-  /* 1. 外枠のコンテナ (Flex Box + Borderを持つ要素を特定) */
-  /* ★修正: 左右の矢印とコンテンツを含む外枠を広げる */
   .unified-board-content
     > div[style*="display: flex"][style*="border: 3px solid"] {
-    width: 98% !important; /* 横幅を限界まで広げる */
-    height: 60% !important; /* 高さは維持 */
-    padding: 10px 2px !important; /* 内側余白を減らす */
-    margin-top: 50px !important; /* Board Titleとの距離 */
+    display: block !important;
+    position: relative !important;
+    width: 92% !important;
+    height: 60% !important;
+    margin-top: 35px !important; /* 位置調整 */
+    padding: 10px 0 !important;
   }
 
-  /* 2. 左右の矢印ボタン */
-  /* ★修正: 矢印がコンテンツを圧迫しないようにサイズと余白を詰める */
   .unified-board-content
     > div[style*="display: flex"][style*="border: 3px solid"]
     > button {
-    font-size: 24px !important; /* 矢印サイズ縮小 (36px -> 24px) */
-    padding: 0 2px !important; /* 矢印周りの余白を最小限に */
-    min-width: 30px !important;
+    position: absolute !important;
+    top: 15px !important;
+    z-index: 100 !important;
+    font-size: 28px !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
   }
 
-  /* 3. 中央のスクロールエリア */
   .unified-board-content
     > div[style*="display: flex"][style*="border: 3px solid"]
-    > div {
-    padding: 0 5px !important; /* テキストエリアの左右余白を減らす */
+    > button:nth-of-type(1) {
+    left: 10px !important;
   }
 
-  /* 4. ページタイトル (h3: "制作メンバー" "協力・素材" など) */
-  /* ★修正: 上部の余白を削除し、全体を上に詰める */
   .unified-board-content
     > div[style*="display: flex"][style*="border: 3px solid"]
-    > div
-    > h3 {
-    font-size: 22px !important; /* タイトル文字サイズを少し小さく */
-    margin-top: 0 !important; /* ★上の余白を削除 (要望対応) */
-    margin-bottom: 10px !important;
-    padding-bottom: 5px !important;
-    line-height: 1.2 !important;
+    > button:nth-of-type(2) {
+    right: 10px !important;
   }
 
-  /* 5. 役割名 (黄色文字) */
   .unified-board-content
     > div[style*="display: flex"][style*="border: 3px solid"]
-    span[style*="#ffeb3b"] {
-    font-size: 16px !important;
+    > div[style*="overflowY"] {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 10px !important;
+    padding-bottom: 30px !important;
   }
 
-  /* 6. 名前/内容 (白・太字) */
   .unified-board-content
     > div[style*="display: flex"][style*="border: 3px solid"]
-    span[style*="font-weight: bold"] {
-    font-size: 18px !important;
-    word-break: break-word !important; /* 長いURLなどでレイアウトが崩れないように折り返す */
-    white-space: normal !important; /* 必要に応じて改行 */
+    > div[style*="absolute"] {
+    width: auto !important;
+    height: auto !important;
+    bottom: 5px !important;
+    right: 10px !important;
+  }
+
+  /* --- 8. LevelSelect / TimerSelect 調整 --- */
+  /* ★修正: タイトル位置を統一して少し下げる (8% -> 12%) */
+  /* LevelSelect等の .board-title は共通の修正で反映されます */
+
+  /* --- 9. QuestionCount (出題数選択) 調整 --- */
+  .question-count-img {
+    width: 90% !important;
+    max-width: 500px !important;
+    margin: 5px 0 !important;
+  }
+
+  .question-count-list {
+    margin-top: 85px !important; /* タイトルが下がった分さらに下げる */
+    width: 95% !important;
+  }
+
+  /* ★修正: タイトル文字の位置を調整 (8% -> 12%) */
+  .board-title {
+    font-size: 1.8rem !important;
+    top: 12% !important;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9) !important;
   }
 }
