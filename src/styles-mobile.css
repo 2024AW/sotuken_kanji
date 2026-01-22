@@ -205,40 +205,45 @@
 
   /* --- 6. BgmSelect (BGM選択) の調整 --- */
 
-  /* 行全体を縦並びにする */
+  /* リスト項目全体 (縦並び・中央揃え) */
   .bgm-list-item {
     display: flex !important;
-    flex-direction: column !important; /* 上下配置 */
-    align-items: center !important; /* 中央揃え */
+    flex-direction: column !important;
+    align-items: center !important;
     justify-content: center !important;
-    padding: 15px 10px !important; /* パディング調整 */
-    gap: 15px !important; /* 要素間の隙間 */
+    padding: 15px 10px !important;
+    gap: 10px !important;
   }
 
-  /* BGM名（上段） */
+  /* BGM名（中央配置のまま） */
   .bgm-name {
     width: 100% !important;
-    justify-content: center !important; /* ラジオボタンと文字を中央寄せ */
+    justify-content: center !important;
     text-align: center !important;
     margin-bottom: 0 !important;
+    white-space: nowrap !important;
   }
 
-  /* ラジオボタン自体の余白調整 */
   .bgm-name input {
-    margin-right: 15px !important;
+    margin-right: 12px !important;
   }
 
-  /* 再生・停止ボタン（下段） */
+  /* ボタンエリア（★ここを右揃えに変更） */
   .bgm-controls {
     width: 100% !important;
     display: flex !important;
-    justify-content: center !important; /* ボタンを中央寄せ */
-    gap: 30px !important; /* ボタン同士の間隔をさらに広げる */
+
+    /* ★修正: center から flex-end に変更して右寄せにする */
+    justify-content: flex-end !important;
+
+    gap: 15px !important;
+
+    /* 右端に張り付きすぎないように少し隙間をあける */
+    padding-right: 10px !important;
   }
 
-  /* ボタンのサイズを少し大きくして押しやすくする */
   .bgm-controls button {
-    padding: 8px 24px !important;
-    font-size: 16px !important;
+    padding: 8px 20px !important;
+    font-size: 14px !important;
   }
 }

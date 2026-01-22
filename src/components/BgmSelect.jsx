@@ -83,9 +83,10 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
           }}
         >
           {bgmList.map((bgm, index) => (
+            /* ★修正: CSSでレイアウトを変えるために className="bgm-list-item" を追加 */
             <div
               key={bgm.id}
-              className="bgm-list-item" /* ★重要: CSS用のクラスを追加 */
+              className="bgm-list-item"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -98,8 +99,9 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
                 color: "#fff",
               }}
             >
+              {/* ★修正: クラス名 "bgm-name" を追加 */}
               <label
-                className="bgm-name" /* ★重要: CSS用のクラスを追加 */
+                className="bgm-name"
                 style={{
                   fontSize: "20px",
                   cursor: "pointer",
@@ -119,8 +121,9 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
                 {bgm.label}
               </label>
 
+              {/* ★修正: クラス名 "bgm-controls" を追加 */}
               <div
-                className="bgm-controls" /* ★重要: CSS用のクラスを追加 */
+                className="bgm-controls"
                 style={{ display: "flex", gap: "10px" }}
               >
                 <button
