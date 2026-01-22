@@ -1,10 +1,26 @@
 /* src/styles-mobile.css */
 
 /* =========================================
+   ▼ StartMenu PC/スマホ 表示切り替え設定 (グローバル)
+========================================= */
+
+/* デフォルト（PC版）では「スマホ用エリア」を隠す */
+.mobile-layout-area {
+  display: none;
+}
+/* デフォルト（PC版）では「PC用エリア」を表示 */
+.pc-layout-area {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================
    📱 スマホ・タブレット用レスポンシブ設定
+   (画面幅 768px 以下の場合に適用)
 ========================================= */
 @media screen and (max-width: 768px) {
-  /* --- 全体レイアウト --- */
+  /* --- 1. 全体レイアウト --- */
   .page-inner,
   .unified-board,
   .startmenu-slider {
@@ -12,27 +28,200 @@
     height: 100dvh !important;
     margin: 0 !important;
     border-radius: 0 !important;
-    overflow: hidden; /* はみ出した部分を隠す */
+    overflow: hidden;
   }
 
-  /* --- 黒板の背景画像 --- */
-  /* 左右が見切れても良いので、画面の高さいっぱいに引き伸ばす設定 */
+  /* --- 2. 黒板の背景画像 --- */
+  /* ★修正: 画面いっぱいに広げ、左右を見切れさせる設定 */
   .unified-board-bg,
   .startmenu-background,
   .page-bg {
     width: 100% !important;
     height: 100% !important;
 
-    /* ★重要: coverにすると「隙間なく埋める」動きになり、
-       スマホ縦画面では左右が自動的にカットされます */
+    /* 隙間なく埋めるため、スマホ縦画面では左右が自動カットされます */
     object-fit: cover !important;
 
-    object-position: center center !important; /* 中央合わせ */
+    object-position: center center !important;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 0;
   }
 
-  /* ... (以下のロゴやメニューの調整コードはそのまま残してください) ... */
+  /* --- 3. TopSlide (トップ画面) の調整 --- */
+  .unified-board-content > img {
+    /* ロゴ画像を大きく */
+    max-width: 85% !important;
+    height: auto;
+    margin-bottom: 20px !important;
+    margin-top: -40px !important;
+  }
+
+  .tap-message {
+    font-size: 1.5rem !important;
+    margin-top: 0 !important;
+    width: 90%;
+    white-space: nowrap;
+  }
+
+  /* --- 4. StartMenu の調整 --- */
+
+  /* ★修正: タイトル文字を画面内に収め、画像と重ならないように調整 */
+  /* --- 4. StartMenu の調整 --- */
+
+  /* ★修正: 文字を大きくし、横幅いっぱいに広げる */
+  .startmenu-title {
+    font-size: 1.5rem !important; /* 1.2rem -> 1.5rem に拡大 */
+    width: 100% !important; /* 横幅を100%にして広く使う */
+
+    position: absolute !important;
+    top: 12% !important; /* 位置を少し調整 */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    white-space: nowrap !important; /* 改行させない */
+    text-align: center;
+    z-index: 20;
+
+    /* 黒板の背景に負けないように影を少し強くする */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  /* PC用のエリアを完全に消す */
+  .pc-layout-area {
+    display: none !important;
+  }
+
+  /* スマホ用のエリアを表示する */
+  .mobile-layout-area {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70%;
+
+    /* ★修正: タイトルとの距離を確保するためにマージンを追加 */
+    margin-top: 60px !important;
+  }
+
+  /* StartMenu 画像表示部分 */
+  .mobile-item-display {
+    width: 70%;
+    max-width: 300px;
+    margin-bottom: 30px;
+    transition: transform 0.2s;
+  }
+  .mobile-item-display img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+  }
+  .mobile-item-display:active {
+    transform: scale(0.95);
+  }
+
+  /* StartMenu 操作エリア */
+  .mobile-controls-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 350px;
+  }
+
+  /* 矢印ボタン */
+  .mobile-arrow-btn {
+    background: #ffcc66;
+    border: 3px solid #d6a84f;
+    color: #333;
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 0 #b58b3e;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-arrow-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+  }
+
+  /* ドットインジケーター */
+  .mobile-dots {
+    display: flex;
+    gap: 8px;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+  }
+  .dot.active {
+    background: #ffcc66;
+    transform: scale(1.3);
+  }
+
+  /* --- 5. クイズ画面・その他 --- */
+  .question-text {
+    font-size: 60px !important;
+    margin-top: 60px !important;
+  }
+
+  .answer-input {
+    width: 85% !important;
+    font-size: 20px !important;
+    padding: 10px !important;
+  }
+
+  .lives-container {
+    top: 10px !important;
+    right: 10px !important;
+    font-size: 24px !important;
+  }
+
+  .question-count {
+    top: 10px !important;
+    left: 10px !important;
+    font-size: 16px !important;
+  }
+
+  .howto-scroll-area {
+    padding: 20px !important;
+    height: 60% !important;
+  }
+
+  .howto-heading {
+    width: 100% !important;
+    font-size: 20px !important;
+  }
+
+  .howto-text,
+  .howto-list {
+    font-size: 16px !important;
+  }
+
+  .common-btn,
+  .unified-back-btn {
+    padding: 8px 16px !important;
+    font-size: 16px !important;
+  }
+
+  .unified-back-btn {
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+
+  .loading-box,
+  .confirm-box {
+    width: 85% !important;
+    top: 30% !important;
+  }
 }
