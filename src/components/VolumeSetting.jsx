@@ -1,106 +1,150 @@
-// src/components/VolumeSetting.jsx
-import React, { useState } from "react";
+// src/components/BgmSelect.jsx
+import React, { useState, useRef } from "react";
 import "../styles.css";
 
-export default function VolumeSetting({ bgmVolume, seVolume, onSave, onBack }) {
-  const [bgm, setBgm] = useState(bgmVolume);
-  const [se, setSe] = useState(seVolume);
-  const [showOverlay, setShowOverlay] = useState(false);
+export default function BgmSelect({ currentBgm, onSave, onBack }) {
+  const bgmList = [
+    { id: "normal1", file: "/bgm-normal-1.mp3", label: "♪ 通常ステージBGM 1" },
+    { id: "normal2", file: "/bgm-normal-2.mp3", label: "♪ 通常ステージBGM 2" },
+    { id: "normal3", file: "/bgm-normal-3.mp3", label: "♪ 通常ステージBGM 3" },
+  ];
 
-  // 保存時の処理
+  const [selectedBgm, setSelectedBgm] = useState(currentBgm);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const audioRef = useRef(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const playPreview = (file) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+    audioRef.current = new Audio(file);
+    audioRef.current.volume = 0.8;
+    audioRef.current.play();
+  };
+
+  const stopPreview = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+  };
+
   const handleSave = () => {
-    onSave(bgm, se); // App へ保存値を渡す
-    setShowOverlay(true); // オーバレイ表示
-    // 1.8秒後にフェードアウト
+    stopPreview();
+    setShowOverlay(true);
+    onSave(selectedBgm);
     setTimeout(() => {
       setShowOverlay(false);
     }, 1800);
   };
 
+  const handleBack = () => {
+    stopPreview();
+    onBack();
+  };
+
   return (
     <div className="unified-board">
-      {/* 背景画像 (kokuban412.png) */}
       <img
-        src="/images/kokuban412.png"
+        src="/images/kokuban330.png"
         alt="background"
         className="unified-board-bg"
       />
 
       <div className="unified-board-content">
-        {/* タイトル */}
         <h2
           className="board-title"
-          style={{ marginTop: "-20px", marginBottom: "30px" }}
+          style={{ marginTop: "-10px", marginBottom: "20px" }}
         >
-          🔊 音量設定
+          🎵 BGM を選択してください
         </h2>
 
-        {/* スライダー部分のコンテナ */}
+        {/* BGMリストコンテナ */}
         <div
           style={{
-            width: "60%",
-            background: "rgba(0,0,0,0.3)", // 黒板に馴染む薄い黒
-            padding: "40px",
+            width: "70%",
+            maxHeight: "60%",
+            overflowY: "auto",
+            background: "rgba(0,0,0,0.3)",
+            padding: "20px",
             borderRadius: "15px",
             border: "2px solid rgba(255,255,255,0.2)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "30px",
-            color: "#fff",
+            scrollbarWidth: "thin",
+            scrollbarColor: "rgba(255,255,255,0.5) transparent",
           }}
         >
-          {/* BGMスライダー */}
-          <div>
-            <label
+          {bgmList.map((bgm, index) => (
+            /* ★修正: CSS操作用に className="bgm-list-item" を追加 */
+            <div
+              key={bgm.id}
+              className="bgm-list-item"
               style={{
-                fontSize: "24px",
-                display: "block",
-                marginBottom: "10px",
-                fontFamily: '"Zen Kurenaido", sans-serif',
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "15px",
+                borderBottom:
+                  index === bgmList.length - 1
+                    ? "none"
+                    : "1px dashed rgba(255,255,255,0.3)",
+                color: "#fff",
               }}
             >
-              🎵 BGM 音量：{Math.round(bgm * 100)}%
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={bgm}
-              onChange={(e) => setBgm(Number(e.target.value))}
-              style={{ width: "100%", cursor: "pointer" }}
-            />
-          </div>
+              {/* ★修正: CSS操作用に className="bgm-name" を追加 */}
+              <label
+                className="bgm-name"
+                style={{
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  fontFamily: '"Zen Kurenaido", sans-serif',
+                }}
+              >
+                <input
+                  type="radio"
+                  name="bgm"
+                  value={bgm.id}
+                  checked={selectedBgm === bgm.id}
+                  onChange={() => setSelectedBgm(bgm.id)}
+                  style={{ transform: "scale(1.5)", marginRight: "15px" }}
+                />
+                {bgm.label}
+              </label>
 
-          {/* SEスライダー */}
-          <div>
-            <label
-              style={{
-                fontSize: "24px",
-                display: "block",
-                marginBottom: "10px",
-                fontFamily: '"Zen Kurenaido", sans-serif',
-              }}
-            >
-              ✨ 効果音 音量：{Math.round(se * 100)}%
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={se}
-              onChange={(e) => setSe(Number(e.target.value))}
-              style={{ width: "100%", cursor: "pointer" }}
-            />
-          </div>
+              {/* ★修正: CSS操作用に className="bgm-controls" を追加 */}
+              <div
+                className="bgm-controls"
+                style={{ display: "flex", gap: "10px" }}
+              >
+                <button
+                  onClick={() => playPreview(bgm.file)}
+                  style={miniBtnStyle}
+                >
+                  ▶ 再生
+                </button>
+                <button onClick={stopPreview} style={miniBtnStyle}>
+                  ■ 停止
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* ボタンエリア */}
         <div
           style={{
             // ★修正: position: absolute を削除し、マージンで調整
-            marginTop: "40px", // コンテンツボックスとの余白
+            marginTop: "30px", // コンテンツボックスとの余白
             display: "flex",
             justifyContent: "center",
             gap: "30px",
@@ -108,17 +152,17 @@ export default function VolumeSetting({ bgmVolume, seVolume, onSave, onBack }) {
           }}
         >
           {/* 戻る（黄色） */}
-          <button onClick={onBack} style={yellowBtnStyle}>
+          <button onClick={handleBack} style={yellowBtnStyle}>
             ← 戻る
           </button>
 
           {/* 保存（ピンク色） */}
           <button onClick={handleSave} style={pinkBtnStyle}>
-            ✔ 設定を保存する
+            ✔ 保存する
           </button>
         </div>
 
-        {/* 保存完了オーバーレイ */}
+        {/* 保存オーバーレイ */}
         {showOverlay && (
           <div
             style={{
@@ -129,18 +173,25 @@ export default function VolumeSetting({ bgmVolume, seVolume, onSave, onBack }) {
               height: "100%",
               background: "rgba(0,0,0,0.7)",
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "32px",
               color: "white",
               fontFamily: '"Zen Kurenaido", sans-serif',
               fontWeight: "bold",
-              borderRadius: "20px",
               animation: "fadeOut 1.8s forwards",
               zIndex: 100,
+              padding: "20px",
+              textAlign: "center",
             }}
           >
-            ✔ 設定を保存しました！
+            <p>🎧 BGMを設定しました！</p>
+            <p
+              style={{ fontSize: "24px", marginTop: "10px", color: "#ffd700" }}
+            >
+              「{bgmList.find((b) => b.id === selectedBgm)?.label}」
+            </p>
           </div>
         )}
       </div>
@@ -181,4 +232,14 @@ const pinkBtnStyle = {
   ...commonBtnStyle,
   background: "#ff99cc",
   border: "3px solid #d65c99",
+};
+
+const miniBtnStyle = {
+  padding: "5px 12px",
+  fontSize: "14px",
+  borderRadius: "6px",
+  border: "1px solid #fff",
+  background: "rgba(255,255,255,0.2)",
+  color: "white",
+  cursor: "pointer",
 };

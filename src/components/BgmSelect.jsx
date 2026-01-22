@@ -85,6 +85,7 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
           {bgmList.map((bgm, index) => (
             <div
               key={bgm.id}
+              className="bgm-list-item" /* ★重要: CSS用のクラスを追加 */
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -98,6 +99,7 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
               }}
             >
               <label
+                className="bgm-name" /* ★重要: CSS用のクラスを追加 */
                 style={{
                   fontSize: "20px",
                   cursor: "pointer",
@@ -117,7 +119,10 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
                 {bgm.label}
               </label>
 
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div
+                className="bgm-controls" /* ★重要: CSS用のクラスを追加 */
+                style={{ display: "flex", gap: "10px" }}
+              >
                 <button
                   onClick={() => playPreview(bgm.file)}
                   style={miniBtnStyle}
@@ -135,8 +140,7 @@ export default function BgmSelect({ currentBgm, onSave, onBack }) {
         {/* ボタンエリア */}
         <div
           style={{
-            // ★修正: position: absolute を削除し、マージンで調整
-            marginTop: "30px", // コンテンツボックスとの余白
+            marginTop: "30px",
             display: "flex",
             justifyContent: "center",
             gap: "30px",
