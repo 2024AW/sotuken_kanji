@@ -46,6 +46,8 @@ export default function CreditPage({ onBack }) {
 
         {/* コンテンツボックス */}
         <div
+          // ★修正: CSSでスタイルを操作するために className="credit-text-box" を追加
+          className="credit-text-box"
           style={{
             width: "75%",
             height: "60%",
@@ -59,13 +61,14 @@ export default function CreditPage({ onBack }) {
             alignItems: "center",
             color: "#fff",
             position: "relative",
-            // ★フォント適用：中身も手書き風にする
             fontFamily: '"Zen Kurenaido", sans-serif',
           }}
         >
           {/* 左矢印 */}
           <button
             onClick={prevPage}
+            // ★修正: CSSで位置を動かすために className="credit-arrow-left" を追加
+            className="credit-arrow-left"
             style={{
               ...arrowBtnStyle,
               visibility: currentPageIndex > 0 ? "visible" : "hidden",
@@ -84,13 +87,14 @@ export default function CreditPage({ onBack }) {
               maxHeight: "100%",
             }}
           >
-            {/* ★修正: 色を白(#fff)に変更し、視認性を高める */}
+            {/* ★修正: CSSで見出し位置を調整するために className="credit-title" を追加 */}
             <h3
+              className="credit-title"
               style={{
                 color: "#fff",
                 fontSize: "28px",
                 marginBottom: "20px",
-                textShadow: "0 0 5px black", // 少し影をつける
+                textShadow: "0 0 5px black",
                 borderBottom: "2px dashed rgba(255,255,255,0.5)",
                 display: "inline-block",
                 paddingBottom: "5px",
@@ -134,7 +138,7 @@ export default function CreditPage({ onBack }) {
                         marginLeft: "10px",
                         display: "block",
                         textAlign: "right",
-                        whiteSpace: "pre-line", // ★ここを追加！これで改行されます
+                        whiteSpace: "pre-line",
                       }}
                     >
                       {staff.name}
@@ -163,6 +167,8 @@ export default function CreditPage({ onBack }) {
           {/* 右矢印 */}
           <button
             onClick={nextPage}
+            // ★修正: CSSで位置を動かすために className="credit-arrow-right" を追加
+            className="credit-arrow-right"
             style={{
               ...arrowBtnStyle,
               visibility:
@@ -247,5 +253,5 @@ const arrowBtnStyle = {
   transition: "transform 0.2s",
   outline: "none",
   textShadow: "0 0 5px rgba(0,0,0,0.5)",
-  fontFamily: '"Zen Kurenaido", sans-serif', // 矢印にもフォント適用
+  fontFamily: '"Zen Kurenaido", sans-serif',
 };
