@@ -239,26 +239,23 @@
   }
 
   /* --- 7. Credit (クレジット画面) の調整 --- */
-  /* ★注意: React側で以下のクラス名を追加してください:
-      .credit-text-box (テキストコンテンツ)
-      .credit-title (見出し)
-      .credit-arrow-left (左矢印)
-      .credit-arrow-right (右矢印)
-  */
 
-  /* テキストコンテンツの幅を広げる */
+  /* テキストコンテンツの幅とマージン調整 */
   .credit-text-box {
-    width: 95% !important; /* 横幅を画面いっぱいに */
+    /* ★修正: 95% -> 90% に変更して左右に余裕を持たせる */
+    width: 90% !important;
     max-width: none !important;
     padding: 0 5px !important;
-    margin-top: 10px !important;
+    /* 上下のマージンは10px、左右はautoで中央寄せ */
+    margin: 10px auto !important;
   }
 
   /* 見出し（制作メンバー）の位置調整 */
   .credit-title {
-    width: 60% !important; /* 矢印と重ならないように幅を制限 */
+    width: 70% !important;
     margin: 10px auto 20px auto !important; /* 中央寄せ */
-    font-size: 1.8rem !important; /* 文字サイズ調整 */
+    /* ★修正: 1.8rem -> 1.4rem に縮小し、矢印との重なりを防止 */
+    font-size: 1.4rem !important;
     white-space: nowrap;
   }
 
@@ -266,7 +263,7 @@
   .credit-arrow-left,
   .credit-arrow-right {
     position: absolute !important;
-    top: 40px !important; /* タイトルの高さに合わせて調整 */
+    top: 40px !important;
     margin: 0 !important;
     z-index: 50;
 
