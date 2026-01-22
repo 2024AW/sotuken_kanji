@@ -204,8 +204,6 @@
   }
 
   /* --- 6. BgmSelect (BGM選択) の調整 --- */
-
-  /* リスト項目全体 (縦並び・中央揃え) */
   .bgm-list-item {
     display: flex !important;
     flex-direction: column !important;
@@ -215,7 +213,6 @@
     gap: 10px !important;
   }
 
-  /* BGM名（中央配置のまま） */
   .bgm-name {
     width: 100% !important;
     justify-content: center !important;
@@ -228,22 +225,67 @@
     margin-right: 12px !important;
   }
 
-  /* ボタンエリア（★ここを右揃えに変更） */
   .bgm-controls {
     width: 100% !important;
     display: flex !important;
-
-    /* ★修正: center から flex-end に変更して右寄せにする */
     justify-content: flex-end !important;
-
     gap: 15px !important;
-
-    /* 右端に張り付きすぎないように少し隙間をあける */
     padding-right: 10px !important;
   }
 
   .bgm-controls button {
     padding: 8px 20px !important;
     font-size: 14px !important;
+  }
+
+  /* --- 7. Credit (クレジット画面) の調整 --- */
+  /* ★注意: React側で以下のクラス名を追加してください:
+      .credit-text-box (テキストコンテンツ)
+      .credit-title (見出し)
+      .credit-arrow-left (左矢印)
+      .credit-arrow-right (右矢印)
+  */
+
+  /* テキストコンテンツの幅を広げる */
+  .credit-text-box {
+    width: 95% !important; /* 横幅を画面いっぱいに */
+    max-width: none !important;
+    padding: 0 5px !important;
+    margin-top: 10px !important;
+  }
+
+  /* 見出し（制作メンバー）の位置調整 */
+  .credit-title {
+    width: 60% !important; /* 矢印と重ならないように幅を制限 */
+    margin: 10px auto 20px auto !important; /* 中央寄せ */
+    font-size: 1.8rem !important; /* 文字サイズ調整 */
+    white-space: nowrap;
+  }
+
+  /* 矢印を絶対配置でタイトルの横に持っていく設定 */
+  .credit-arrow-left,
+  .credit-arrow-right {
+    position: absolute !important;
+    top: 40px !important; /* タイトルの高さに合わせて調整 */
+    margin: 0 !important;
+    z-index: 50;
+
+    /* 矢印ボタンのサイズ調整 */
+    width: 45px !important;
+    height: 45px !important;
+    font-size: 20px !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 左矢印の位置 */
+  .credit-arrow-left {
+    left: 15px !important;
+  }
+
+  /* 右矢印の位置 */
+  .credit-arrow-right {
+    right: 15px !important;
   }
 }
