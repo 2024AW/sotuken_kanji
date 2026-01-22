@@ -32,16 +32,12 @@
   }
 
   /* --- 2. 黒板の背景画像 --- */
-  /* ★修正: 画面いっぱいに広げ、左右を見切れさせる設定 */
   .unified-board-bg,
   .startmenu-background,
   .page-bg {
     width: 100% !important;
     height: 100% !important;
-
-    /* 隙間なく埋めるため、スマホ縦画面では左右が自動カットされます */
     object-fit: cover !important;
-
     object-position: center center !important;
     position: absolute;
     top: 0;
@@ -51,7 +47,6 @@
 
   /* --- 3. TopSlide (トップ画面) の調整 --- */
   .unified-board-content > img {
-    /* ロゴ画像を大きく */
     max-width: 85% !important;
     height: auto;
     margin-bottom: 20px !important;
@@ -66,34 +61,23 @@
   }
 
   /* --- 4. StartMenu の調整 --- */
-
-  /* ★修正: タイトル文字を画面内に収め、画像と重ならないように調整 */
-  /* --- 4. StartMenu の調整 --- */
-
-  /* ★修正: 文字を大きくし、横幅いっぱいに広げる */
   .startmenu-title {
-    font-size: 1.5rem !important; /* 1.2rem -> 1.5rem に拡大 */
-    width: 100% !important; /* 横幅を100%にして広く使う */
-
+    font-size: 1.5rem !important;
+    width: 100% !important;
     position: absolute !important;
-    top: 12% !important; /* 位置を少し調整 */
+    top: 12% !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-
-    white-space: nowrap !important; /* 改行させない */
+    white-space: nowrap !important;
     text-align: center;
     z-index: 20;
-
-    /* 黒板の背景に負けないように影を少し強くする */
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8) !important;
   }
 
-  /* PC用のエリアを完全に消す */
   .pc-layout-area {
     display: none !important;
   }
 
-  /* スマホ用のエリアを表示する */
   .mobile-layout-area {
     display: flex !important;
     flex-direction: column;
@@ -101,12 +85,9 @@
     justify-content: center;
     width: 100%;
     height: 70%;
-
-    /* ★修正: タイトルとの距離を確保するためにマージンを追加 */
     margin-top: 60px !important;
   }
 
-  /* StartMenu 画像表示部分 */
   .mobile-item-display {
     width: 70%;
     max-width: 300px;
@@ -122,7 +103,6 @@
     transform: scale(0.95);
   }
 
-  /* StartMenu 操作エリア */
   .mobile-controls-container {
     display: flex;
     align-items: center;
@@ -131,7 +111,6 @@
     max-width: 350px;
   }
 
-  /* 矢印ボタン */
   .mobile-arrow-btn {
     background: #ffcc66;
     border: 3px solid #d6a84f;
@@ -153,7 +132,6 @@
     box-shadow: none;
   }
 
-  /* ドットインジケーター */
   .mobile-dots {
     display: flex;
     gap: 8px;
@@ -223,5 +201,44 @@
   .confirm-box {
     width: 85% !important;
     top: 30% !important;
+  }
+
+  /* --- 6. BgmSelect (BGM選択) の調整 --- */
+
+  /* 行全体を縦並びにする */
+  .bgm-list-item {
+    display: flex !important;
+    flex-direction: column !important; /* 上下配置 */
+    align-items: center !important; /* 中央揃え */
+    justify-content: center !important;
+    padding: 15px 10px !important; /* パディング調整 */
+    gap: 15px !important; /* 要素間の隙間 */
+  }
+
+  /* BGM名（上段） */
+  .bgm-name {
+    width: 100% !important;
+    justify-content: center !important; /* ラジオボタンと文字を中央寄せ */
+    text-align: center !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* ラジオボタン自体の余白調整 */
+  .bgm-name input {
+    margin-right: 15px !important;
+  }
+
+  /* 再生・停止ボタン（下段） */
+  .bgm-controls {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important; /* ボタンを中央寄せ */
+    gap: 30px !important; /* ボタン同士の間隔をさらに広げる */
+  }
+
+  /* ボタンのサイズを少し大きくして押しやすくする */
+  .bgm-controls button {
+    padding: 8px 24px !important;
+    font-size: 16px !important;
   }
 }
