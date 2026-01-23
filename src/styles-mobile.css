@@ -8,6 +8,11 @@
 .mobile-layout-area {
   display: none;
 }
+/* LevelSelect用: デフォルトでスマホエリアを隠す */
+.level-mobile-area {
+  display: none;
+}
+
 /* デフォルト（PC版）では「PC用エリア」を表示 */
 .pc-layout-area {
   display: block;
@@ -239,35 +244,26 @@
   }
 
   /* --- 7. Credit (クレジット画面) の調整 --- */
-
-  /* テキストコンテンツの幅とマージン調整 */
   .credit-text-box {
-    /* ★修正: 95% -> 90% に変更して左右に余裕を持たせる */
     width: 90% !important;
     max-width: none !important;
     padding: 0 5px !important;
-    /* 上下のマージンは10px、左右はautoで中央寄せ */
     margin: 10px auto !important;
   }
 
-  /* 見出し（制作メンバー）の位置調整 */
   .credit-title {
     width: 70% !important;
-    margin: 10px auto 20px auto !important; /* 中央寄せ */
-    /* ★修正: 1.8rem -> 1.4rem に縮小し、矢印との重なりを防止 */
+    margin: 10px auto 20px auto !important;
     font-size: 1.4rem !important;
     white-space: nowrap;
   }
 
-  /* 矢印を絶対配置でタイトルの横に持っていく設定 */
   .credit-arrow-left,
   .credit-arrow-right {
     position: absolute !important;
     top: 40px !important;
     margin: 0 !important;
     z-index: 50;
-
-    /* 矢印ボタンのサイズ調整 */
     width: 45px !important;
     height: 45px !important;
     font-size: 20px !important;
@@ -276,13 +272,29 @@
     align-items: center;
   }
 
-  /* 左矢印の位置 */
   .credit-arrow-left {
     left: 15px !important;
   }
-
-  /* 右矢印の位置 */
   .credit-arrow-right {
     right: 15px !important;
+  }
+
+  /* --- 8. LevelSelect (レベル選択) の調整 --- */
+
+  /* PC用のエリアを完全に消す */
+  .level-pc-area {
+    display: none !important;
+  }
+
+  /* スマホ用のエリアを表示する（StartMenuと同じスタイルを適用） */
+  .level-mobile-area {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70%;
+    /* StartMenuのデザインと合わせるための調整 */
+    margin-top: 10px;
   }
 }

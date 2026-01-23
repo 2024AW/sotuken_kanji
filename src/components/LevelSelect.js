@@ -1,5 +1,5 @@
 // src/components/LevelSelect.js
-import React from "react";
+import React, { useState } from "react";
 import "../styles.css";
 
 export default function LevelSelect({ onSelect, onBack }) {
@@ -9,6 +9,19 @@ export default function LevelSelect({ onSelect, onBack }) {
     { id: "hard", label: "上級", img: "/images/上.jpg" },
     { id: "expert", label: "超級", img: "/images/超.jpg" },
   ];
+
+  // ★スマホ用スライドの管理
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextLevel = () => {
+    setCurrentIndex((prev) => (prev + 1) % levels.length);
+  };
+
+  const prevLevel = () => {
+    setCurrentIndex((prev) => (prev - 1 + levels.length) % levels.length);
+  };
+
+  const currentLevel = levels[currentIndex];
 
   return (
     <div className="unified-board">
@@ -29,7 +42,12 @@ export default function LevelSelect({ onSelect, onBack }) {
           難易度を選んでください
         </h2>
 
+        {/* ====================================================
+            💻 PC版レイアウト (className="level-pc-area" を追加)
+            スマホ(768px以下)ではCSSで非表示になります
+           ==================================================== */}
         <div
+          className="level-pc-area"
           style={{
             display: "flex",
             gap: "30px",
@@ -70,7 +88,52 @@ export default function LevelSelect({ onSelect, onBack }) {
           ))}
         </div>
 
-        {/* ★ここを共通クラスに変更 */}
+        {/* ====================================================
+            📱 スマホ版レイアウト (StartMenu風スライダー)
+            PCではCSSで非表示になります
+           ==================================================== */}
+        <div className="level-mobile-area">
+          {/* 画像表示エリア (タップで決定) */}
+          <div
+            className="mobile-item-display"
+            onClick={() => onSelect(currentLevel.id)}
+          >
+            <img src={currentLevel.img} alt={currentLevel.label} />
+          </div>
+
+          {/* 操作ボタンエリア */}
+          <div className="mobile-controls-container">
+            <button className="mobile-arrow-btn" onClick={prevLevel}>
+              ◀
+            </button>
+            {/* ドットインジケーター */}
+            <div className="mobile-dots">
+              {levels.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`dot ${idx === currentIndex ? "active" : ""}`}
+                />
+              ))}
+            </div>
+            <button className="mobile-arrow-btn" onClick={nextLevel}>
+              ▶
+            </button>
+          </div>
+
+          {/* レベル名表示 */}
+          <p
+            style={{
+              color: "white",
+              fontSize: "24px",
+              marginTop: "20px",
+              fontFamily: '"Zen Kurenaido", sans-serif',
+              textShadow: "0 2px 5px rgba(0,0,0,0.8)",
+            }}
+          >
+            {currentLevel.label}
+          </p>
+        </div>
+
         <button className="unified-back-btn" onClick={onBack}>
           ← 戻る
         </button>
