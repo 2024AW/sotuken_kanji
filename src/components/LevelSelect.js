@@ -35,8 +35,9 @@ export default function LevelSelect({ onSelect, onBack }) {
         <h2
           className="board-title"
           style={{
-            marginBottom: "10px",
-            marginTop: "-40px",
+            // ★修正: マイナスマージンをやめてリセット
+            marginBottom: "20px",
+            marginTop: "0px",
           }}
         >
           難易度を選んでください
@@ -53,6 +54,8 @@ export default function LevelSelect({ onSelect, onBack }) {
             justifyContent: "center",
             width: "90%",
             alignItems: "center",
+            // ★追加: 下に見えない余白を作って、重心を上にずらす
+            paddingBottom: "50px",
           }}
         >
           {levels.map((lvl) => (
@@ -117,8 +120,6 @@ export default function LevelSelect({ onSelect, onBack }) {
               ▶
             </button>
           </div>
-
-          {/* ★削除: ここにあったテキスト表示を削除しました */}
         </div>
 
         <button className="unified-back-btn" onClick={onBack}>

@@ -29,6 +29,7 @@ export default function QuestionCount({ onSelect, onBack }) {
         </h2>
 
         <div
+          className="question-count-list" // ★クラス名を追加
           style={{
             display: "flex",
             flexDirection: "column",
@@ -43,8 +44,9 @@ export default function QuestionCount({ onSelect, onBack }) {
               src={item.img}
               alt={`${item.num}問`}
               onClick={() => onSelect(item.num)}
+              className="question-count-img" // ★クラス名を追加
               style={{
-                width: "60%",
+                width: "60%", // PC版はこのまま維持
                 maxWidth: "500px",
                 height: "auto",
                 cursor: "pointer",
@@ -62,7 +64,6 @@ export default function QuestionCount({ onSelect, onBack }) {
           ))}
         </div>
 
-        {/* ★ここを共通クラスに変更 */}
         <button className="unified-back-btn" onClick={onBack}>
           ← 戻る
         </button>
