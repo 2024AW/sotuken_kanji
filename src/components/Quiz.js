@@ -14,11 +14,11 @@ import CorrectOverlay from "./CorrectOverlay";
 import GameClearScreen from "./GameClearScreen";
 import { questionSets } from "./questions";
 
-// ★ BossStage, Stage3, Stage1 をインポート
+// ★ 背景コンポーネントのインポート
 import BossStage from "./background/BossStage";
 import Stage3 from "./background/Stage3";
-import Stage2 from "./background/stage2";
-import Stage1 from "./background/stage1"; // ★追加: ファイル名小文字注意
+import Stage2 from "./background/stage2"; // ファイル名注意(小文字)
+import Stage1 from "./background/stage1"; // ファイル名注意(小文字)
 
 import "../styles.css";
 
@@ -114,12 +114,32 @@ export default function Quiz({
   bossBGM.loop = true;
   clearBGM.loop = false;
 
+  // ★修正: 音量変更時の処理 (iOS対策: 音量0なら停止)
   useEffect(() => {
     const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
-    normalBGM.volume = vol;
-    bossBGM.volume = vol;
-    clearBGM.volume = vol;
-  }, [bgmVolume, normalBGM, bossBGM, clearBGM]);
+
+    if (vol === 0) {
+      // iOSでは volume=0 が効かないことがあるため pause() する
+      normalBGM.pause();
+      bossBGM.pause();
+      clearBGM.volume = 0;
+    } else {
+      // 音量を適用
+      normalBGM.volume = vol;
+      bossBGM.volume = vol;
+      clearBGM.volume = vol;
+
+      // 音量が戻った時に、再生すべきBGMが止まっていたら再開
+      if (!isGameOver && !showGameClear) {
+        const want = playingRef.current;
+        if (want === "normal" && normalBGM.paused) {
+          normalBGM.play().catch(() => {});
+        } else if (want === "boss" && bossBGM.paused) {
+          bossBGM.play().catch(() => {});
+        }
+      }
+    }
+  }, [bgmVolume, normalBGM, bossBGM, clearBGM, isGameOver, showGameClear]);
 
   // =========================================
   // ★ ステージ判定
@@ -172,13 +192,14 @@ export default function Quiz({
     setTimeLeft(timeLimit);
     setIsChecking(false);
 
-    normalBGM.volume = Number.isFinite(bgmVolume) ? bgmVolume : 0;
-
-    if (normalBGM.paused) {
+    // 初期再生 (音量が0でなければ)
+    const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
+    normalBGM.volume = vol;
+    if (vol > 0) {
       normalBGM.play().catch(() => {});
     }
     playingRef.current = "normal";
-  }, [level, questionCount, timeLimit]);
+  }, [level, questionCount, timeLimit]); // bgmVolumeは依存配列から外す(初期化時のみ)
 
   // =========================================
   // ★ BGM 切替
@@ -186,8 +207,14 @@ export default function Quiz({
   useEffect(() => {
     if (isGameOver || showGameClear) return;
 
+    const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
     const want = stage === "BOSS" ? "boss" : "normal";
-    if (playingRef.current === want) return;
+
+    // 現在の再生状態を更新
+    playingRef.current = want;
+
+    // 音量が0なら再生処理を行わない（pause状態を維持）
+    if (vol === 0) return;
 
     if (want === "boss") {
       if (!normalBGM.paused) normalBGM.pause();
@@ -197,9 +224,7 @@ export default function Quiz({
       if (!bossBGM.paused) bossBGM.pause();
       normalBGM.play().catch(() => {});
     }
-
-    playingRef.current = want;
-  }, [stage, isGameOver, showGameClear, normalBGM, bossBGM]);
+  }, [stage, isGameOver, showGameClear, normalBGM, bossBGM, bgmVolume]);
 
   useEffect(() => {
     return () => {
@@ -253,8 +278,11 @@ export default function Quiz({
       normalBGM.currentTime = 0;
       bossBGM.currentTime = 0;
 
-      clearBGM.currentTime = 0;
-      clearBGM.play().catch(() => {});
+      const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
+      if (vol > 0) {
+        clearBGM.currentTime = 0;
+        clearBGM.play().catch(() => {});
+      }
 
       setShowGameClear(true);
       return;
@@ -473,7 +501,6 @@ export default function Quiz({
       case 1:
         return { background: "transparent" };
       case 2:
-        // ★変更: Stage2を表示するので透明に
         return { background: "transparent" };
       case 3:
         return { background: "transparent" };
@@ -506,7 +533,7 @@ export default function Quiz({
       className="quiz-root"
       style={{ position: "relative", overflow: "hidden" }}
     >
-      {/* ★ Stage2 背景 (Level 2時のみ表示) */}
+      {/* ★ 各ステージ背景 */}
       {stage === 1 && <Stage1 />}
       {stage === 2 && <Stage2 />}
       {stage === 3 && <Stage3 />}
@@ -553,11 +580,9 @@ export default function Quiz({
         <div className="quiz-card">
           <Timer timeLeft={timeLeft} />
 
-          {/* ★修正: 条件分岐で中身を空にするのではなく、visibilityで制御する */}
           <div
             className="question-text"
             style={{
-              // オーバーレイが出ている時は「非表示(hidden)」にするが、場所は確保する
               visibility: showCorrectOverlay ? "hidden" : "visible",
             }}
           >

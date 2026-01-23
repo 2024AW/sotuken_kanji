@@ -1,7 +1,7 @@
 // src/components/extra/ExtraQuiz.jsx
 import React, { useState, useEffect, useRef } from "react";
 
-// ===== 共通UI (パスはプロジェクト構成に合わせて調整してください) =====
+// ===== 共通UI =====
 import Timer from "../Timer";
 import Lives from "../Lives";
 import DebugPanel from "../DebugPanel";
@@ -15,7 +15,6 @@ import CorrectOverlay from "../CorrectOverlay";
 import GameClearScreen from "../GameClearScreen";
 
 // ===== 背景コンポーネント =====
-// ★ Stage1は使わないので削除、パスを一つ上(..)に戻ってから参照
 import Stage3 from "../background/Stage3";
 import BossStage from "../background/BossStage";
 
@@ -79,6 +78,12 @@ export default function ExtraQuiz({
   const [isChecking, setIsChecking] = useState(false);
 
   // =========================================
+  // ★ 変数定義 (ここへ移動)
+  // =========================================
+  // 最終問題はBOSS、それ以外はNormal(Stage3)
+  const isBossTurn = questionNumber === questionCount;
+
+  // =========================================
   // 🎵 BGM
   // =========================================
   const normalBGMRef = useRef(new Audio("/bgm-normal-1.mp3"));
@@ -89,17 +94,28 @@ export default function ExtraQuiz({
   normalBGM.loop = true;
   bossBGM.loop = true;
 
+  // 音量変更時の処理 (iOS対策: 音量0なら停止)
   useEffect(() => {
     const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
-    normalBGM.volume = vol;
-    bossBGM.volume = vol;
-  }, [bgmVolume]);
 
-  // =========================================
-  // ★ 背景とBGMの切り替え判定
-  // =========================================
-  // 最終問題はBOSS、それ以外はNormal(Stage3)
-  const isBossTurn = questionNumber === questionCount;
+    if (vol === 0) {
+      normalBGM.pause();
+      bossBGM.pause();
+    } else {
+      normalBGM.volume = vol;
+      bossBGM.volume = vol;
+
+      // 音量が戻った時に、再生すべきBGMが止まっていたら再開
+      // (ここで isBossTurn を使うため、変数を上に定義する必要がありました)
+      if (!isGameOver && !showGameClear) {
+        if (isBossTurn && bossBGM.paused) {
+          bossBGM.play().catch(() => {});
+        } else if (!isBossTurn && normalBGM.paused) {
+          normalBGM.play().catch(() => {});
+        }
+      }
+    }
+  }, [bgmVolume, isBossTurn, isGameOver, showGameClear]); // isBossTurnに依存
 
   // BGM切り替え制御
   useEffect(() => {
@@ -109,6 +125,10 @@ export default function ExtraQuiz({
       return;
     }
 
+    // 音量0なら再生処理はしない
+    const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
+    if (vol === 0) return;
+
     if (isBossTurn) {
       normalBGM.pause();
       bossBGM.play().catch(() => {});
@@ -116,7 +136,7 @@ export default function ExtraQuiz({
       bossBGM.pause();
       normalBGM.play().catch(() => {});
     }
-  }, [isBossTurn, isGameOver, showGameClear]);
+  }, [isBossTurn, isGameOver, showGameClear, bgmVolume]);
 
   // =========================================
   // 初期化
