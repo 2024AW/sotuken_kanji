@@ -410,4 +410,48 @@
   .correct-right-panel {
     border-left: none !important;
   }
+  /* =========================================
+     🎨 背景 (Canvas) の強制レスポンシブ (左右見切れ設定)
+     ========================================= */
+
+  /* 対象: すべてのcanvas要素と、各ステージクラス */
+  canvas,
+  .stage1-canvas,
+  .stage2-canvas,
+  .stage3-canvas,
+  .boss-stage-canvas {
+    /* 高さは画面いっぱい (dvhでアドレスバー考慮) */
+    height: 100dvh !important;
+
+    /* 幅は「高さの1.77倍(16:9比率)」に強制し、画面幅より大きくする */
+    /* これにより、縦長のスマホ画面でも横幅が圧縮されず、左右が見切れます */
+    width: 177dvh !important;
+    min-width: 100vw !important;
+    max-width: none !important; /* width制限を解除 */
+
+    /* 画面中央に配置（はみ出した分は左右均等にカット） */
+    position: fixed !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    z-index: -1 !important;
+    object-fit: cover !important;
+  }
+
+  /* =========================================
+     🎉 Game Clear Screen (スマホ調整)
+     ========================================= */
+  .gameclear-title {
+    /* 画面幅に合わせてフォントサイズを縮小 (PCの52pxを上書き) */
+    /* 8vw だと "🎉 GAME CLEAR! 🎉" がちょうど収まるくらいです */
+    font-size: 8vw !important;
+
+    /* 強制的に1行にする */
+    white-space: nowrap !important;
+
+    /* 中央揃えと幅確保 */
+    width: 100% !important;
+    text-align: center !important;
+  }
 }

@@ -1,4 +1,3 @@
-// src/components/background/Stage3.js
 import React, { useRef, useEffect } from "react";
 
 const Stage3 = () => {
@@ -11,18 +10,22 @@ const Stage3 = () => {
     let animationFrameId;
     let spawnInterval;
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    // ★修正: 描画解像度を固定 (16:9)
+    const BASE_HEIGHT = 1080;
+    const ASPECT_RATIO = 16 / 9;
+
+    const setSize = () => {
+      canvas.width = BASE_HEIGHT * ASPECT_RATIO; // 1920
+      canvas.height = BASE_HEIGHT; // 1080
     };
-    window.addEventListener("resize", resize);
-    resize();
+    setSize();
+    // リサイズイベントは不要 (CSSで制御)
 
     // ゲーム内変数
     let time = 0;
     let scrollSpeed = 0;
 
-    // --- 敵キャラクター設定 ---
+    // --- 敵キャラクター設定 (固定座標系) ---
     const enemy = {
       spawning: false,
       spawnProgress: 0,
@@ -116,7 +119,6 @@ const Stage3 = () => {
         const bookW = w / (booksPerRow + 2);
         for (let j = 0; j < booksPerRow; j++) {
           const bH = rowH * 0.6 + Math.sin(j + i) * 10;
-          // Reactではテンプレートリテラルの変数を正しく展開
           const hue = (j * 40 + i * 30) % 360;
           const light = 20 + (j % 3) * 10;
           ctx.fillStyle = `hsl(${hue}, 20%, ${light}%)`;
@@ -312,7 +314,6 @@ const Stage3 = () => {
     animate();
 
     return () => {
-      window.removeEventListener("resize", resize);
       cancelAnimationFrame(animationFrameId);
       clearInterval(spawnInterval);
     };
@@ -321,14 +322,19 @@ const Stage3 = () => {
   return (
     <canvas
       ref={canvasRef}
+      className="stage3-canvas" // ★クラス追加 (styles-mobile.cssで制御)
       style={{
-        position: "absolute",
+        display: "block",
+        position: "fixed",
         top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "100%", // PCデフォルト
+        height: "100%", // PCデフォルト
         zIndex: -1,
-        background: "#dcd5c5", // CSSで指定されていた背景色
+        background: "#dcd5c5",
+        // PC版: 横幅最大（CSS側で制御される前提）
+        maxWidth: "100%",
       }}
     />
   );

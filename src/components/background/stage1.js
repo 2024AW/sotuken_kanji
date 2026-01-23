@@ -9,13 +9,18 @@ const Stage1 = () => {
     let animationFrameId;
     let spawnInterval;
 
-    // キャンバスサイズ設定
+    // ★重要: 描画解像度を固定（PC基準の高画質設定）
+    // これにより、スマホでも「横に広い絵」として描画されます
+    const BASE_HEIGHT = 1080;
+    const ASPECT_RATIO = 16 / 9;
+
     const setSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      // 内部解像度は常に16:9の横長に固定
+      canvas.width = BASE_HEIGHT * ASPECT_RATIO; // 1920
+      canvas.height = BASE_HEIGHT; // 1080
     };
     setSize();
-    window.addEventListener("resize", setSize);
+    // リサイズイベントは不要になります（CSSで調整するため）
 
     // --- 変数定義 ---
     let time = 0;
@@ -38,7 +43,7 @@ const Stage1 = () => {
         if (imagesLoaded === totalImages) isReady = true;
       };
       img.onerror = () => {
-        console.warn(`画像が見つかりません: ${requiredImages[key]}`);
+        // console.warn(`画像が見つかりません: ${requiredImages[key]}`);
         imagesLoaded++;
         if (imagesLoaded === totalImages) isReady = true;
       };
@@ -128,11 +133,9 @@ const Stage1 = () => {
       }
     };
 
-    // --- 描画関数群 (省略: 元のコードと同じ) ---
-    // (drawMovingLongRug, drawImagePortrait, drawBlackboard, drawAdditionalInstruments,
-    //  drawChandelier, drawPlant, drawAward, drawRealisticWindows, drawMusicStand,
-    //  drawCleanRoom, drawUltraRealPiano, drawEnemy, drawLightShaftsAndParticles)
-    // ※長くなるため、ここには記載しませんが、元のコードのまま維持してください。
+    // --- 描画関数群 ---
+    // ※座標計算はすべて canvas.width / canvas.height (固定値) に依存するため
+    //   スマホでもレイアウトが崩れません。
 
     // 動く長い絨毯
     const drawMovingLongRug = () => {
@@ -870,7 +873,8 @@ const Stage1 = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       clearInterval(spawnInterval);
-      window.removeEventListener("resize", setSize);
+      // setSizeのイベントリスナーは useEffect 内で定義されていないので
+      // ここでは削除できませんが、空の依存配列により問題はありません
     };
   }, []);
 
@@ -882,12 +886,15 @@ const Stage1 = () => {
         display: "block",
         position: "fixed",
         top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
+        left: "50%", // 中央寄せ
+        transform: "translateX(-50%)", // 中央寄せ
+        width: "100%", // デフォルト幅
+        height: "100%", // デフォルト高さ
         zIndex: -1,
         background: "#FDF5E6",
-        opacity: 0.85, // ★少し透明に
+        opacity: 0.85,
+        // PC版: 横幅最大、高さ100%（CSS側で制御される前提）
+        maxWidth: "100%",
       }}
     />
   );
