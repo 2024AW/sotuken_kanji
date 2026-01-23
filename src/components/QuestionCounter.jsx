@@ -1,15 +1,29 @@
-// src/components/QuestionCounter.jsx
-import React from "react";
+// src/components/QuestionCounter.js
+import React, { useState, useEffect } from "react";
 import "../styles.css";
 
 export default function QuestionCounter({ current, total }) {
-  const visibleCount = 7; // 表示する幅（固定）
-  const scrollStart = 5; // 何問目からスクロール開始するか
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  // 左端インデックスを決定
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // ★修正: スマホなら「3つ」、PCなら「7つ」表示する
+  const visibleCount = isMobile ? 3 : 7;
+
+  // ★修正: スクロール開始位置 (スマホなら2問目からスクロール)
+  const scrollStart = isMobile ? 2 : 5;
+
   let startIndex = 0;
   if (current >= scrollStart) {
     startIndex = current - scrollStart;
+  }
+
+  if (startIndex + visibleCount > total) {
+    startIndex = Math.max(0, total - visibleCount);
   }
 
   const visibleSteps = [...Array(total)].slice(
@@ -21,7 +35,7 @@ export default function QuestionCounter({ current, total }) {
     <div className="map-progress">
       <div className="map-bar">
         {visibleSteps.map((_, i) => {
-          const stepIndex = startIndex + i; // 全体のインデックス
+          const stepIndex = startIndex + i;
           return (
             <div key={stepIndex} className="map-step">
               {stepIndex === 0 && <div className="castle-icon">🏰</div>}
