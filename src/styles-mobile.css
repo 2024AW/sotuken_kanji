@@ -382,4 +382,32 @@
     transform: scale(0.85) !important;
     transform-origin: top left !important;
   }
+  /* =========================================
+     💀 Game Over Overlay (スマホ調整)
+     ========================================= */
+  .gameover-title {
+    /* 画面幅に合わせてフォントサイズを縮小 (PCの3remを上書き) */
+    font-size: 8vw !important;
+    /* 強制的に1行にする */
+    white-space: nowrap !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+  /* src/styles-mobile.css の末尾に追加 */
+
+  /* ... (前略) ... */
+
+  /* =========================================
+     ✅ Correct Overlay (スマホ調整)
+     ========================================= */
+
+  /* Mainモードの縦線（左パネルの右線）を消す */
+  .correct-left-panel {
+    border-right: none !important;
+  }
+
+  /* Extraモードの縦線（右パネルの左線）も念のため消す */
+  .correct-right-panel {
+    border-left: none !important;
+  }
 }

@@ -14,9 +14,10 @@ import CorrectOverlay from "./CorrectOverlay";
 import GameClearScreen from "./GameClearScreen";
 import { questionSets } from "./questions";
 
-// ★ BossStage と Stage3 をインポート
+// ★ BossStage, Stage3, Stage1 をインポート
 import BossStage from "./background/BossStage";
-import Stage3 from "./background/Stage3"; // ★追加
+import Stage3 from "./background/Stage3";
+import Stage1 from "./background/stage1"; // ★追加: ファイル名小文字注意
 
 import "../styles.css";
 
@@ -469,14 +470,13 @@ export default function Quiz({
   const getBackgroundStyle = () => {
     switch (stage) {
       case 1:
-        return { background: "linear-gradient(to bottom, #56ab2f, #a8e063)" };
+        // ★変更: Stage1を表示するので透明に
+        return { background: "transparent" };
       case 2:
         return { background: "linear-gradient(to bottom, #f6d365, #fda085)" };
       case 3:
-        // ★変更: Stage3を表示するので透明に
         return { background: "transparent" };
       case "BOSS":
-        // ★変更: BossStageを表示するので透明に
         return { background: "transparent" };
       default:
         return { background: "#000" };
@@ -505,6 +505,9 @@ export default function Quiz({
       className="quiz-root"
       style={{ position: "relative", overflow: "hidden" }}
     >
+      {/* ★ Stage1 背景 (Level 1時のみ表示) */}
+      {stage === 1 && <Stage1 />}
+
       {/* ★ Stage3 背景 (Level 3時のみ表示) */}
       {stage === 3 && <Stage3 />}
 
@@ -547,7 +550,6 @@ export default function Quiz({
 
       <QuestionCounter current={questionNumber} total={questionCount} />
 
-      {/* 背景色を設定するコンテナ */}
       {/* 背景色を設定するコンテナ */}
       <div className="quiz-mode" style={getBackgroundStyle()}>
         <div className="quiz-card">

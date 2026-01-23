@@ -1,6 +1,7 @@
+// src/components/extra/ExtraQuiz.jsx
 import React, { useState, useEffect, useRef } from "react";
 
-// ===== 共通UI =====
+// ===== 共通UI (パスはプロジェクト構成に合わせて調整してください) =====
 import Timer from "../Timer";
 import Lives from "../Lives";
 import DebugPanel from "../DebugPanel";
@@ -12,6 +13,11 @@ import MessageDisplay from "../MessageDisplay";
 import GameOverOverlay from "../GameOverOverlay";
 import CorrectOverlay from "../CorrectOverlay";
 import GameClearScreen from "../GameClearScreen";
+
+// ===== 背景コンポーネント =====
+// ★ Stage1は使わないので削除、パスを一つ上(..)に戻ってから参照
+import Stage3 from "../background/Stage3";
+import BossStage from "../background/BossStage";
 
 // ===== Extra専用データ =====
 import { famousPersons } from "./famousPersons";
@@ -42,7 +48,7 @@ export default function ExtraQuiz({
   // =========================================
   const [normalPool, setNormalPool] = useState([]);
   const [bossPool, setBossPool] = useState([]);
-  
+
   const [current, setCurrent] = useState(null);
   const [usedQuestions, setUsedQuestions] = useState([]);
 
@@ -76,27 +82,57 @@ export default function ExtraQuiz({
   // 🎵 BGM
   // =========================================
   const normalBGMRef = useRef(new Audio("/bgm-normal-1.mp3"));
+  const bossBGMRef = useRef(new Audio("/bgm-boss.mp3"));
   const normalBGM = normalBGMRef.current;
+  const bossBGM = bossBGMRef.current;
+
   normalBGM.loop = true;
+  bossBGM.loop = true;
 
   useEffect(() => {
     const vol = Number.isFinite(bgmVolume) ? bgmVolume : 0;
     normalBGM.volume = vol;
+    bossBGM.volume = vol;
   }, [bgmVolume]);
+
+  // =========================================
+  // ★ 背景とBGMの切り替え判定
+  // =========================================
+  // 最終問題はBOSS、それ以外はNormal(Stage3)
+  const isBossTurn = questionNumber === questionCount;
+
+  // BGM切り替え制御
+  useEffect(() => {
+    if (isGameOver || showGameClear) {
+      normalBGM.pause();
+      bossBGM.pause();
+      return;
+    }
+
+    if (isBossTurn) {
+      normalBGM.pause();
+      bossBGM.play().catch(() => {});
+    } else {
+      bossBGM.pause();
+      normalBGM.play().catch(() => {});
+    }
+  }, [isBossTurn, isGameOver, showGameClear]);
 
   // =========================================
   // 初期化
   // =========================================
   useEffect(() => {
-    // 全データを難易度別に分けてシャッフルし、プール(在庫)として保持
-    const normals = shuffle(famousPersons.filter((q) => q.difficulty === "normal"));
-    const bosses = shuffle(famousPersons.filter((q) => q.difficulty === "boss"));
+    const normals = shuffle(
+      famousPersons.filter((q) => q.difficulty === "normal")
+    );
+    const bosses = shuffle(
+      famousPersons.filter((q) => q.difficulty === "boss")
+    );
 
     setNormalPool(normals);
     setBossPool(bosses);
     setUsedQuestions([]);
 
-    // 最初の問題を設定
     if (normals.length > 0) {
       setCurrent(normals[0]);
     } else if (bosses.length > 0) {
@@ -114,12 +150,11 @@ export default function ExtraQuiz({
     setIsChecking(false);
     setTimeLeft(timeLimit);
 
-    // BGM再生
-    normalBGM.currentTime = 0;
-    normalBGM.play().catch((e) => console.log("Audio play failed:", e));
-
     return () => {
       normalBGM.pause();
+      bossBGM.pause();
+      normalBGM.currentTime = 0;
+      bossBGM.currentTime = 0;
     };
   }, [questionCount, timeLimit]);
 
@@ -154,17 +189,12 @@ export default function ExtraQuiz({
   // 次の問題へ
   // =========================================
   const advanceToNextProblem = () => {
-    // 1. 今の問題を出題済みに登録
     const newUsedQuestions = [...usedQuestions, current];
     setUsedQuestions(newUsedQuestions);
 
-    // 2. 正解かそれ以外(スキップ/時間切れ)かで次の番号を決定
     const isCorrect = correctAdvanceMode === "correct";
-    
-    // 正解したときだけ問題番号を進める
     const nextQNumber = isCorrect ? questionNumber + 1 : questionNumber;
 
-    // 3. クリア判定
     if (isCorrect && questionNumber >= questionCount) {
       setShowGameClear(true);
       return;
@@ -172,28 +202,23 @@ export default function ExtraQuiz({
 
     setQuestionNumber(nextQNumber);
 
-    // 4. 次の問題を選ぶ (最終問題ならBoss、それ以外はNormal)
     const isBossStage = nextQNumber === questionCount;
     const targetPool = isBossStage ? bossPool : normalPool;
 
-    // 未出題の問題をプールから探す
     let candidates = targetPool.filter((q) => !newUsedQuestions.includes(q));
 
-    // もし候補が尽きたらリサイクル
     if (candidates.length === 0) {
       candidates = targetPool.filter((q) => q !== current);
       if (candidates.length === 0) candidates = [current];
     }
 
-    // ランダムに選択
     const next = candidates[Math.floor(Math.random() * candidates.length)];
     setCurrent(next);
 
-    // 状態のリセット
     setAnswer("");
     setResult("");
     setMessageType("");
-    
+
     setTimeLeft(timeLimit);
   };
 
@@ -203,7 +228,6 @@ export default function ExtraQuiz({
   const handleNextAfterCorrect = () => {
     setShowCorrectOverlay(false);
 
-    // タイムアウト（時間切れ）の時だけライフを減らす
     if (correctAdvanceMode === "timeout") {
       const newLives = lives - 1;
       setLives(newLives);
@@ -243,10 +267,9 @@ export default function ExtraQuiz({
       (current.aliases || []).some((a) => normalize(a) === normalize(ans));
 
     if (isCorrect) {
-      // 正解情報をセット
       setCorrectInfo({
         kanji: "",
-        reading: current.display, 
+        reading: current.display,
         meaning: current.meaning,
         image: current.image,
       });
@@ -256,7 +279,6 @@ export default function ExtraQuiz({
       return;
     }
 
-    // 不正解の場合
     setMessageType("error");
     setResult("❌ 間違い！もう一度チャレンジ！");
     setTimeout(() => {
@@ -329,6 +351,9 @@ export default function ExtraQuiz({
 
   return (
     <div className="quiz-root" style={{ position: "relative" }}>
+      {/* ★ 背景切り替え: BossならBossStage、それ以外はStage3 */}
+      {isBossTurn ? <BossStage /> : <Stage3 />}
+
       {showCorrectOverlay && (
         <CorrectOverlay
           kanji={correctInfo.kanji}
@@ -347,7 +372,7 @@ export default function ExtraQuiz({
         questionsLength={normalPool.length + bossPool.length}
         usedCount={usedQuestions.length}
         isChecking={isChecking}
-        currentDifficulty={current?.difficulty} 
+        currentDifficulty={current?.difficulty}
       />
 
       <div className="lives-container">
@@ -356,7 +381,8 @@ export default function ExtraQuiz({
 
       <QuestionCounter current={questionNumber} total={questionCount} />
 
-      <div className="quiz-mode">
+      {/* 背景を透明にして下のCanvasが見えるようにする */}
+      <div className="quiz-mode" style={{ background: "transparent" }}>
         <div className="quiz-card">
           <Timer timeLeft={timeLeft} />
 
@@ -374,7 +400,6 @@ export default function ExtraQuiz({
             )}
           </div>
 
-          {/* ★修正: プレースホルダーを変更 */}
           <input
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}

@@ -1,3 +1,4 @@
+// src/components/CorrectOverlay.jsx
 import React from "react";
 import "../styles.css";
 
@@ -5,7 +6,7 @@ export default function CorrectOverlay({
   kanji,
   reading,
   meaning,
-  image, // ★追加: 画像パスを受け取る
+  image,
   mode, // "correct" | "skip" | "timeout"
   onNext,
 }) {
@@ -15,7 +16,6 @@ export default function CorrectOverlay({
     return "✅ 正解！";
   };
 
-  // 画像があるかどうかで、Extraモード判定をする
   const isExtraMode = !!image;
 
   return (
@@ -43,7 +43,7 @@ export default function CorrectOverlay({
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* メッセージ (正解！など) */}
+        {/* メッセージ */}
         <div
           style={{
             fontSize: 32,
@@ -59,9 +59,10 @@ export default function CorrectOverlay({
 
         {/* 内容：左右分割 */}
         <div
+          className="correct-overlay-container" // ★クラス追加
           style={{
             display: "flex",
-            gap: 0, // gapは0にして、paddingで調整します
+            gap: 0,
             alignItems: "center",
             justifyContent: "center",
             flexWrap: "wrap",
@@ -69,17 +70,15 @@ export default function CorrectOverlay({
         >
           {/* 左：【Extraモード】画像＋名前 / 【通常】漢字＋読み */}
           <div
+            className="correct-left-panel" // ★クラス追加
             style={{
               flex: "1 1 240px",
               textAlign: "center",
-              // ▼ 修正: 画像と線の間にも余白を作る (Extraモードなら24px、通常なら16px)
               paddingRight: isExtraMode ? 24 : 16,
-
-              // ▼ Extraモードなら境界線なし（右側のdivに左線をつけるため）
+              // Mainモードの時にここに右線が入る
               borderRight: isExtraMode
                 ? "none"
                 : "1px solid rgba(255,255,255,0.15)",
-
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -87,7 +86,6 @@ export default function CorrectOverlay({
             }}
           >
             {isExtraMode ? (
-              /* ... (画像表示部分の中身はそのまま) ... */
               <>
                 <img
                   src={image}
@@ -108,7 +106,6 @@ export default function CorrectOverlay({
                 </div>
               </>
             ) : (
-              /* ... (通常モードの中身はそのまま) ... */
               <>
                 <div
                   style={{ fontSize: 42, fontWeight: "bold", marginBottom: 8 }}
@@ -127,16 +124,14 @@ export default function CorrectOverlay({
 
           {/* 右：意味・経歴 */}
           <div
+            className="correct-right-panel" // ★クラス追加
             style={{
               flex: "1 1 240px",
-              // ▼ 修正: 線と文字の間に余白を作る (Extraモードで0だったのを24pxに変更)
               paddingLeft: isExtraMode ? 24 : 16,
-
-              // Extraモードならここに「左線」を表示
+              // Extraモードの時にここに左線が入る
               borderLeft: isExtraMode
                 ? "1px solid rgba(255,255,255,0.15)"
                 : "none",
-
               fontSize: 18,
               lineHeight: 1.6,
             }}
