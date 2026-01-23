@@ -1,19 +1,18 @@
 // src/components/Timer.js
 import React from "react";
+// CSSファイルを読み込んでいない場合は必要に応じて import "../styles.css"; などを追加
 
 export default function Timer({ timeLeft }) {
   const isWarning = timeLeft <= 10;
 
   return (
     <div
+      className="timer-container" // ★クラス名を追加
       style={{
         position: "relative",
-        // ★修正1: サイズを少し小さく (120px -> 100px)
         width: "100px",
         height: "100px",
-
         margin: "0 auto 20px",
-        // ★修正2: 位置をさらに少し上にずらす (-30px -> -40px)
         transform: "translateY(-40px)",
       }}
     >
@@ -34,7 +33,6 @@ export default function Timer({ timeLeft }) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          // ★修正3: 枠に合わせて文字も少し小さく (48px -> 38px)
           fontSize: "38px",
           fontWeight: "bold",
           color: isWarning ? "red" : "black",
