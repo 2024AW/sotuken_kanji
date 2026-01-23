@@ -943,3 +943,49 @@
   background: #fff; /* 真っ白に */
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 光るエフェクト */
 }
+/* --- WaitScreen (待機画面) PC用デフォルトスタイル --- */
+.wait-screen-container {
+  text-align: center;
+  padding: 50px;
+}
+
+.wait-screen-text {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.wait-screen-box {
+  margin: 30px auto;
+  padding: 20px;
+  border: 2px solid #444;
+  border-radius: 12px;
+  width: 60%;
+  background-color: #f9f9f9;
+  font-size: 20px;
+  text-align: left;
+}
+
+.wait-screen-btn-area {
+  margin-top: 40px;
+}
+
+.wait-screen-start-btn {
+  font-size: 22px;
+  padding: 12px 35px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: white;
+  font-weight: bold;
+  margin-right: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.wait-screen-back-btn {
+  font-size: 18px;
+  padding: 10px 25px;
+  border-radius: 8px;
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+}

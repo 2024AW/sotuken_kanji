@@ -1,4 +1,6 @@
+// src/components/WaitScreen.js
 import React from "react";
+import "../styles.css"; // CSSファイルを読み込む
 
 export default function WaitScreen({
   level,
@@ -8,7 +10,6 @@ export default function WaitScreen({
   onStart,
   onBack,
 }) {
-  // Main モード用の難易度ラベル
   const levelLabel = {
     easy: "初級",
     normal: "中級",
@@ -17,24 +18,11 @@ export default function WaitScreen({
   }[level];
 
   return (
-    <div style={{ textAlign: "center", padding: "50px" }}>
+    <div className="wait-screen-container">
       <h2>準備はいいですか？</h2>
-      <p style={{ fontSize: "18px", marginTop: "20px" }}>
-        以下の設定でクイズを開始します：
-      </p>
+      <p className="wait-screen-text">以下の設定でクイズを開始します：</p>
 
-      <div
-        style={{
-          margin: "30px auto",
-          padding: "20px",
-          border: "2px solid #444",
-          borderRadius: "12px",
-          width: "60%",
-          backgroundColor: "#f9f9f9",
-          fontSize: "20px",
-          textAlign: "left",
-        }}
-      >
+      <div className="wait-screen-box">
         <p>
           🔹{" "}
           {gameMode === "extra-famous" ? (
@@ -56,31 +44,12 @@ export default function WaitScreen({
         </p>
       </div>
 
-      <div style={{ marginTop: "40px" }}>
-        <button
-          onClick={onStart}
-          style={{
-            fontSize: "22px",
-            padding: "12px 35px",
-            borderRadius: "10px",
-            background: "linear-gradient(90deg, #4facfe, #00f2fe)",
-            color: "white",
-            fontWeight: "bold",
-            marginRight: "20px",
-          }}
-        >
+      <div className="wait-screen-btn-area">
+        <button onClick={onStart} className="wait-screen-start-btn">
           ▶ スタート！
         </button>
 
-        <button
-          onClick={onBack}
-          style={{
-            fontSize: "18px",
-            padding: "10px 25px",
-            borderRadius: "8px",
-            backgroundColor: "#ddd",
-          }}
-        >
+        <button onClick={onBack} className="wait-screen-back-btn">
           ← 戻る
         </button>
       </div>

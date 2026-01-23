@@ -295,4 +295,54 @@
     /* StartMenuのデザインと合わせるための調整 */
     margin-top: 10px;
   }
+  /* --- 9. WaitScreen (待機画面) のスマホ調整 --- */
+
+  /* コンテナ全体の余白調整 */
+  .wait-screen-container {
+    padding: 20px !important;
+    margin-top: 60px !important; /* ヘッダー被り防止 */
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* テキストを一行に収める */
+  .wait-screen-text {
+    font-size: 16px !important; /* 少し小さくして一行に */
+    white-space: nowrap !important; /* 改行させない */
+    width: 100% !important;
+  }
+
+  /* コンテンツボックスの幅を広げる */
+  .wait-screen-box {
+    width: 70% !important; /* 60% -> 90% に拡大 */
+    padding: 15px !important;
+    font-size: 18px !important; /* 文字サイズ調整 */
+    margin: 20px auto !important;
+  }
+
+  /* ボックス内の項目も改行させない */
+  .wait-screen-box p {
+    white-space: nowrap !important;
+    margin: 10px 0 !important;
+  }
+
+  /* ボタンエリアの調整（縦並びにするなど、お好みで調整可能） */
+  .wait-screen-btn-area {
+    margin-top: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  /* スタートボタンの幅調整 */
+  .wait-screen-start-btn {
+    margin-right: 0 !important;
+    width: 80% !important;
+  }
+
+  /* 戻るボタンの幅調整 */
+  .wait-screen-back-btn {
+    width: 50% !important;
+  }
 }
