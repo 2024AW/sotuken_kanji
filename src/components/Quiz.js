@@ -532,7 +532,7 @@ export default function Quiz({
         />
       )}
 
-      {/* ★ DebugPanel をコメントアウト */}
+      {/* ★ DebugPanel をコメントアウトしてのこしておく */}
       {/*<DebugPanel
         gameMode="main"
         questionNumber={questionNumber}
