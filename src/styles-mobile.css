@@ -1,3 +1,5 @@
+/* src/styles-mobile.css */
+
 /* =========================================
    ▼ StartMenu PC/スマホ 表示切り替え設定 (グローバル)
 ========================================= */
@@ -63,7 +65,9 @@
     white-space: nowrap;
   }
 
-  /* --- 4. StartMenu の調整 --- */
+  /* --- 4. StartMenu / LevelSelect の調整 --- */
+
+  /* タイトル */
   .startmenu-title {
     font-size: 1.5rem !important;
     width: 100% !important;
@@ -81,6 +85,7 @@
     display: none !important;
   }
 
+  /* コンテンツエリア */
   .mobile-layout-area {
     display: flex !important;
     flex-direction: column;
@@ -91,17 +96,26 @@
     margin-top: 60px !important;
   }
 
+  /* 画像表示枠 */
   .mobile-item-display {
-    width: 70%;
-    max-width: 300px;
-    margin-bottom: 30px;
+    width: 55% !important;
+    max-width: 240px !important;
+    margin-bottom: 20px !important;
     transition: transform 0.2s;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
   }
+
+  /* 画像自体にも高さ制限をかける */
   .mobile-item-display img {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 50vh !important;
+    object-fit: contain !important;
     filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
   }
+
   .mobile-item-display:active {
     transform: scale(0.95);
   }
@@ -151,9 +165,12 @@
   }
 
   /* --- 5. クイズ画面・その他 --- */
+
+  /* ★修正: 問題文の位置調整 */
   .question-text {
     font-size: 60px !important;
-    margin-top: 60px !important;
+    /* ハートが右上に移動したので、テキストを上に詰める (140px -> 80px) */
+    margin-top: 80px !important;
   }
 
   .answer-input {
@@ -162,15 +179,17 @@
     padding: 10px !important;
   }
 
+  /* ★修正: Lives(ハート)の位置を右上に戻す */
   .lives-container {
-    top: 10px !important;
-    right: 10px !important;
+    top: 10px !important; /* 右上に戻す */
+    right: 15px !important;
     font-size: 24px !important;
   }
 
+  /* Q数(1/10など)はマップ(左上)と被らないように少し下げる */
   .question-count {
-    top: 10px !important;
-    left: 10px !important;
+    top: 75px !important;
+    left: 15px !important;
     font-size: 16px !important;
   }
 
@@ -278,13 +297,10 @@
   }
 
   /* --- 8. LevelSelect (レベル選択) の調整 --- */
-
-  /* PC用のエリアを完全に消す */
   .level-pc-area {
     display: none !important;
   }
 
-  /* スマホ用のエリアを表示する（StartMenuと同じスタイルを適用） */
   .level-mobile-area {
     display: flex !important;
     flex-direction: column;
@@ -292,7 +308,150 @@
     justify-content: center;
     width: 100%;
     height: 70%;
-    /* StartMenuのデザインと合わせるための調整 */
     margin-top: 10px;
+  }
+
+  .level-mobile-area img {
+    border-radius: 20px !important;
+  }
+
+  /* --- 9. WaitScreen (待機画面) のスマホ調整 --- */
+  .wait-screen-container {
+    padding: 20px !important;
+    margin-top: 60px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .wait-screen-text {
+    font-size: 16px !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+  }
+
+  .wait-screen-box {
+    width: 90% !important;
+    padding: 15px 10px !important;
+    font-size: 17px !important;
+    margin: 20px auto !important;
+  }
+
+  .wait-screen-box p {
+    white-space: nowrap !important;
+    margin: 10px 0 !important;
+  }
+
+  .wait-screen-btn-area {
+    margin-top: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  .wait-screen-start-btn {
+    margin-right: 0 !important;
+    width: 80% !important;
+  }
+
+  .wait-screen-back-btn {
+    width: 50% !important;
+  }
+
+  /* --- 11. QuestionCount (出題数選択) の調整 --- */
+  .question-count-list {
+    margin-top: 20px !important;
+    width: 95% !important;
+  }
+
+  .question-count-img {
+    width: 80% !important;
+    max-width: 450px !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* =========================================
+     🗺️ RPGマップ進行バー (スマホ調整)
+     ========================================= */
+  .map-progress {
+    top: 25px !important;
+    left: 10px !important;
+    width: auto !important;
+    display: block !important;
+
+    transform: scale(0.85) !important;
+    transform-origin: top left !important;
+  }
+  /* =========================================
+     💀 Game Over Overlay (スマホ調整)
+     ========================================= */
+  .gameover-title {
+    /* 画面幅に合わせてフォントサイズを縮小 (PCの3remを上書き) */
+    font-size: 8vw !important;
+    /* 強制的に1行にする */
+    white-space: nowrap !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+  /* src/styles-mobile.css の末尾に追加 */
+
+  /* ... (前略) ... */
+
+  /* =========================================
+     ✅ Correct Overlay (スマホ調整)
+     ========================================= */
+
+  /* Mainモードの縦線（左パネルの右線）を消す */
+  .correct-left-panel {
+    border-right: none !important;
+  }
+
+  /* Extraモードの縦線（右パネルの左線）も念のため消す */
+  .correct-right-panel {
+    border-left: none !important;
+  }
+  /* =========================================
+     🎨 背景 (Canvas) の強制レスポンシブ (左右見切れ設定)
+     ========================================= */
+
+  /* 対象: すべてのcanvas要素と、各ステージクラス */
+  canvas,
+  .stage1-canvas,
+  .stage2-canvas,
+  .stage3-canvas,
+  .boss-stage-canvas {
+    /* 高さは画面いっぱい (dvhでアドレスバー考慮) */
+    height: 100dvh !important;
+
+    /* 幅は「高さの1.77倍(16:9比率)」に強制し、画面幅より大きくする */
+    /* これにより、縦長のスマホ画面でも横幅が圧縮されず、左右が見切れます */
+    width: 177dvh !important;
+    min-width: 100vw !important;
+    max-width: none !important; /* width制限を解除 */
+
+    /* 画面中央に配置（はみ出した分は左右均等にカット） */
+    position: fixed !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    z-index: -1 !important;
+    object-fit: cover !important;
+  }
+
+  /* =========================================
+     🎉 Game Clear Screen (スマホ調整)
+     ========================================= */
+  .gameclear-title {
+    /* 画面幅に合わせてフォントサイズを縮小 (PCの52pxを上書き) */
+    /* 8vw だと "🎉 GAME CLEAR! 🎉" がちょうど収まるくらいです */
+    font-size: 8vw !important;
+
+    /* 強制的に1行にする */
+    white-space: nowrap !important;
+
+    /* 中央揃えと幅確保 */
+    width: 100% !important;
+    text-align: center !important;
   }
 }

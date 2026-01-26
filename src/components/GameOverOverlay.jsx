@@ -28,12 +28,14 @@ export default function GameOverOverlay({ onBack }) {
       }}
     >
       <h1
+        className="gameover-title" // ★クラス名を追加
         style={{
           fontSize: "3rem",
           marginBottom: "20px",
           textShadow: "0 0 15px red",
           transform: visible ? "scale(1)" : "scale(0.8)",
           transition: "transform 1.2s ease",
+          whiteSpace: "nowrap", // ★ここにも念のため追加
         }}
       >
         💀 GAME OVER 💀

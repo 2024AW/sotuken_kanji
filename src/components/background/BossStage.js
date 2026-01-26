@@ -1,4 +1,3 @@
-// src/components/background/BossStage.js
 import React, { useRef, useEffect } from "react";
 
 const BossStage = () => {
@@ -13,13 +12,16 @@ const BossStage = () => {
     let spawnInterval;
     let spawnTimeout;
 
-    // リサイズ対応
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    // ★修正: 描画解像度を固定 (16:9)
+    const BASE_HEIGHT = 1080;
+    const ASPECT_RATIO = 16 / 9;
+
+    const setSize = () => {
+      canvas.width = BASE_HEIGHT * ASPECT_RATIO; // 1920
+      canvas.height = BASE_HEIGHT; // 1080
     };
-    window.addEventListener("resize", resize);
-    resize();
+    setSize();
+    // リサイズイベントは不要 (CSSで制御)
 
     // ゲーム内変数
     let offset = 0;
@@ -151,6 +153,7 @@ const BossStage = () => {
       // 1. 背景の暗黒星雲
       const auraPulse = Math.sin(time * 0.15) * 20;
       const grad = ctx.createRadialGradient(
+        0,
         0,
         0,
         0,
@@ -695,7 +698,7 @@ const BossStage = () => {
     animate();
 
     return () => {
-      window.removeEventListener("resize", resize);
+      // window.removeEventListener("resize", resize); // 不要
       cancelAnimationFrame(animationFrameId);
       clearInterval(spawnInterval);
       clearTimeout(spawnTimeout);
@@ -705,14 +708,19 @@ const BossStage = () => {
   return (
     <canvas
       ref={canvasRef}
+      className="boss-stage-canvas" // ★クラス追加
       style={{
-        position: "absolute",
+        display: "block",
+        position: "fixed",
         top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: -1, // UIの後ろに配置
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "100%", // PCデフォルト
+        height: "100%", // PCデフォルト
+        zIndex: -1,
         background: "#000",
+        // PC版: 横幅最大（CSS側で制御される前提）
+        maxWidth: "100%",
       }}
     />
   );

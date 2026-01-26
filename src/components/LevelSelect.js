@@ -10,7 +10,7 @@ export default function LevelSelect({ onSelect, onBack }) {
     { id: "expert", label: "超級", img: "/images/超.jpg" },
   ];
 
-  // ★スマホ用スライドの管理
+  // スマホ用スライドの管理
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextLevel = () => {
@@ -35,16 +35,16 @@ export default function LevelSelect({ onSelect, onBack }) {
         <h2
           className="board-title"
           style={{
-            marginBottom: "40px",
-            marginTop: "-30px",
+            // ★修正: マイナスマージンをやめてリセット
+            marginBottom: "20px",
+            marginTop: "0px",
           }}
         >
           難易度を選んでください
         </h2>
 
         {/* ====================================================
-            💻 PC版レイアウト (className="level-pc-area" を追加)
-            スマホ(768px以下)ではCSSで非表示になります
+            💻 PC版レイアウト
            ==================================================== */}
         <div
           className="level-pc-area"
@@ -54,6 +54,8 @@ export default function LevelSelect({ onSelect, onBack }) {
             justifyContent: "center",
             width: "90%",
             alignItems: "center",
+            // ★追加: 下に見えない余白を作って、重心を上にずらす
+            paddingBottom: "50px",
           }}
         >
           {levels.map((lvl) => (
@@ -90,7 +92,6 @@ export default function LevelSelect({ onSelect, onBack }) {
 
         {/* ====================================================
             📱 スマホ版レイアウト (StartMenu風スライダー)
-            PCではCSSで非表示になります
            ==================================================== */}
         <div className="level-mobile-area">
           {/* 画像表示エリア (タップで決定) */}
@@ -119,19 +120,6 @@ export default function LevelSelect({ onSelect, onBack }) {
               ▶
             </button>
           </div>
-
-          {/* レベル名表示 */}
-          <p
-            style={{
-              color: "white",
-              fontSize: "24px",
-              marginTop: "20px",
-              fontFamily: '"Zen Kurenaido", sans-serif',
-              textShadow: "0 2px 5px rgba(0,0,0,0.8)",
-            }}
-          >
-            {currentLevel.label}
-          </p>
         </div>
 
         <button className="unified-back-btn" onClick={onBack}>
