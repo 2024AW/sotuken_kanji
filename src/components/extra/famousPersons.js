@@ -8,7 +8,13 @@ export const famousPersons = [
     display: "アインシュタイン",
     image: "/images/famous/アルベルトアインシュタイン.jpg",
     difficulty: "normal",
-    aliases: ["アルベルト・アインシュタイン"],
+    aliases: [
+      "アルベルト・アインシュタイン",
+      "あいんしゅたいん",
+      "あるべるとあいんしゅたいん",
+      "アルベルトアインシュタイン",
+      "あるべると・あいんしゅたいん",
+    ],
     meaning:
       "20世紀を代表する物理学者。時間や空間は一定ではないとする相対性理論を発表し、宇宙の考え方を大きく変えた人物。",
   },
@@ -17,7 +23,14 @@ export const famousPersons = [
     display: "ガンディー",
     image: "/images/famous/ガンディー.jpg",
     difficulty: "normal",
-    aliases: ["ガンジー", "マハトマ・ガンディー", "マハトマ・ガンジー"],
+    aliases: [
+      "ガンジー",
+      "マハトマ・ガンディー",
+      "マハトマ・ガンジー",
+      "がんでぃー",
+      "がんじー",
+      "まはとまがんじー",
+    ],
     meaning:
       "インドの独立運動を指導した指導者。暴力を使わず、話し合いや不服従によってイギリスからの独立を目指し、世界に平和的抵抗の大切さを伝えた人物。",
   },
@@ -26,7 +39,7 @@ export const famousPersons = [
     display: "ジャンヌ・ダルク",
     image: "/images/famous/ジャンヌ・ダルク.jpg",
     difficulty: "boss",
-    aliases: ["ジャンヌ・ダルク"],
+    aliases: ["ジャンヌ・ダルク", "じゃんぬだるく", "じゃんぬ・だるく"],
     meaning:
       "百年戦争でフランス軍を率いた少女の指導者。神のお告げを信じて戦い、フランスを勝利に導いたが、のちに捕らえられ処刑された。",
   },
@@ -35,7 +48,12 @@ export const famousPersons = [
     display: "ディズニー",
     image: "/images/famous/ウォルト・ディズニー.jpg",
     difficulty: "normal",
-    aliases: ["ディズニー"],
+    aliases: [
+      "ディズニー",
+      "でぃずにー",
+      "うぉるとでぃずにー",
+      "ウォルトディズニー",
+    ],
     meaning:
       "アニメーション映画を広めたアメリカの実業家。ミッキーマウスを生み出し、ディズニーランドを作るなど、世界中に夢と物語を届けた人物。",
   },
@@ -44,7 +62,14 @@ export const famousPersons = [
     display: "キュリー夫人",
     image: "/images/famous/キュリー夫人.jpg",
     difficulty: "normal",
-    aliases: ["マリ・キュリー", "マリキュリー", "マリーキュリー"],
+    aliases: [
+      "マリ・キュリー",
+      "マリキュリー",
+      "マリーキュリー",
+      "まりーきゅりー",
+      "キュリー夫人",
+      "まりきゅりー",
+    ],
     meaning:
       "放射線の研究を行った科学者。ラジウムなどを発見し、ノーベル賞を2度受賞した、科学の発展に大きく貢献した人物。",
   },
@@ -53,7 +78,7 @@ export const famousPersons = [
     display: "ケネディ",
     image: "/images/famous/ケネディ.jpg",
     difficulty: "boss",
-    aliases: ["ジョン・F・ケネディ"],
+    aliases: ["ジョン・F・ケネディ", "けねでぃ"],
     meaning:
       "アメリカ第35代大統領。冷戦下で国の指導を行い、月への人類到達を目標に掲げるなど、未来への挑戦を示した人物。",
   },
@@ -62,7 +87,13 @@ export const famousPersons = [
     display: "ニュートン",
     image: "/images/famous/アイザック・ニュートン.jpg",
     difficulty: "normal",
-    aliases: ["アイザック・ニュートン"],
+    aliases: [
+      "アイザック・ニュートン",
+      "にゅーとん",
+      "あいざっくにゅーとん",
+      "あいざっく・にゅーとん",
+      "アイザックニュートン",
+    ],
     meaning:
       "万有引力の法則を発見したイギリスの科学者。運動の法則をまとめ、物理学や数学の基礎を築いた人物。",
   },
@@ -71,7 +102,16 @@ export const famousPersons = [
     display: "リンカーン",
     image: "/images/famous/アブラハム・リンカーン.jpg",
     difficulty: "normal",
-    aliases: ["リンカーン", "アブラハム・リンカーン", "アブラハム・リンカン"],
+    aliases: [
+      "リンカーン",
+      "アブラハム・リンカーン",
+      "アブラハム・リンカン",
+      "りんかん",
+      "りんかーん",
+      "あぶらはむりんかん",
+      "アブラハムリンカン",
+      "アブラハムリンカーン",
+    ],
     meaning:
       "アメリカ第16代大統領。南北戦争を指導し、奴隷解放を進めて国の分裂を防ごうとした人物。",
   },
@@ -80,7 +120,12 @@ export const famousPersons = [
     display: "ダーウィン",
     image: "/images/famous/ダーウィン.jpg",
     difficulty: "boss",
-    aliases: ["チャールズ・ダーウィン"],
+    aliases: [
+      "チャールズ・ダーウィン",
+      "だーうぃん",
+      "ちゃーるずだーうぃん",
+      "チャールズダーウィン",
+    ],
     meaning:
       "進化論を唱えたイギリスの自然科学者。生き物は環境に適応しながら進化することを示し、生物の考え方を大きく変えた人物。",
   },
@@ -89,7 +134,12 @@ export const famousPersons = [
     display: "ナポレオン",
     image: "/images/famous/ナポレオン・ボナパルト.jpg",
     difficulty: "normal",
-    aliases: ["ナポレオン・ボナパルト"],
+    aliases: [
+      "ナポレオン・ボナパルト",
+      "なぽれおん",
+      "なぽれおんぼなぱると",
+      "ナポレオンボナパルト",
+    ],
     meaning:
       "フランス革命後に活躍した軍人・政治家。優れた軍事力でヨーロッパ各地を支配し、フランス皇帝となった人物。",
   },
@@ -99,7 +149,12 @@ export const famousPersons = [
     display: "ガリレオ",
     image: "/images/famous/ガリレオ・ガリレイ.jpg",
     difficulty: "normal",
-    aliases: ["ガリレオ・ガリレイ", "ガリレオガリレイ"],
+    aliases: [
+      "ガリレオ・ガリレイ",
+      "ガリレオガリレイ",
+      "がりれお",
+      "がりれおがりれい",
+    ],
     meaning:
       "望遠鏡で天体を観測し、地球が動くという考えを支持した科学者。近代科学の基礎を築いた人物。",
   },
@@ -108,6 +163,7 @@ export const famousPersons = [
     display: "コロンブス",
     image: "/images/famous/コロンブス.jpg",
     difficulty: "normal",
+    aliases: ["ころんぶす"],
     meaning:
       "新航路を求めて航海し、アメリカ大陸に到達した探検家。ヨーロッパと新大陸を結び、歴史を大きく変えた人物。",
   },
@@ -116,7 +172,7 @@ export const famousPersons = [
     display: "ベートーヴェン",
     image: "/images/famous/ベートーヴェン.jpg",
     difficulty: "normal",
-    aliases: ["ベートーヴェン"],
+    aliases: ["ベートーヴェン", "べーとーべん", "べーとーゔぇん"],
     meaning:
       "クラシック音楽を代表する作曲家。耳が聞こえなくなっても作曲を続け、多くの名曲を生み出した人物。",
   },
@@ -125,6 +181,7 @@ export const famousPersons = [
     display: "モーツァルト",
     image: "/images/famous/モーツァルト.jpg",
     difficulty: "normal",
+    aliases: ["もーつぁると"],
     meaning:
       "天才作曲家として幼い頃から活躍し、数多くの名曲を残したクラシック音楽の代表的な人物。",
   },
@@ -133,7 +190,7 @@ export const famousPersons = [
     display: "シェイクスピア",
     image: "/images/famous/シェイクスピア.jpg",
     difficulty: "boss",
-    aliases: ["ウィリアム・シェイクスピア"],
+    aliases: ["ウィリアム・シェイクスピア", "しぇいくすぴあ"],
     meaning:
       "多くの戯曲や詩を残したイギリスの劇作家。『ロミオとジュリエット』などの作品で、人間の感情を深く描いた人物。",
   },
@@ -142,7 +199,12 @@ export const famousPersons = [
     display: "ワシントン",
     image: "/images/famous/ジョージ・ワシントン.jpg",
     difficulty: "normal",
-    aliases: ["ジョージ・ワシントン", "ジョージワシントン"],
+    aliases: [
+      "ジョージ・ワシントン",
+      "ジョージワシントン",
+      "わしんとん",
+      "じょーじわしんとん",
+    ],
     meaning:
       "アメリカ独立戦争を指導した初代大統領。国の基礎を築き、民主主義の手本を示した人物。",
   },
@@ -151,7 +213,7 @@ export const famousPersons = [
     display: "ロック",
     image: "/images/famous/ジョン・ロック.jpg",
     difficulty: "normal",
-    aliases: ["ジョン・ロック"],
+    aliases: ["ジョン・ロック", "ろっく", "ジョンロック", "じょんろっく"],
     meaning:
       "近代民主主義の基礎を築いたイギリスの思想家。人は生まれながらに権利を持つと考え、政治の在り方に大きな影響を与えた人物。",
   },
@@ -160,16 +222,21 @@ export const famousPersons = [
     display: "エリザベス一世",
     image: "/images/famous/エリザベス一世.jpg",
     difficulty: "normal",
-    aliases: ["エリザベス"],
+    aliases: ["エリザベス", "えりざべす"],
     meaning:
       "16世紀のイギリス女王。国を安定させ、文化と海洋進出を発展させた名君として知られる人物。",
   },
   {
     name: "ダクラス・マッカーサー",
     display: "マッカーサー",
-    image: "/images/famous/ダクラス・マッカーサー.jpg",
+    image: "/images/famous/ダグラス・マッカーサー.jpg",
     difficulty: "normal",
-    aliases: ["ダクラスマッカーサー", "マッカーサー"],
+    aliases: [
+      "ダクラスマッカーサー",
+      "マッカーサー",
+      "まっかーさー",
+      "だぐらすまっかーさー",
+    ],
     meaning:
       "第二次世界大戦で活躍したアメリカの軍人。戦後は日本の占領政策を指導し、日本の復興と民主化に大きな影響を与えた人物。",
   },
@@ -178,7 +245,7 @@ export const famousPersons = [
     display: "エジソン",
     image: "/images/famous/トーマス・エジソン.jpg",
     difficulty: "normal",
-    aliases: ["トーマスエジソン", "エジソン"],
+    aliases: ["トーマスエジソン", "エジソン", "えじそん", "とーますえじそん"],
     meaning:
       "電球や蓄音機などを発明したアメリカの発明家。多くの発明で人々の生活を大きく変えた人物。",
   },
@@ -188,7 +255,12 @@ export const famousPersons = [
     display: "ビスマルク",
     image: "/images/famous/ビスマルク.jpg",
     difficulty: "normal",
-    aliases: ["オットー・フォン・ビスマルク", "オットー・ビスマルク"],
+    aliases: [
+      "オットー・フォン・ビスマルク",
+      "オットー・ビスマルク",
+      "びすまるく",
+      "おっとーびすまるく",
+    ],
     meaning:
       "ドイツ統一を成し遂げた政治家。「鉄血政策」によって国をまとめ、近代ドイツの基礎を築いた人物。",
   },
@@ -197,7 +269,11 @@ export const famousPersons = [
     display: "スターリン",
     image: "/images/famous/スターリン.jpg",
     difficulty: "boss",
-    aliases: ["ヨシフ・スターリン", "ヨシフ・ヴィサリオノヴィチ・スターリン"],
+    aliases: [
+      "ヨシフ・スターリン",
+      "ヨシフ・ヴィサリオノヴィチ・スターリン",
+      "すたーりん",
+    ],
     meaning:
       "ソ連（ソビエト連邦）の指導者。強い権力で国をまとめ、工業化を進めたが、厳しい政治で多くの犠牲者も出した人物。",
   },
@@ -211,6 +287,7 @@ export const famousPersons = [
       "フィンセント・ゴッホ",
       "ファン・ゴッホ",
       "フィンセントゴッホ",
+      "ごっほ",
     ],
     meaning:
       "独特な色使いと力強い表現で知られる画家。生前は評価されなかったが、後に世界的に高く評価された人物。",
@@ -220,7 +297,13 @@ export const famousPersons = [
     display: "フビライ・ハン",
     image: "/images/famous/フビライ・ハン.jpg",
     difficulty: "normal",
-    aliases: ["クビライ・ハン", "フビライハン", "クビライハン"],
+    aliases: [
+      "クビライ・ハン",
+      "フビライハン",
+      "クビライハン",
+      "ふびらいはん",
+      "くびらいはん",
+    ],
     meaning:
       "モンゴル帝国の皇帝。元（げん）を建国し、中国を支配したほか、日本へ遠征（元寇）を行った人物。",
   },
@@ -237,6 +320,8 @@ export const famousPersons = [
       "ローズヴェルト",
       "ルーズべルト",
       "ローズべルト",
+      "ろーずべると",
+      "るーずべると",
     ],
     meaning:
       "アメリカ第32代大統領。世界恐慌への対策や第二次世界大戦中の指導を行い、国と世界に大きな影響を与えた人物。",
@@ -246,7 +331,14 @@ export const famousPersons = [
     display: "ザビエル",
     image: "/images/famous/フランシスコ・ザビエル.jpg",
     difficulty: "normal",
-    aliases: ["ザビエル", "フランシスコ・ハビエル", "フランシスコザビエル"],
+    aliases: [
+      "ザビエル",
+      "フランシスコ・ハビエル",
+      "フランシスコザビエル",
+      "ざびえる",
+      "ふらんしすこざびえる",
+      "はびえる",
+    ],
     meaning:
       "キリスト教を日本に伝えた宣教師。16世紀に来日し、各地で布教活動を行った人物。",
   },
@@ -255,7 +347,7 @@ export const famousPersons = [
     display: "ナイチンゲール",
     image: "/images/famous/フローレンス・ナイチンゲール.jpg",
     difficulty: "normal",
-    aliases: ["ナイチンゲール", "フローレンスナイチンゲール"],
+    aliases: ["ナイチンゲール", "フローレンスナイチンゲール", "ないちんげーる"],
     meaning:
       "近代看護の基礎を築いた看護師。戦場での看護や衛生改善を行い、多くの命を救った人物。",
   },
@@ -264,7 +356,7 @@ export const famousPersons = [
     display: "ペリー",
     image: "/images/famous/ペリー.jpg",
     difficulty: "normal",
-    aliases: ["マシュー・ペリー", "マシューペリー"],
+    aliases: ["マシュー・ペリー", "マシューペリー", "ぺりー"],
     meaning:
       "アメリカの軍人。黒船で日本に来航し、開国を迫って日米和親条約を結ばせ、日本の歴史を大きく動かした人物。",
   },
@@ -273,7 +365,7 @@ export const famousPersons = [
     display: "ホー・チミン",
     image: "/images/famous/ホー・チミン.jpg",
     difficulty: "boss",
-    aliases: ["ホーチミン"],
+    aliases: ["ホーチミン", "ほーちみん"],
     meaning:
       "ベトナム独立を指導した革命家・政治家。フランスなどの支配からの独立を目指し、ベトナム民主共和国を建国した人物。",
   },
@@ -282,7 +374,7 @@ export const famousPersons = [
     display: "マザー・テレサ",
     image: "/images/famous/マザー・テレサ.jpg",
     difficulty: "normal",
-    aliases: ["マザーテレサ"],
+    aliases: ["マザーテレサ", "まざーてれさ"],
     meaning:
       "貧しい人や病人を助ける活動に生涯をささげた修道女。愛と奉仕の精神を世界に広めた人物。",
   },
@@ -292,7 +384,7 @@ export const famousPersons = [
     display: "マゼラン",
     image: "/images/famous/マゼラン.jpg",
     difficulty: "normal",
-    aliases: ["フェルディナンド・マゼラン"],
+    aliases: ["フェルディナンド・マゼラン", "まぜらん"],
     meaning:
       "世界一周航海を計画した探検家。航海の途中で亡くなったが、その船団が世界一周を達成し、地球が丸いことを証明した人物。",
   },
@@ -301,7 +393,12 @@ export const famousPersons = [
     display: "マリー・アントワネット",
     image: "/images/famous/マリー・アントワネット.jpg",
     difficulty: "normal",
-    aliases: ["マリーアントワネット", "マリー"],
+    aliases: [
+      "マリーアントワネット",
+      "マリー",
+      "まりー",
+      "まりーあんとわねっと",
+    ],
     meaning:
       "フランス革命期の王妃。ぜいたくな生活で批判を受け、革命の中で処刑された人物。",
   },
@@ -310,7 +407,7 @@ export const famousPersons = [
     display: "マルクス",
     image: "/images/famous/マルクス.jpg",
     difficulty: "normal",
-    aliases: ["カール・マルクス", "カールマルクス"],
+    aliases: ["カール・マルクス", "カールマルクス", "まるくす"],
     meaning:
       "資本主義社会を分析し、共産主義の考え方を示した思想家。社会の不平等を批判し、後の政治や社会運動に大きな影響を与えた人物。",
   },
@@ -319,7 +416,7 @@ export const famousPersons = [
     display: "ムッソリーニ",
     image: "/images/famous/ムッソリーニ.jpg",
     difficulty: "boss",
-    aliases: ["ベニート・ムッソリーニ"],
+    aliases: ["ベニート・ムッソリーニ", "むっそりーに"],
     meaning:
       "イタリアの政治家。ファシズムを掲げて独裁政治を行い、第二次世界大戦では枢軸国の一員として国を率いた人物。",
   },
@@ -328,7 +425,7 @@ export const famousPersons = [
     display: "モンテスキュー",
     image: "/images/famous/モンテスキュー.jpg",
     difficulty: "normal",
-    aliases: ["シャルル・ド・モンテスキュー"],
+    aliases: ["シャルル・ド・モンテスキュー", "もんてすきゅー"],
     meaning:
       "権力分立を唱えたフランスの思想家。政治権力を分ける考え方を示し、近代国家の制度に大きな影響を与えた人物。",
   },
@@ -337,6 +434,8 @@ export const famousPersons = [
     display: "ルイ14世",
     image: "/images/famous/ルイ14世.jpg",
     difficulty: "normal",
+    aliases: ["るい14世", "るいじゅうよんせい", "ルイ"],
+
     meaning:
       "フランスの絶対王政を完成させた国王。「太陽王」と呼ばれ、強い王権で国を治めた人物。",
   },
@@ -345,7 +444,7 @@ export const famousPersons = [
     display: "ライト兄弟",
     image: "/images/famous/ライト兄弟.jpg",
     difficulty: "normal",
-    aliases: ["ライトきょうだい"],
+    aliases: ["ライトきょうだい", "らいと兄弟", "らいときょうだい"],
     meaning:
       "世界で初めて動力飛行に成功したアメリカの兄弟。飛行機の発明によって、人類の空を飛ぶ時代を切り開いた人物。",
   },
@@ -354,7 +453,12 @@ export const famousPersons = [
     display: "ダ・ヴィンチ",
     image: "/images/famous/レオナルド・ダ・ヴィンチ.jpg",
     difficulty: "normal",
-    aliases: ["レオナルドダヴィンチ", "レオナルド・ダ・ビンチ", "ダ・ヴィンチ"],
+    aliases: [
+      "レオナルドダヴィンチ",
+      "レオナルド・ダ・ビンチ",
+      "ダ・ヴィンチ",
+      "れおなるどだゔぃんち",
+    ],
     meaning:
       "絵画・科学・発明など多方面で活躍した万能の天才。『モナ・リザ』を描き、ルネサンスを代表する人物。",
   },
@@ -363,7 +467,7 @@ export const famousPersons = [
     display: "ルソー",
     image: "/images/famous/ルソー.jpg",
     difficulty: "normal",
-    aliases: ["ジャン＝ジャック・ルソー", "ジャン・ジャック・ルソー"],
+    aliases: ["ジャン＝ジャック・ルソー", "ジャン・ジャック・ルソー", "るそー"],
     meaning:
       "社会契約論を唱えたフランスの思想家。人民が政治の主役であるという考えを示し、民主主義に大きな影響を与えた人物。",
   },
@@ -372,7 +476,7 @@ export const famousPersons = [
     display: "ルター",
     image: "/images/famous/ルター.jpg",
     difficulty: "normal",
-    aliases: ["マルティン・ルター"],
+    aliases: ["マルティン・ルター", "るたー"],
     meaning:
       "宗教改革を行ったドイツの宗教家。教会のあり方を批判し、プロテスタントを広めた人物。",
   },
@@ -381,6 +485,8 @@ export const famousPersons = [
     display: "ピタゴラス",
     image: "/images/famous/ピタゴラス.jpg",
     difficulty: "boss",
+    aliases: ["ぴたごらす"],
+
     meaning:
       "「ピタゴラスの定理（三平方の定理）」で知られる古代ギリシャの数学者・哲学者。万物の根源は数であると説いた。",
   },
@@ -432,7 +538,7 @@ export const famousPersons = [
     display: "始皇帝",
     image: "/images/famous/始皇帝.jpg",
     difficulty: "normal",
-    aliases: ["しこうてい", "秦の始皇帝","しんのしこうてい"],
+    aliases: ["しこうてい", "秦の始皇帝", "しんのしこうてい"],
     meaning:
       "中国を初めて統一した皇帝。法律や文字、貨幣を統一し、強い中央集権国家を築いた人物。",
   },
